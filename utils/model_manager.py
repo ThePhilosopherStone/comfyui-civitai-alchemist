@@ -4,6 +4,7 @@ Model Manager
 Manages ComfyUI model downloads and directory organization.
 """
 
+import os
 import re
 from pathlib import Path
 from typing import List, Optional
@@ -35,19 +36,21 @@ class ModelManager:
         "Upscaler": "upscale_models",
     }
 
-    def __init__(self, comfyui_path: Optional[str] = None):
+    def __init__(self, models_dir: Optional[str] = None):
         """
         Initialize model manager.
 
         Args:
-            comfyui_path: Path to ComfyUI root directory
+            models_dir: Path to ComfyUI models directory (e.g. /path/to/ComfyUI/models).
+                        Falls back to MODELS_DIR env var, then ../ComfyUI/models.
         """
-        if comfyui_path is None:
-            self.comfyui_path = Path(__file__).parent.parent.parent / "ComfyUI"
-        else:
-            self.comfyui_path = Path(comfyui_path)
+        if models_dir is None:
+            models_dir = os.environ.get("MODELS_DIR")
 
-        self.models_path = self.comfyui_path / "models"
+        if models_dir:
+            self.models_path = Path(models_dir)
+        else:
+            self.models_path = Path(__file__).parent.parent.parent / "ComfyUI" / "models"
 
     def get_model_dir(self, model_type: str) -> Path:
         """

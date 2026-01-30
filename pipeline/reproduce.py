@@ -36,8 +36,8 @@ def main():
     parser.add_argument("url", help="Civitai image URL or image ID")
     parser.add_argument("--output-dir", default="output",
                         help="Output directory for JSON files (default: output)")
-    parser.add_argument("--comfyui-path", default=None,
-                        help="Path to ComfyUI installation")
+    parser.add_argument("--models-dir", default=None,
+                        help="Path to ComfyUI models directory (default: ../ComfyUI/models)")
     parser.add_argument("--api-key", default=None,
                         help="Civitai API key (or set CIVITAI_API_KEY env var)")
     parser.add_argument("--skip-download", action="store_true",
@@ -53,7 +53,7 @@ def main():
 
     api_key = args.api_key or os.environ.get("CIVITAI_API_KEY")
     api = CivitaiAPI(api_key=api_key)
-    manager = ModelManager(comfyui_path=args.comfyui_path)
+    manager = ModelManager(models_dir=args.models_dir)
 
     # === Step 1: Fetch Metadata ===
     print("=" * 50)

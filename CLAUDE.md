@@ -14,7 +14,7 @@ This file provides context for AI assistants (like Claude) working on this proje
 - **OS**: Ubuntu on WSL2
 - **Python**: 3.12.3
 - **Package Manager**: uv 0.9.27
-- **ComfyUI path**: `../ComfyUI` (relative to project root)
+- **Models directory**: `../ComfyUI/models` (default; configurable via `MODELS_DIR` env var or `--models-dir` flag)
 
 ## Pipeline Usage
 
@@ -134,6 +134,7 @@ Generates ComfyUI API-format workflow (JSON DAG):
 
 ### Model Manager (`utils/model_manager.py`)
 
+- `ModelManager(models_dir=)` accepts a models directory path; falls back to `MODELS_DIR` env var, then `../ComfyUI/models`
 - `TYPE_MAPPING` maps Civitai type names to ComfyUI subdirectories
 - `find_model()` searches recursively with `rglob`
 - `download_file()` streams with tqdm progress, handles Content-Disposition
@@ -170,6 +171,7 @@ Images verified to work through the full pipeline (fetch → resolve → generat
 - **Code Language**: All code, comments, docstrings, commit messages, and documentation files (including README, CLAUDE.md) must be in **English**
 - **Docstrings**: Google-style with type hints
 - **Dependencies**: Use dotenv for environment variables; all pipeline scripts call `load_dotenv()` in `main()`
+- **pyproject.toml**: Core dependencies (requests, tqdm, python-dotenv) are in `[project.dependencies]`. PyTorch and ComfyUI-related dependencies are in `[project.optional-dependencies.dev]`. End users only need the core dependencies.
 
 ## Environment Setup
 

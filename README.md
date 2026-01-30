@@ -1,118 +1,148 @@
 # ComfyUI Civitai Alchemist
 
-貼上 Civitai 圖片網址，自動取得生成參數、下載所需模型，並產生 ComfyUI workflow 來重現圖片。
+Paste a Civitai image URL, automatically fetch generation parameters, download required models, and generate a ComfyUI workflow to reproduce the image.
 
-## 功能
+## Features
 
-1. **取得 Metadata** — 從 Civitai 圖片頁面擷取 prompt、模型、LoRA、sampler 等生成參數
-2. **解析模型** — 透過 hash/名稱查找模型的下載連結
-3. **下載模型** — 自動下載 checkpoint、LoRA 等到 ComfyUI 對應目錄
-4. **產生 Workflow** — 生成 ComfyUI API 格式的 workflow JSON，可直接送入執行
+1. **Fetch Metadata** — Extract prompt, model, LoRA, sampler, and other generation parameters from a Civitai image page
+2. **Resolve Models** — Look up model download URLs via hash/name
+3. **Download Models** — Automatically download checkpoint, LoRA, VAE, embeddings, and upscaler models to the appropriate ComfyUI directories
+4. **Generate Workflow** — Produce a ComfyUI API-format workflow JSON, ready to submit
 
-## 環境需求
+## Supported Workflows
 
-- Python 3.10-3.12
-- ComfyUI（已安裝在 `../ComfyUI`）
-- uv 套件管理器
+- **txt2img** — Standard single-pass generation with optional LoRA(s)
+- **txt2img-hires** — Two-pass generation with upscaler model (hires fix)
+- CLIP skip, custom VAE, embeddings (textual inversion), multi-LoRA chains
 
-## 快速開始
+## Requirements
 
-### 1. 環境設定
+- Python 3.10–3.12
+- A working [ComfyUI](https://github.com/comfyanonymous/ComfyUI) installation
+- [uv](https://docs.astral.sh/uv/) package manager (recommended) or pip
+- A [Civitai API key](https://civitai.com/user/account) (free, required for downloading models)
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/user/comfyui-civitai-alchemist.git
+cd comfyui-civitai-alchemist
+
+# Create virtual environment and install dependencies
+uv venv .venv
+uv pip install -e .
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env — fill in your Civitai API key and models directory path
+```
+
+## Usage
+
+### One-shot (recommended)
+
+```bash
+# Full pipeline: fetch → resolve → download → generate workflow
+# (models-dir is read from MODELS_DIR in .env, or pass --models-dir)
+.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916
+
+# Generate workflow and submit to running ComfyUI
+.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916 --submit
+
+# Skip download (models already exist)
+.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916 --skip-download
+```
+
+### Step by step (for debugging)
+
+Each step produces a JSON file you can inspect:
+
+```bash
+# Step 1: Fetch image metadata
+.venv/bin/python -m pipeline.fetch_metadata https://civitai.com/images/116872916
+# → output/metadata.json
+
+# Step 2: Resolve model download URLs
+.venv/bin/python -m pipeline.resolve_models
+# → output/resources.json
+
+# Step 3: Download models (preview first with --dry-run)
+.venv/bin/python -m pipeline.download_models --dry-run
+.venv/bin/python -m pipeline.download_models
+# → model files saved to ComfyUI/models/
+
+# Step 4: Generate ComfyUI workflow
+.venv/bin/python -m pipeline.generate_workflow
+# → output/workflow.json
+
+# Step 4b: Generate and submit to ComfyUI
+.venv/bin/python -m pipeline.generate_workflow --submit
+```
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `--models-dir PATH` | Path to your ComfyUI models directory (or set `MODELS_DIR` in `.env`) |
+| `--submit` | Submit the generated workflow to a running ComfyUI instance |
+| `--comfyui-url URL` | ComfyUI server URL (default: `http://127.0.0.1:8188`) |
+| `--skip-download` | Skip model download step |
+| `--output-dir DIR` | Output directory for JSON files (default: `output`) |
+| `--api-key KEY` | Civitai API key (or set `CIVITAI_API_KEY` in `.env`) |
+
+### How it works with ComfyUI
+
+This tool is **independent** from ComfyUI — it does not need to be installed inside ComfyUI. It interacts with ComfyUI in two ways:
+
+1. **Model directory**: Downloads models directly into your ComfyUI `models/` subdirectories (checkpoints, loras, vae, embeddings, upscale_models)
+2. **HTTP API** (optional): When using `--submit`, sends the generated workflow to ComfyUI's API endpoint for execution
+
+You can also use the generated `output/workflow.json` manually — load it into ComfyUI's web interface or submit it via any API client.
+
+## Project Structure
+
+```
+comfyui-civitai-alchemist/
+├── pipeline/                   # Main pipeline scripts
+│   ├── fetch_metadata.py       # Step 1: URL → metadata.json
+│   ├── resolve_models.py       # Step 2: metadata → resources.json
+│   ├── download_models.py      # Step 3: download model files
+│   ├── generate_workflow.py    # Step 4: generate workflow.json
+│   ├── sampler_map.py          # Civitai ↔ ComfyUI sampler name mapping
+│   └── reproduce.py            # One-shot runner (all steps)
+├── utils/
+│   ├── civitai_api.py          # Civitai API client
+│   └── model_manager.py        # Model download & directory management
+├── output/                     # Pipeline output (gitignored)
+│   ├── metadata.json
+│   ├── resources.json
+│   └── workflow.json
+├── .env                        # Environment variables (gitignored)
+├── .env.example                # .env template
+└── pyproject.toml              # Project dependencies
+```
+
+## Development Setup
+
+If you want to set up a full development environment (including ComfyUI and PyTorch with CUDA), see the setup script:
 
 ```bash
 bash scripts/setup.sh
 ```
 
-### 2. 設定 API Key
+This will install PyTorch with CUDA support, clone ComfyUI, set up symlinks, and configure the full development environment. See [CLAUDE.md](CLAUDE.md) for development details.
 
-```bash
-cp .env.example .env
-# 編輯 .env，填入你的 Civitai API key
-```
-
-API key 可從 [Civitai 帳號設定](https://civitai.com/user/account) 取得。
-
-### 3. 一鍵重現圖片
-
-```bash
-# 完整 pipeline：取得 metadata → 解析模型 → 下載 → 產生 workflow
-.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916
-
-# 產生 workflow 後直接送到 ComfyUI 執行
-.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916 --submit
-
-# 跳過下載（模型已存在時）
-.venv/bin/python -m pipeline.reproduce https://civitai.com/images/116872916 --skip-download
-```
-
-### 4. 逐步執行（方便除錯）
-
-每個步驟都會產生一個 JSON 檔案，可以獨立檢查：
-
-```bash
-# Step 1: 取得圖片 metadata
-.venv/bin/python -m pipeline.fetch_metadata https://civitai.com/images/116872916
-# 產出: output/metadata.json
-
-# Step 2: 解析模型下載資訊
-.venv/bin/python -m pipeline.resolve_models
-# 產出: output/resources.json
-
-# Step 3: 下載模型（先用 --dry-run 確認）
-.venv/bin/python -m pipeline.download_models --dry-run
-.venv/bin/python -m pipeline.download_models
-# 產出: 模型檔案下載到 ComfyUI/models/ 對應目錄
-
-# Step 4: 產生 workflow
-.venv/bin/python -m pipeline.generate_workflow
-# 產出: output/workflow.json
-
-# Step 4b: 產生並送入 ComfyUI 執行
-.venv/bin/python -m pipeline.generate_workflow --submit
-```
-
-## 專案結構
-
-```
-comfyui-civitai-alchemist/
-├── pipeline/                   # 主要 pipeline 腳本
-│   ├── fetch_metadata.py       # Step 1: URL → metadata.json
-│   ├── resolve_models.py       # Step 2: metadata → resources.json
-│   ├── download_models.py      # Step 3: 下載模型檔案
-│   ├── generate_workflow.py    # Step 4: 產生 workflow.json
-│   ├── sampler_map.py          # Civitai ↔ ComfyUI sampler 名稱對照
-│   └── reproduce.py            # 一鍵完整 pipeline
-├── utils/
-│   ├── civitai_api.py          # Civitai API client
-│   └── model_manager.py        # 模型下載與目錄管理
-├── scripts/                    # 環境設定腳本
-├── output/                     # Pipeline 輸出（gitignored）
-│   ├── metadata.json
-│   ├── resources.json
-│   └── workflow.json
-├── .env                        # 環境變數（gitignored）
-├── .env.example                # .env 範本
-└── pyproject.toml              # 專案依賴
-```
-
-## 目前支援範圍
-
-- txt2img workflow（含 LoRA）
-- 標準節點：CheckpointLoaderSimple、KSampler、CLIPTextEncode、EmptyLatentImage、VAEDecode、SaveImage、LoraLoader
-- 使用 checkpoint 內建的 VAE
-
-## 尚未支援
+## Not Yet Supported
 
 - img2img / inpainting
 - ControlNet
-- Hires fix / upscaling
-- 自訂 VAE
-- 非標準 ComfyUI 節點
+- Non-standard ComfyUI nodes
 
-## 參考資料
+## References
 
 - [Civitai API Documentation](https://github.com/civitai/civitai/wiki/REST-API-Reference)
-- [ComfyUI Custom Nodes Guide](https://docs.comfy.org/development/core-concepts/custom-nodes)
+- [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 
 ## License
 
