@@ -8,7 +8,7 @@ __pycache__/
 dist/
 build/
 
-# 虛擬環境
+# Virtual environments
 .venv/
 venv/
 ENV/
@@ -21,7 +21,7 @@ env/
 *.swo
 *~
 
-# 測試
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
@@ -30,7 +30,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# 臨時檔案
+# Temporary files
 *.tmp
 *.log
 

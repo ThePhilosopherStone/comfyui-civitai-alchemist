@@ -6,30 +6,30 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${YELLOW}啟動 ComfyUI...${NC}"
+echo -e "${YELLOW}Starting ComfyUI...${NC}"
 
-# 載入環境變數
+# Load environment variables
 if [ -f ".env" ]; then
     source .env
-    echo -e "${GREEN}✓ 已載入 .env 環境變數${NC}"
+    echo -e "${GREEN}✓ Loaded .env environment variables${NC}"
 fi
 
-# 切換到 ComfyUI 目錄
+# Switch to ComfyUI directory
 cd ../ComfyUI
 
-# 啟動虛擬環境
+# Activate virtual environment
 source .venv/bin/activate
 
-# 顯示資訊
-echo -e "${BLUE}ComfyUI 將啟動在:${NC}"
-echo -e "  本機: ${GREEN}http://127.0.0.1:8188${NC}"
+# Display information
+echo -e "${BLUE}ComfyUI will start at:${NC}"
+echo -e "  Local: ${GREEN}http://127.0.0.1:8188${NC}"
 echo -e "  Windows: ${GREEN}http://localhost:8188${NC}"
 echo ""
-echo -e "${YELLOW}按 Ctrl+C 停止${NC}"
+echo -e "${YELLOW}Press Ctrl+C to stop${NC}"
 echo ""
 
-# 啟動 ComfyUI (WSL2 使用 --listen 0.0.0.0 允許 Windows 存取)
+# Start ComfyUI (WSL2: use --listen 0.0.0.0 to allow Windows access)
 python main.py --listen 0.0.0.0
 
-# 返回原目錄
+# Return to original directory
 cd - > /dev/null

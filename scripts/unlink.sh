@@ -9,7 +9,7 @@ CUSTOM_NODE_DIR="../ComfyUI/custom_nodes/comfyui-civitai-alchemist"
 
 if [ -L "$CUSTOM_NODE_DIR" ]; then
     rm "$CUSTOM_NODE_DIR"
-    echo -e "${GREEN}✓ Symlink 已移除${NC}"
+    echo -e "${GREEN}✓ Symlink removed${NC}"
 else
-    echo -e "${RED}找不到 symlink${NC}"
+    echo -e "${RED}Symlink not found${NC}"
 fi

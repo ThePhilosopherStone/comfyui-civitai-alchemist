@@ -4,14 +4,14 @@ version = "0.1.0"
 description = "ComfyUI custom node for browsing Civitai images and auto-downloading models"
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    # PyTorch 2.7+ with CUDA 12.8 (支援 RTX 5090)
+    # PyTorch 2.7+ with CUDA 12.8 (supports RTX 5090)
     "torch>=2.7.0",
     "torchvision>=0.20.0",
     "torchaudio>=2.7.0",
-    # 性能優化套件
+    # Performance optimization packages
     "sageattention>=1.0.0",
-    "numpy==1.26.4",  # 避免相容性問題
-    "triton>=3.3.0",  # Blackwell 架構支援
+    "numpy==1.26.4",  # Pin version for compatibility
+    "triton>=3.3.0",  # Blackwell architecture support
     # ComfyUI core dependencies
     "torchsde",
     "einops",
@@ -35,7 +35,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Flash Attention (可選,可能需要編譯)
+# Flash Attention (optional, may require compilation)
 flash-attn = [
     "flash-attn>=2.8.3",
 ]

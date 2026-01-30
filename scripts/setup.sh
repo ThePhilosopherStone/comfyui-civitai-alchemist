@@ -1,114 +1,114 @@
 #!/bin/bash
 set -e
 
-echo "=== ComfyUI Civitai Alchemist 開發環境設置 ==="
+echo "=== ComfyUI Civitai Alchemist Development Environment Setup ==="
 echo ""
 
-# 顏色定義
+# Color definitions
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# 1. 檢查必要工具
-echo -e "${YELLOW}[1/10] 檢查必要工具...${NC}"
-command -v python3 >/dev/null 2>&1 || { echo -e "${RED}錯誤: 需要 Python 3.10+${NC}"; exit 1; }
-command -v uv >/dev/null 2>&1 || { echo -e "${RED}錯誤: 需要 uv package manager${NC}"; exit 1; }
-command -v git >/dev/null 2>&1 || { echo -e "${RED}錯誤: 需要 git${NC}"; exit 1; }
-command -v nvidia-smi >/dev/null 2>&1 || { echo -e "${RED}錯誤: nvidia-smi 不可用,請確認 GPU driver 已安裝${NC}"; exit 1; }
-echo -e "${GREEN}✓ 工具檢查完成${NC}"
+# 1. Check required tools
+echo -e "${YELLOW}[1/10] Checking required tools...${NC}"
+command -v python3 >/dev/null 2>&1 || { echo -e "${RED}Error: Python 3.10+ required${NC}"; exit 1; }
+command -v uv >/dev/null 2>&1 || { echo -e "${RED}Error: uv package manager required${NC}"; exit 1; }
+command -v git >/dev/null 2>&1 || { echo -e "${RED}Error: git required${NC}"; exit 1; }
+command -v nvidia-smi >/dev/null 2>&1 || { echo -e "${RED}Error: nvidia-smi unavailable, please verify GPU driver installation${NC}"; exit 1; }
+echo -e "${GREEN}✓ Tools check completed${NC}"
 
-# 2. 驗證 GPU (RTX 5090)
-echo -e "${YELLOW}[2/10] 驗證 GPU 環境...${NC}"
+# 2. Verify GPU (RTX 5090)
+echo -e "${YELLOW}[2/10] Verifying GPU environment...${NC}"
 GPU_NAME=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1)
 if [[ $GPU_NAME == *"5090"* ]]; then
-    echo -e "${GREEN}✓ 檢測到 GPU: $GPU_NAME${NC}"
+    echo -e "${GREEN}✓ Detected GPU: $GPU_NAME${NC}"
 else
-    echo -e "${YELLOW}! 警告: 檢測到的 GPU 不是 RTX 5090: $GPU_NAME${NC}"
-    echo -e "${YELLOW}  性能優化可能不完全適用${NC}"
+    echo -e "${YELLOW}! Warning: Detected GPU is not RTX 5090: $GPU_NAME${NC}"
+    echo -e "${YELLOW}  Performance optimizations may not fully apply${NC}"
 fi
 
-# 3. 建立虛擬環境
-echo -e "${YELLOW}[3/10] 建立虛擬環境...${NC}"
+# 3. Create virtual environment
+echo -e "${YELLOW}[3/10] Creating virtual environment...${NC}"
 if [ ! -d ".venv" ]; then
     uv venv .venv --python 3.12
-    echo -e "${GREEN}✓ 虛擬環境建立完成${NC}"
+    echo -e "${GREEN}✓ Virtual environment created${NC}"
 else
-    echo -e "${GREEN}✓ 虛擬環境已存在${NC}"
+    echo -e "${GREEN}✓ Virtual environment already exists${NC}"
 fi
 
-# 4. 啟動虛擬環境
-echo -e "${YELLOW}[4/10] 啟動虛擬環境...${NC}"
+# 4. Activate virtual environment
+echo -e "${YELLOW}[4/10] Activating virtual environment...${NC}"
 source .venv/bin/activate
-echo -e "${GREEN}✓ 虛擬環境已啟動${NC}"
+echo -e "${GREEN}✓ Virtual environment activated${NC}"
 
-# 5. 安裝 PyTorch with CUDA 12.8 及所有依賴
-echo -e "${YELLOW}[5/10] 安裝 PyTorch 2.7+ 及依賴 (這可能需要幾分鐘)...${NC}"
-echo -e "${BLUE}使用 CUDA 12.8 索引安裝 PyTorch...${NC}"
+# 5. Install PyTorch with CUDA 12.8 and all dependencies
+echo -e "${YELLOW}[5/10] Installing PyTorch 2.7+ and dependencies (this may take a few minutes)...${NC}"
+echo -e "${BLUE}Using CUDA 12.8 index to install PyTorch...${NC}"
 UV_TORCH_BACKEND=cu128 uv pip install -e .
-echo -e "${GREEN}✓ PyTorch 及核心依賴安裝完成${NC}"
+echo -e "${GREEN}✓ PyTorch and core dependencies installed${NC}"
 
-# 6. 詢問是否安裝 Flash Attention
-echo -e "${YELLOW}[6/10] Flash Attention 安裝選項...${NC}"
-echo -e "${BLUE}Flash Attention 可以提供額外加速,但在 RTX 5090 上可能有相容性問題${NC}"
-echo -e "${BLUE}SageAttention 已安裝且更穩定,建議先測試後再決定是否需要 Flash Attention${NC}"
-read -p "是否安裝 Flash Attention? (y/N): " install_flash
+# 6. Ask about Flash Attention installation
+echo -e "${YELLOW}[6/10] Flash Attention installation option...${NC}"
+echo -e "${BLUE}Flash Attention can provide additional acceleration, but may have compatibility issues on RTX 5090${NC}"
+echo -e "${BLUE}SageAttention is already installed and more stable. Recommended to test first before installing Flash Attention${NC}"
+read -p "Install Flash Attention? (y/N): " install_flash
 if [[ $install_flash =~ ^[Yy]$ ]]; then
-    echo -e "${BLUE}嘗試安裝 Flash Attention...${NC}"
+    echo -e "${BLUE}Attempting to install Flash Attention...${NC}"
     if uv pip install flash-attn --no-build-isolation 2>/dev/null; then
-        echo -e "${GREEN}✓ Flash Attention 安裝成功${NC}"
+        echo -e "${GREEN}✓ Flash Attention installed successfully${NC}"
     else
-        echo -e "${YELLOW}! Flash Attention 安裝失敗 (這是正常的)${NC}"
-        echo -e "${YELLOW}  將使用 SageAttention 作為加速方案${NC}"
+        echo -e "${YELLOW}! Flash Attention installation failed (this is normal)${NC}"
+        echo -e "${YELLOW}  Will use SageAttention as acceleration method${NC}"
     fi
 else
-    echo -e "${GREEN}✓ 跳過 Flash Attention,將使用 SageAttention${NC}"
+    echo -e "${GREEN}✓ Skipping Flash Attention, will use SageAttention${NC}"
 fi
 
-# 7. Clone ComfyUI 本體
-echo -e "${YELLOW}[7/10] 下載 ComfyUI 本體...${NC}"
+# 7. Clone ComfyUI repository
+echo -e "${YELLOW}[7/10] Downloading ComfyUI repository...${NC}"
 COMFYUI_DIR="../ComfyUI"
 if [ ! -d "$COMFYUI_DIR" ]; then
     cd ..
     git clone https://github.com/comfyanonymous/ComfyUI.git
     cd comfyui-civitai-alchemist
-    echo -e "${GREEN}✓ ComfyUI 下載完成${NC}"
+    echo -e "${GREEN}✓ ComfyUI downloaded${NC}"
 else
-    echo -e "${GREEN}✓ ComfyUI 已存在${NC}"
+    echo -e "${GREEN}✓ ComfyUI already exists${NC}"
 fi
 
-# 8. 建立 symlink: ComfyUI 使用我們的虛擬環境
-echo -e "${YELLOW}[8/10] 設置 ComfyUI 虛擬環境連結...${NC}"
+# 8. Create symlink: ComfyUI uses our virtual environment
+echo -e "${YELLOW}[8/10] Setting up ComfyUI virtual environment link...${NC}"
 if [ -L "$COMFYUI_DIR/.venv" ]; then
     rm "$COMFYUI_DIR/.venv"
 fi
 if [ -e "$COMFYUI_DIR/.venv" ] && [ ! -L "$COMFYUI_DIR/.venv" ]; then
-    echo -e "${YELLOW}! ComfyUI 已有實體虛擬環境,重新命名為 .venv.backup${NC}"
+    echo -e "${YELLOW}! ComfyUI has existing virtual environment, renaming to .venv.backup${NC}"
     mv "$COMFYUI_DIR/.venv" "$COMFYUI_DIR/.venv.backup"
 fi
 ln -s "$(pwd)/.venv" "$COMFYUI_DIR/.venv"
-echo -e "${GREEN}✓ 虛擬環境連結完成${NC}"
+echo -e "${GREEN}✓ Virtual environment link created${NC}"
 
-# 9. 建立 custom_nodes 目錄並連結
-echo -e "${YELLOW}[9/10] 設置 custom node 連結...${NC}"
+# 9. Create custom_nodes directory and link
+echo -e "${YELLOW}[9/10] Setting up custom node link...${NC}"
 mkdir -p "$COMFYUI_DIR/custom_nodes"
 bash scripts/link.sh
-echo -e "${GREEN}✓ Custom node 連結完成${NC}"
+echo -e "${GREEN}✓ Custom node link created${NC}"
 
-# 10. 驗證安裝
-echo -e "${YELLOW}[10/10] 驗證安裝...${NC}"
+# 10. Verify installation
+echo -e "${YELLOW}[10/10] Verifying installation...${NC}"
 bash scripts/check_env.sh
 
 echo ""
-echo -e "${GREEN}=== 設置完成! ===${NC}"
+echo -e "${GREEN}=== Setup Complete! ===${NC}"
 echo ""
-echo -e "${BLUE}下一步:${NC}"
-echo "  1. 啟動 ComfyUI: ${YELLOW}bash scripts/run_comfyui.sh${NC}"
-echo "  2. 從 Windows 瀏覽器開啟: ${YELLOW}http://localhost:8188${NC}"
-echo "  3. 開發時修改 nodes/ 目錄下的檔案"
-echo "  4. 重啟 ComfyUI 看到變更"
-echo "  5. (可選) 執行性能測試: ${YELLOW}bash scripts/benchmark.sh${NC}"
+echo -e "${BLUE}Next steps:${NC}"
+echo "  1. Start ComfyUI: ${YELLOW}bash scripts/run_comfyui.sh${NC}"
+echo "  2. Open from Windows browser: ${YELLOW}http://localhost:8188${NC}"
+echo "  3. Modify files in nodes/ directory during development"
+echo "  4. Restart ComfyUI to see changes"
+echo "  5. (Optional) Run performance test: ${YELLOW}bash scripts/benchmark.sh${NC}"
 echo ""
-echo -e "${BLUE}環境變數已在 .env 檔案中配置,run_comfyui.sh 會自動載入${NC}"
+echo -e "${BLUE}Environment variables configured in .env file, run_comfyui.sh will load automatically${NC}"
 echo ""
