@@ -1,25 +1,21 @@
 """
 ComfyUI Civitai Alchemist
-瀏覽 Civitai 相片、擷取關鍵字、自動下載模組、套用 prompt
+
+A custom node extension for ComfyUI to browse Civitai images,
+extract metadata, download models, and apply prompts.
+
+This is a development environment template. Actual Civitai API
+integration is left as a TODO for future implementation.
 """
 
-from .nodes.civitai_browser import CivitaiBrowserNode
-from .nodes.keyword_extractor import KeywordExtractorNode
-from .nodes.model_downloader import ModelDownloaderNode
-from .nodes.prompt_applier import PromptApplierNode
+from .nodes.example_node import ExampleNode
 
 NODE_CLASS_MAPPINGS = {
-    "CivitaiBrowser": CivitaiBrowserNode,
-    "KeywordExtractor": KeywordExtractorNode,
-    "ModelDownloader": ModelDownloaderNode,
-    "PromptApplier": PromptApplierNode,
+    "CivitaiAlchemistExample": ExampleNode,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "CivitaiBrowser": "Civitai Browser 📷",
-    "KeywordExtractor": "Keyword Extractor 🔍",
-    "ModelDownloader": "Model Downloader ⬇️",
-    "PromptApplier": "Prompt Applier ✨",
+    "CivitaiAlchemistExample": "Example Node ✨",
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']

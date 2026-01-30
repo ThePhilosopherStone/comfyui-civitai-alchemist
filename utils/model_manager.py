@@ -1,27 +1,31 @@
 """
-Model Manager
-管理 ComfyUI 模型的下載和組織
+Model Manager (Template)
+
+Manages ComfyUI model downloads and organization.
+Actual implementation is left as a TODO for future development.
 """
 
-import os
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 
 class ModelManager:
     """
-    模型管理器
+    Model manager for organizing ComfyUI models.
+
+    This is a template class showing the structure for model management.
+    Methods are placeholders and need to be implemented.
     """
 
     def __init__(self, comfyui_path: Optional[str] = None):
         """
-        初始化模型管理器
+        Initialize model manager.
 
         Args:
-            comfyui_path: ComfyUI 根目錄路徑
+            comfyui_path: Path to ComfyUI root directory
         """
         if comfyui_path is None:
-            # 預設假設在 ../ComfyUI
+            # Default: assume ComfyUI is in ../ComfyUI
             self.comfyui_path = Path(__file__).parent.parent.parent / "ComfyUI"
         else:
             self.comfyui_path = Path(comfyui_path)
@@ -30,13 +34,13 @@ class ModelManager:
 
     def get_model_dir(self, model_type: str) -> Path:
         """
-        獲取特定類型模型的目錄
+        Get directory for specific model type.
 
         Args:
-            model_type: 模型類型 (checkpoint, lora, vae, embedding)
+            model_type: Model type (checkpoint, lora, vae, embedding)
 
         Returns:
-            模型目錄路徑
+            Path to model directory
         """
         type_mapping = {
             "checkpoint": "checkpoints",
@@ -50,34 +54,34 @@ class ModelManager:
 
     def download_file(self, url: str, destination: Path) -> Path:
         """
-        下載檔案
+        Download file (TODO: Implement with progress bar).
 
         Args:
-            url: 下載 URL
-            destination: 目標路徑
+            url: Download URL
+            destination: Target file path
 
         Returns:
-            下載完成的檔案路徑
+            Path to downloaded file
         """
-        # TODO: 實作檔案下載,包含進度顯示
-        print(f"下載 {url} 到 {destination}")
+        # TODO: Implement file download with progress display
+        print(f"[ModelManager] TODO: Download {url} to {destination}")
         return destination
 
-    def list_models(self, model_type: str) -> list:
+    def list_models(self, model_type: str) -> List[str]:
         """
-        列出特定類型的所有模型
+        List all models of specific type.
 
         Args:
-            model_type: 模型類型
+            model_type: Model type
 
         Returns:
-            模型檔案列表
+            List of model filenames
         """
         model_dir = self.get_model_dir(model_type)
         if not model_dir.exists():
             return []
 
-        # 支援的模型檔案格式
+        # Supported model file formats
         extensions = [".safetensors", ".ckpt", ".pt", ".pth"]
         models = []
 
@@ -85,3 +89,4 @@ class ModelManager:
             models.extend(model_dir.glob(f"*{ext}"))
 
         return [m.name for m in models]
+

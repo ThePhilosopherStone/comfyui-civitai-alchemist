@@ -1,6 +1,10 @@
 """
-Civitai API Wrapper
-提供與 Civitai API 互動的功能
+Civitai API Wrapper (Template)
+
+Provides a template for interacting with Civitai API.
+Actual implementation is left as a TODO for future development.
+
+API Documentation: https://github.com/civitai/civitai/wiki/REST-API-Reference
 """
 
 import requests
@@ -9,17 +13,20 @@ from typing import Dict, List, Optional
 
 class CivitaiAPI:
     """
-    Civitai API 包裝類別
+    Civitai API wrapper class.
+
+    This is a template class showing the structure for Civitai API integration.
+    Methods are placeholders and need to be implemented.
     """
 
     BASE_URL = "https://civitai.com/api/v1"
 
     def __init__(self, api_key: Optional[str] = None):
         """
-        初始化 Civitai API
+        Initialize Civitai API client.
 
         Args:
-            api_key: Civitai API key (可選,用於存取需要認證的功能)
+            api_key: Civitai API key (optional, required for authenticated endpoints)
         """
         self.api_key = api_key
         self.session = requests.Session()
@@ -34,46 +41,49 @@ class CivitaiAPI:
         sort: str = "Most Reactions"
     ) -> List[Dict]:
         """
-        搜尋圖片
+        Search for images (TODO: Implement actual API call).
 
         Args:
-            query: 搜尋關鍵字
-            limit: 結果數量
-            nsfw: 是否包含 NSFW 內容
-            sort: 排序方式
+            query: Search keywords
+            limit: Number of results
+            nsfw: Whether to include NSFW content
+            sort: Sort method
 
         Returns:
-            圖片列表
+            List of image data dictionaries
         """
-        # TODO: 實作 API 呼叫
-        print(f"搜尋圖片: {query}, limit={limit}, nsfw={nsfw}, sort={sort}")
+        # TODO: Implement actual API call
+        # Example: GET https://civitai.com/api/v1/images?query={query}&limit={limit}
+        print(f"[CivitaiAPI] TODO: Search images with query='{query}', limit={limit}")
         return []
 
     def get_image_metadata(self, image_id: int) -> Dict:
         """
-        獲取圖片 metadata
+        Get image metadata (TODO: Implement actual API call).
 
         Args:
-            image_id: 圖片 ID
+            image_id: Image ID from Civitai
 
         Returns:
-            圖片 metadata
+            Image metadata dictionary
         """
-        # TODO: 實作 API 呼叫
-        print(f"獲取圖片 metadata: {image_id}")
+        # TODO: Implement actual API call
+        # Example: GET https://civitai.com/api/v1/images/{image_id}
+        print(f"[CivitaiAPI] TODO: Get metadata for image_id={image_id}")
         return {}
 
     def download_model(self, model_id: int, version_id: Optional[int] = None) -> str:
         """
-        下載模型
+        Download model (TODO: Implement actual download logic).
 
         Args:
-            model_id: 模型 ID
-            version_id: 版本 ID (可選)
+            model_id: Model ID from Civitai
+            version_id: Specific version ID (optional)
 
         Returns:
-            下載的檔案路徑
+            Path to downloaded model file
         """
-        # TODO: 實作模型下載
-        print(f"下載模型: model_id={model_id}, version_id={version_id}")
+        # TODO: Implement model download
+        # Example: GET https://civitai.com/api/v1/models/{model_id}
+        print(f"[CivitaiAPI] TODO: Download model_id={model_id}, version_id={version_id}")
         return ""
