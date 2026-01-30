@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import json
+import random
 import sys
 from pathlib import Path
 from urllib import request as urllib_request
@@ -23,7 +24,7 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
     """
     Build a ComfyUI API-format workflow from metadata and resources.
 
-    Supports txt2img with optional LoRA(s).
+    Dispatches to appropriate builder based on workflow type.
 
     Args:
         metadata: Image metadata from fetch_metadata
@@ -32,23 +33,39 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
     Returns:
         ComfyUI workflow dictionary (API format)
     """
+    workflow_type = metadata.get("workflow_type", "")
+    if workflow_type and "hires" in str(workflow_type).lower():
+        return _build_hires_workflow(metadata, resources)
+    return _build_txt2img_workflow(metadata, resources)
+
+
+def _extract_common_params(metadata: dict, resources: dict) -> dict:
+    """
+    Extract common parameters shared by all workflow builders.
+
+    Returns:
+        Dict with prompt, negative_prompt, steps, cfg_scale, seed,
+        sampler_name, scheduler, checkpoint_filename, lora_resources,
+        upscaler_filename, clip_skip.
+    """
     prompt_text = metadata.get("prompt", "")
     negative_prompt = metadata.get("negative_prompt", "")
     steps = metadata.get("steps") or 20
     cfg_scale = metadata.get("cfg_scale") or 7.0
-    seed = metadata.get("seed") or 0
-    width = metadata.get("size", {}).get("width", 512)
-    height = metadata.get("size", {}).get("height", 512)
+    seed = metadata.get("seed")
+    if seed is None:
+        seed = random.randint(0, 2**63 - 1)
 
     # Map sampler
     civitai_sampler = metadata.get("sampler", "Euler")
     schedule_type = metadata.get("raw_meta", {}).get("Schedule type")
     sampler_name, scheduler = map_sampler(civitai_sampler, schedule_type)
 
-    # Find checkpoint filename from resources
+    # Find resources from resolved list
     resource_list = resources.get("resources", [])
     checkpoint_filename = None
     lora_resources = []
+    upscaler_filename = None
 
     for r in resource_list:
         if not r.get("resolved"):
@@ -57,9 +74,10 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
             checkpoint_filename = r["filename"]
         elif r["type"] == "lora" and r.get("filename"):
             lora_resources.append(r)
+        elif r["type"] == "upscaler" and r.get("filename"):
+            upscaler_filename = r["filename"]
 
     if not checkpoint_filename:
-        # Fallback: use model_name from metadata to guess filename
         model_name = metadata.get("model_name", "")
         if model_name:
             checkpoint_filename = f"{model_name}.safetensors"
@@ -68,26 +86,45 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
             print("Error: No checkpoint model found in resources", file=sys.stderr)
             sys.exit(1)
 
-    # Build the workflow
-    workflow = {}
+    clip_skip = metadata.get("clip_skip")
 
+    return {
+        "prompt_text": prompt_text,
+        "negative_prompt": negative_prompt,
+        "steps": steps,
+        "cfg_scale": cfg_scale,
+        "seed": seed,
+        "sampler_name": sampler_name,
+        "scheduler": scheduler,
+        "checkpoint_filename": checkpoint_filename,
+        "lora_resources": lora_resources,
+        "upscaler_filename": upscaler_filename,
+        "clip_skip": clip_skip,
+    }
+
+
+def _build_common_nodes(workflow: dict, params: dict) -> tuple:
+    """
+    Build common nodes shared by all workflows: checkpoint, LoRA chain, clip_skip.
+
+    Returns:
+        Tuple of (model_source, clip_source, vae_source)
+    """
     # Node 1: CheckpointLoaderSimple
     workflow["1"] = {
         "class_type": "CheckpointLoaderSimple",
         "inputs": {
-            "ckpt_name": checkpoint_filename,
+            "ckpt_name": params["checkpoint_filename"],
         },
     }
 
-    # Track which node provides MODEL and CLIP
-    # After checkpoint loader: model=["1",0], clip=["1",1], vae=["1",2]
     model_source = ["1", 0]
     clip_source = ["1", 1]
     vae_source = ["1", 2]
 
-    # Insert LoRA loaders (chained)
+    # Insert LoRA loaders (chained), starting at node 10
     lora_node_id = 10
-    for lora in lora_resources:
+    for lora in params["lora_resources"]:
         node_id = str(lora_node_id)
         weight = lora.get("weight") or 1.0
         workflow[node_id] = {
@@ -100,16 +137,44 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
                 "clip": clip_source,
             },
         }
-        # Update sources to chain from this LoRA node
         model_source = [node_id, 0]
         clip_source = [node_id, 1]
         lora_node_id += 1
+
+    # Node 8: CLIPSetLastLayer (if clip_skip is specified)
+    clip_skip = params["clip_skip"]
+    if clip_skip is not None:
+        clip_skip_val = int(clip_skip)
+        if clip_skip_val > 0:
+            clip_skip_val = -clip_skip_val  # ComfyUI uses negative values
+        workflow["8"] = {
+            "class_type": "CLIPSetLastLayer",
+            "inputs": {
+                "clip": clip_source,
+                "stop_at_clip_layer": clip_skip_val,
+            },
+        }
+        clip_source = ["8", 0]
+
+    return model_source, clip_source, vae_source
+
+
+def _build_txt2img_workflow(metadata: dict, resources: dict) -> dict:
+    """
+    Build a standard txt2img ComfyUI workflow with optional LoRA(s).
+    """
+    params = _extract_common_params(metadata, resources)
+    width = metadata.get("size", {}).get("width", 512)
+    height = metadata.get("size", {}).get("height", 512)
+
+    workflow = {}
+    model_source, clip_source, vae_source = _build_common_nodes(workflow, params)
 
     # Node 2: CLIPTextEncode (positive prompt)
     workflow["2"] = {
         "class_type": "CLIPTextEncode",
         "inputs": {
-            "text": prompt_text,
+            "text": params["prompt_text"],
             "clip": clip_source,
         },
     }
@@ -118,7 +183,7 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
     workflow["3"] = {
         "class_type": "CLIPTextEncode",
         "inputs": {
-            "text": negative_prompt,
+            "text": params["negative_prompt"],
             "clip": clip_source,
         },
     }
@@ -141,11 +206,11 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
             "positive": ["2", 0],
             "negative": ["3", 0],
             "latent_image": ["4", 0],
-            "seed": seed,
-            "steps": steps,
-            "cfg": cfg_scale,
-            "sampler_name": sampler_name,
-            "scheduler": scheduler,
+            "seed": params["seed"],
+            "steps": params["steps"],
+            "cfg": params["cfg_scale"],
+            "sampler_name": params["sampler_name"],
+            "scheduler": params["scheduler"],
             "denoise": 1.0,
         },
     }
@@ -155,6 +220,182 @@ def build_workflow(metadata: dict, resources: dict) -> dict:
         "class_type": "VAEDecode",
         "inputs": {
             "samples": ["5", 0],
+            "vae": vae_source,
+        },
+    }
+
+    # Node 7: SaveImage
+    image_id = metadata.get("image_id", "unknown")
+    workflow["7"] = {
+        "class_type": "SaveImage",
+        "inputs": {
+            "filename_prefix": f"civitai_{image_id}",
+            "images": ["6", 0],
+        },
+    }
+
+    return workflow
+
+
+def _build_hires_workflow(metadata: dict, resources: dict) -> dict:
+    """
+    Build a hires fix (txt2img-hires) ComfyUI workflow.
+
+    Two-pass generation:
+      Pass 1: Generate at base resolution (denoise=1.0)
+      Upscale: Decode → upscale with model → scale to target → encode
+      Pass 2: Refine at target resolution (denoise from metadata)
+
+    Falls back to LatentUpscale if no upscaler model is available.
+    """
+    params = _extract_common_params(metadata, resources)
+    hires_denoise = metadata.get("denoise") or 0.4
+
+    base_size = metadata.get("base_size", metadata.get("size", {}))
+    final_size = metadata.get("size", {})
+    base_width = base_size.get("width", 512)
+    base_height = base_size.get("height", 512)
+    final_width = final_size.get("width", base_width)
+    final_height = final_size.get("height", base_height)
+
+    workflow = {}
+    model_source, clip_source, vae_source = _build_common_nodes(workflow, params)
+
+    # Node 2: CLIPTextEncode (positive prompt)
+    workflow["2"] = {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+            "text": params["prompt_text"],
+            "clip": clip_source,
+        },
+    }
+
+    # Node 3: CLIPTextEncode (negative prompt)
+    workflow["3"] = {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+            "text": params["negative_prompt"],
+            "clip": clip_source,
+        },
+    }
+
+    # Node 4: EmptyLatentImage (BASE size)
+    workflow["4"] = {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+            "batch_size": 1,
+            "width": base_width,
+            "height": base_height,
+        },
+    }
+
+    # Node 5: KSampler pass 1 (full generation)
+    workflow["5"] = {
+        "class_type": "KSampler",
+        "inputs": {
+            "model": model_source,
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0],
+            "seed": params["seed"],
+            "steps": params["steps"],
+            "cfg": params["cfg_scale"],
+            "sampler_name": params["sampler_name"],
+            "scheduler": params["scheduler"],
+            "denoise": 1.0,
+        },
+    }
+
+    # --- Upscale path ---
+    upscaler_filename = params["upscaler_filename"]
+    if upscaler_filename:
+        # Model-based upscale: VAEDecode → UpscaleModel → ImageScale → VAEEncode
+
+        # Node 20: VAEDecode (pass 1 output → image)
+        workflow["20"] = {
+            "class_type": "VAEDecode",
+            "inputs": {
+                "samples": ["5", 0],
+                "vae": vae_source,
+            },
+        }
+
+        # Node 21: UpscaleModelLoader
+        workflow["21"] = {
+            "class_type": "UpscaleModelLoader",
+            "inputs": {
+                "model_name": upscaler_filename,
+            },
+        }
+
+        # Node 22: ImageUpscaleWithModel
+        workflow["22"] = {
+            "class_type": "ImageUpscaleWithModel",
+            "inputs": {
+                "upscale_model": ["21", 0],
+                "image": ["20", 0],
+            },
+        }
+
+        # Node 23: ImageScale (resize to exact target dimensions)
+        workflow["23"] = {
+            "class_type": "ImageScale",
+            "inputs": {
+                "image": ["22", 0],
+                "upscale_method": "lanczos",
+                "width": final_width,
+                "height": final_height,
+                "crop": "disabled",
+            },
+        }
+
+        # Node 24: VAEEncode (image → latent for pass 2)
+        workflow["24"] = {
+            "class_type": "VAEEncode",
+            "inputs": {
+                "pixels": ["23", 0],
+                "vae": vae_source,
+            },
+        }
+
+        pass2_latent_source = ["24", 0]
+    else:
+        # Fallback: LatentUpscale (no upscaler model needed)
+        workflow["20"] = {
+            "class_type": "LatentUpscale",
+            "inputs": {
+                "samples": ["5", 0],
+                "upscale_method": "bislerp",
+                "width": final_width,
+                "height": final_height,
+                "crop": "disabled",
+            },
+        }
+
+        pass2_latent_source = ["20", 0]
+
+    # Node 25: KSampler pass 2 (refinement at target resolution)
+    workflow["25"] = {
+        "class_type": "KSampler",
+        "inputs": {
+            "model": model_source,
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": pass2_latent_source,
+            "seed": params["seed"],
+            "steps": params["steps"],
+            "cfg": params["cfg_scale"],
+            "sampler_name": params["sampler_name"],
+            "scheduler": params["scheduler"],
+            "denoise": hires_denoise,
+        },
+    }
+
+    # Node 6: VAEDecode (final)
+    workflow["6"] = {
+        "class_type": "VAEDecode",
+        "inputs": {
+            "samples": ["25", 0],
             "vae": vae_source,
         },
     }
@@ -243,6 +484,10 @@ def main():
     sampler_node = workflow.get("5", {}).get("inputs", {})
     print(f"\nSampler: {sampler_node.get('sampler_name')} / {sampler_node.get('scheduler')}")
     print(f"Steps: {sampler_node.get('steps')}, CFG: {sampler_node.get('cfg')}, Seed: {sampler_node.get('seed')}")
+
+    if "25" in workflow:
+        hires_node = workflow["25"]["inputs"]
+        print(f"Hires fix: denoise={hires_node.get('denoise')}")
 
     ckpt = workflow.get("1", {}).get("inputs", {}).get("ckpt_name", "?")
     print(f"Checkpoint: {ckpt}")

@@ -91,6 +91,43 @@ def extract_metadata(image_data: dict) -> dict:
             "hash": r.get("hash"),
         })
 
+    # Fallback: if no resources from meta.resources, try civitaiResources from raw_meta
+    if not resources:
+        civitai_resources = meta.get("civitaiResources", [])
+        for cr in civitai_resources:
+            cr_type = cr.get("type", "unknown")
+            if cr_type in ("checkpoint", "Checkpoint", "model"):
+                cr_type = "checkpoint"
+            elif cr_type in ("lora", "Lora", "LoCon"):
+                cr_type = "lora"
+            elif cr_type in ("upscaler", "Upscaler"):
+                cr_type = "upscaler"
+            resources.append({
+                "name": cr.get("modelName", "unknown"),
+                "type": cr_type,
+                "weight": cr.get("weight"),
+                "hash": None,
+                "model_version_id": cr.get("modelVersionId"),
+            })
+
+    # Detect hires workflow and extract related fields
+    workflow_type = meta.get("workflow")
+    denoise = meta.get("denoise")
+    upscalers = meta.get("upscalers", [])
+
+    # For hires workflows, raw_meta width/height is the base (generation) size,
+    # and image_data width/height is the final (upscaled) output size
+    base_width, base_height = width, height
+    if workflow_type and "hires" in str(workflow_type).lower():
+        raw_w = meta.get("width")
+        raw_h = meta.get("height")
+        if raw_w and raw_h:
+            base_width = int(raw_w)
+            base_height = int(raw_h)
+        if image_data.get("width") and image_data.get("height"):
+            width = image_data["width"]
+            height = image_data["height"]
+
     return {
         "image_id": image_data.get("id"),
         "image_url": image_data.get("url"),
@@ -101,10 +138,14 @@ def extract_metadata(image_data: dict) -> dict:
         "cfg_scale": meta.get("cfgScale"),
         "seed": meta.get("seed"),
         "size": {"width": width, "height": height},
+        "base_size": {"width": base_width, "height": base_height},
         "model_name": meta.get("Model", ""),
         "model_hash": meta.get("Model hash", ""),
-        "clip_skip": meta.get("Clip skip"),
+        "clip_skip": meta.get("Clip skip") or meta.get("clipSkip"),
         "resources": resources,
+        "workflow_type": workflow_type,
+        "denoise": denoise,
+        "upscalers": upscalers,
         "raw_meta": meta,
     }
 

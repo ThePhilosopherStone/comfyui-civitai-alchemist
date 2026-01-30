@@ -104,6 +104,26 @@ class CivitaiAPI:
                 return None
             raise
 
+    def get_model_version(self, version_id: int) -> Optional[Dict]:
+        """
+        Get model version details by version ID.
+
+        Args:
+            version_id: Model version ID
+
+        Returns:
+            Model version data dictionary, or None if not found
+        """
+        url = f"{self.BASE_URL}/model-versions/{version_id}"
+
+        try:
+            response = self._request("GET", url)
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                return None
+            raise
+
     def search_models(self, query: str, limit: int = 5) -> List[Dict]:
         """
         Search for models by name.

@@ -31,6 +31,8 @@ class ModelManager:
         "TextualInversion": "embeddings",
         "controlnet": "controlnet",
         "hypernetwork": "hypernetworks",
+        "upscaler": "upscale_models",
+        "Upscaler": "upscale_models",
     }
 
     def __init__(self, comfyui_path: Optional[str] = None):

@@ -140,16 +140,27 @@ Generates ComfyUI API-format workflow (JSON DAG):
 ## Supported Scope
 
 - **txt2img** workflows with optional LoRA(s)
-- Standard ComfyUI nodes: CheckpointLoaderSimple, KSampler, CLIPTextEncode, EmptyLatentImage, VAEDecode, SaveImage, LoraLoader
+- **txt2img-hires** workflows (two-pass generation with upscaler model)
+- CLIP skip support via CLIPSetLastLayer
+- Resource resolution via hash, name search, or model version ID (civitaiResources)
+- Standard ComfyUI nodes: CheckpointLoaderSimple, KSampler, CLIPTextEncode, CLIPSetLastLayer, EmptyLatentImage, VAEDecode, VAEEncode, SaveImage, LoraLoader, UpscaleModelLoader, ImageUpscaleWithModel, ImageScale, LatentUpscale
 - Uses checkpoint's built-in VAE
 
 ## Not Yet Supported
 
 - img2img / inpainting
 - ControlNet
-- Hires fix / upscaling
 - Custom VAE override
 - Non-standard ComfyUI nodes
+
+## Tested Images
+
+Images verified to work through the full pipeline (fetch → resolve → generate workflow):
+
+| Image ID | URL | Workflow Type | Features |
+|----------|-----|---------------|----------|
+| 116872916 | https://civitai.com/images/116872916 | txt2img | Basic txt2img with LoRAs, hash-based resource resolution |
+| 118577644 | https://civitai.com/images/118577644 | txt2img-hires | Hires fix, 7 LoRAs, upscaler model, clip_skip=2, civitaiResources (version ID resolution), no seed |
 
 ## Code Style Guidelines
 

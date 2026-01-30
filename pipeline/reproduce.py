@@ -87,6 +87,11 @@ def main():
     print(f"Model: {metadata['model_name']}")
     print(f"Sampler: {metadata['sampler']}, Steps: {metadata['steps']}, CFG: {metadata['cfg_scale']}")
     print(f"Size: {metadata['size']['width']}x{metadata['size']['height']}")
+    if metadata.get("workflow_type"):
+        print(f"Workflow: {metadata['workflow_type']}")
+    if metadata.get("base_size") and metadata["base_size"] != metadata["size"]:
+        bs = metadata["base_size"]
+        print(f"Base size: {bs['width']}x{bs['height']}")
     print(f"Resources: {len(metadata['resources'])}")
     print(f"Saved to {metadata_path}\n")
 

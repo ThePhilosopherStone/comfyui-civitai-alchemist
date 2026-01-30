@@ -55,6 +55,17 @@ def resolve_resource(resource: dict, api: CivitaiAPI, manager: ModelManager) -> 
     model_type = resource.get("type", "checkpoint")
     result["target_dir"] = ModelManager.TYPE_MAPPING.get(model_type, model_type)
 
+    # Strategy 0: Look up by model version ID (from civitaiResources)
+    version_id = resource.get("model_version_id")
+    if version_id:
+        print(f"  Looking up version ID: {version_id}...")
+        try:
+            version_data = api.get_model_version(version_id)
+            if version_data:
+                return _fill_from_version_data(result, version_data, manager, "version_id")
+        except Exception as e:
+            print(f"  Version ID lookup failed: {e}")
+
     # Strategy 1: Look up by hash
     file_hash = resource.get("hash")
     if file_hash:
@@ -113,6 +124,14 @@ def _fill_from_version_data(
     result["model_id"] = model_id or version_data.get("modelId")
     result["resolve_method"] = method
 
+    # If no type override provided, try to get from version data
+    if not model_type_override:
+        model_info = version_data.get("model", {})
+        if model_info.get("type"):
+            model_type_override = model_info["type"]
+        if model_info.get("id") and not result["model_id"]:
+            result["model_id"] = model_info["id"]
+
     # Get the primary file
     files = version_data.get("files", [])
     primary_file = None
@@ -140,9 +159,11 @@ def _fill_from_version_data(
             result["type"] = "lora"
         elif type_lower in ("textualinversion",):
             result["type"] = "embedding"
+        elif type_lower in ("upscaler",):
+            result["type"] = "upscaler"
         else:
             result["type"] = type_lower
-        result["target_dir"] = ModelManager.TYPE_MAPPING.get(model_type, model_type)
+        result["target_dir"] = ModelManager.TYPE_MAPPING.get(result["type"], model_type)
 
     # Set target path
     if result["filename"]:
