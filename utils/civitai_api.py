@@ -70,7 +70,7 @@ class CivitaiAPI:
             Image data dictionary, or None if not found
         """
         url = f"{self.BASE_URL}/images"
-        params = {"imageId": image_id}
+        params = {"imageId": image_id, "nsfw": "X"}
 
         try:
             response = self._request("GET", url, params=params)
