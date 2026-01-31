@@ -1,0 +1,412 @@
+# 實作計畫
+
+## 參考文件
+
+**PRD 文件路徑：** `docs/specs/2026-01-31-sidebar-extension-phase3-5/prd.md`
+**研究文件路徑：** `docs/research/2026-01-31-comfyui-sidebar-extension.md`
+
+## 任務概要
+
+- [ ] 實作後端下載 API 與 WebSocket 進度推送
+- [ ] 擴展前端 ModelCard 下載狀態與進度 UI
+- [ ] 實作前端下載流程整合（單一下載、批次下載、取消）
+- [ ] 實作後端 Workflow 生成 API
+- [ ] 實作前端 Workflow 生成與 Canvas 載入
+- [ ] 發佈準備（GitHub Actions、版本號、README）
+- [ ] 執行驗收測試
+- [ ] 更新專案文件
+
+## 任務細節
+
+### 實作後端下載 API 與 WebSocket 進度推送
+
+**實作要點**
+- 在 `civitai_routes.py` 中新增三個 API endpoint（使用既有的裝飾器模式）：
+  - `POST /civitai/download`：接受 `{ resource, api_key }`，啟動單一模型下載
+    - 使用 `asyncio.create_task()` 在背景執行下載，立即回傳 `{ task_id }` 給前端
+    - task_id 使用 uuid4 生成
+  - `POST /civitai/download-all`：接受 `{ resources: [...], api_key }`，依序下載多個模型
+    - 同樣使用 `asyncio.create_task()` 背景執行，回傳 `{ task_id }`
+    - 內部依序呼叫單一下載邏輯（一次只下載一個）
+  - `POST /civitai/download-cancel`：接受 `{ task_id }` 或 `{ cancel_all: true }`
+    - 設定取消旗標，下載迴圈在下一個 chunk 檢查時中止
+    - 刪除未完成的 `.part` 暫存檔案
+- 建立下載核心邏輯（在 `civitai_routes.py` 中或新建 `civitai_download.py`）：
+  - 使用 `aiohttp.ClientSession` 進行非同步 HTTP 下載（不使用同步的 `requests`，避免阻塞 event loop）
+  - 下載目標路徑使用 `FolderPathsModelAdapter.get_model_dir()` 確定
+  - 寫入時使用 `.part` 副檔名（例如 `model.safetensors.part`）
+  - 每下載一個 chunk（建議 64KB），透過 WebSocket 推送進度事件
+  - 下載完成後計算 SHA256 校驗（使用 `hashlib.sha256`），與 resource 中的 `hashes.SHA256` 比對
+  - 校驗成功後 rename `.part` 檔案為正式檔名
+  - 校驗失敗或取消時，刪除 `.part` 檔案
+- 用模組層級 dict 追蹤進行中的下載任務：`_active_downloads: Dict[str, DownloadTask]`
+  - `DownloadTask` 包含：task_id、asyncio.Task reference、cancel Event、resource info
+- WebSocket 進度推送使用 `PromptServer.instance.send_sync()`：
+  - 事件名稱：`civitai.download.progress`
+  - payload：`{ task_id, filename, status, progress, downloaded_bytes, total_bytes, error }`
+  - status 值：`downloading`、`verifying`、`completed`、`failed`、`cancelled`
+  - 進度更新頻率：不超過每 500ms 一次（避免 WebSocket 過載）
+- Civitai 下載 URL 需要 API key 認證：在 request header 加入 `Authorization: Bearer {api_key}` 或在 URL 加入 `?token={api_key}`
+- 處理 Civitai 回傳的 Content-Disposition header（可能提供不同的檔名）
+
+**相關檔案**
+- `civitai_routes.py` — 新增 3 個 route handler + 下載核心邏輯
+- `civitai_utils/model_manager.py` — 參考既有 `download_file()` 的實作方式（Content-Disposition 處理等）
+- `pipeline/resolve_models.py` — 了解 resource dict 結構（download_url、target_path 等欄位）
+
+**完成檢查**
+- 啟動 ComfyUI 後，使用 curl 測試：
+  - `POST /civitai/download` 回傳 `{ task_id: "..." }` 且不阻塞（立即回傳）
+  - `POST /civitai/download-cancel` 可以取消進行中的下載
+- 下載完成後，檔案出現在正確的 ComfyUI models 目錄中
+- 取消下載後，`.part` 暫存檔案已被刪除
+- WebSocket 訊息可以在 ComfyUI 的瀏覽器 console 中觀察到（`ws.onmessage` 事件）
+
+---
+
+### 擴展前端 ModelCard 下載狀態與進度 UI
+
+**實作要點**
+- 擴展 `ui/src/types/index.ts` 中的 `Resource` 型別：
+  - 新增 `downloadStatus?: 'idle' | 'downloading' | 'verifying' | 'completed' | 'failed' | 'cancelled'`
+  - 新增 `downloadProgress?: number`（0-100 百分比）
+  - 新增 `downloadedBytes?: number`
+  - 新增 `totalBytes?: number`
+  - 新增 `downloadError?: string`
+  - 新增 `taskId?: string`
+- 修改 `ui/src/components/ModelCard.vue`，支援 7 種視覺狀態：
+  - **已存在**（`already_downloaded=true`）：✅ + 路徑（現有行為，不變）
+  - **缺少且已解析**（`resolved=true, !already_downloaded`）：❌ + Download 按鈕
+  - **缺少且未解析**（`!resolved`）：❌ + "Cannot resolve" 文字（現有行為，不變）
+  - **下載中**（`downloadStatus='downloading'`）：⏳ + 進度條 + 百分比 + 已下載/總量 + Cancel 按鈕
+  - **校驗中**（`downloadStatus='verifying'`）：⏳ + "Verifying SHA256..." 文字
+  - **下載失敗**（`downloadStatus='failed'`）：❌ + 錯誤訊息 + Retry 按鈕
+  - **已取消**（`downloadStatus='cancelled'`）：❌ + "Cancelled" + Download 按鈕（可重新下載）
+- 進度條樣式：
+  - 使用 PrimeVue `<ProgressBar>` 元件（ComfyUI 的 Model Library 下載也是用此元件）
+  - 自動適應 ComfyUI 深色/淺色主題（PrimeVue 已配置 `darkModeSelector`）
+  - 搭配 `:show-value="progress > 10"` 在進度條內顯示百分比
+  - 進度條下方顯示 `已下載 / 總量` 的 MB 文字（例如 `96.5 / 144.0 MB`）
+- 新增 emits：`download`、`cancel`、`retry`（由 ModelCard 向上傳遞事件給 ModelList → App）
+- Download / Cancel / Retry 按鈕樣式：使用 ComfyUI CSS 變數，與現有 Go 按鈕風格一致
+
+**相關檔案**
+- `ui/src/types/index.ts` — 擴展 Resource 型別
+- `ui/src/components/ModelCard.vue` — 主要修改：7 種狀態 UI
+- `ui/src/components/ModelList.vue` — 傳遞事件、可能需要調整 missing count 計算
+
+**完成檢查**
+- `cd ui && npm run build` 建置成功無 TypeScript 錯誤
+- 在 ComfyUI 中查詢 image ID 後：
+  - 缺少的 model 卡片顯示 Download 按鈕
+  - 已存在的 model 卡片不顯示 Download 按鈕
+  - 未解析的 model 卡片顯示 "Cannot resolve"
+
+---
+
+### 實作前端下載流程整合（單一下載、批次下載、取消）
+
+**實作要點**
+- 擴展 `ui/src/composables/useCivitaiApi.ts`，新增下載相關函式：
+  - `downloadModel(resource: Resource): Promise<{ task_id: string }>`
+    - `POST /civitai/download` with `{ resource, api_key }`
+  - `downloadAllMissing(resources: Resource[]): Promise<{ task_id: string }>`
+    - `POST /civitai/download-all` with `{ resources, api_key }`
+    - 只傳送 `resolved=true && !already_downloaded` 的 resources
+  - `cancelDownload(taskId: string): Promise<void>`
+    - `POST /civitai/download-cancel` with `{ task_id }`
+  - `cancelAllDownloads(): Promise<void>`
+    - `POST /civitai/download-cancel` with `{ cancel_all: true }`
+- 在 `ui/src/App.vue` 中新增 WebSocket 事件監聽：
+  - 使用 `window.app.api.addEventListener('civitai.download.progress', handler)` 監聽後端推送的進度事件
+  - 根據 `task_id` 更新對應 resource 的 `downloadStatus`、`downloadProgress`、`downloadedBytes`、`totalBytes`
+  - 當 status 為 `completed` 時，更新 `already_downloaded = true` 並移除下載狀態
+  - 當 status 為 `failed` 時，設定 `downloadError`
+  - 注意在元件 unmount 時移除事件監聽（`removeEventListener`）
+- 修改 `ui/src/components/ModelList.vue`：
+  - 新增「Download All Missing」按鈕（條件：有缺少且已解析的 model）
+  - 下載進行中時，按鈕變為「Downloading... (X/Y)」+ disabled
+  - 新增「Cancel All」按鈕（條件：有下載進行中）
+  - 下載全部完成後，按鈕消失
+  - 更新 missing count 計算：下載完成的不再計入 missing
+- 整合事件流：
+  - ModelCard emits `download` → ModelList → App.vue 呼叫 `downloadModel()`
+  - ModelCard emits `cancel` → ModelList → App.vue 呼叫 `cancelDownload()`
+  - ModelCard emits `retry` → ModelList → App.vue 呼叫 `downloadModel()`（同 download）
+  - ModelList emits `download-all` → App.vue 呼叫 `downloadAllMissing()`
+  - ModelList emits `cancel-all` → App.vue 呼叫 `cancelAllDownloads()`
+
+**相關檔案**
+- `ui/src/composables/useCivitaiApi.ts` — 新增 download/cancel API 函式
+- `ui/src/App.vue` — WebSocket 監聽、下載狀態管理、事件處理
+- `ui/src/components/ModelList.vue` — Download All / Cancel All 按鈕
+- `ui/src/components/ModelCard.vue` — 確認事件正確 emit
+
+**完成檢查**
+- `cd ui && npm run build` 建置成功
+- 在 ComfyUI 中完整測試下載流程：
+  - 點擊單一 Download 按鈕 → 進度條出現 → 完成後切換為 ✅
+  - 點擊 Download All Missing → 依序下載 → 全部完成後按鈕消失
+  - 點擊 Cancel → 下載停止 → .part 檔案已清除 → 顯示 Download 按鈕可重試
+  - 下載失敗 → 顯示錯誤訊息 + Retry 按鈕
+
+---
+
+### 實作後端 Workflow 生成 API
+
+**實作要點**
+- 在 `civitai_routes.py` 中新增 API endpoint：
+  - `POST /civitai/generate`：接受 `{ metadata, resources }`，回傳 workflow JSON
+  - 直接呼叫 `pipeline/generate_workflow.py` 的 `build_workflow(metadata, resources)` 函式
+  - `build_workflow()` 回傳的是 API format（flat dict with node IDs as string keys）
+  - 需要研究 `app.loadGraphData()` 接受的格式：
+    - 如果接受 API format → 直接回傳
+    - 如果需要 graph format（含 node 座標、link 資訊）→ 需要轉換
+    - 另一個方案：使用 `/prompt` endpoint 直接提交執行（不載入 canvas）
+    - 最可能的方案：ComfyUI 前端有 `app.loadApiJson(apiData)` 或類似方法可以從 API format 載入
+- 處理 `build_workflow()` 可能拋出的例外：
+  - 缺少必要的 metadata 欄位（如 prompt、sampler）
+  - 不支援的 workflow 類型
+  - resources 中沒有 checkpoint 模型
+- 回傳結構：`{ workflow, workflow_type, node_count }`
+
+**相關檔案**
+- `civitai_routes.py` — 新增 `/civitai/generate` route
+- `pipeline/generate_workflow.py` — 重用 `build_workflow()` 函式（不修改）
+- `pipeline/sampler_map.py` — `build_workflow()` 內部使用（不修改）
+
+**完成檢查**
+- 使用 curl 測試 `POST /civitai/generate`：
+  - 傳入有效的 metadata 和 resources → 回傳 workflow JSON
+  - 回傳的 JSON 包含預期的 node（CheckpointLoaderSimple、KSampler 等）
+  - 傳入無效資料 → 回傳適當的錯誤訊息和 HTTP status code
+
+---
+
+### 實作前端 Workflow 生成與 Canvas 載入
+
+**實作要點**
+- 擴展 `ui/src/composables/useCivitaiApi.ts`：
+  - `generateWorkflow(metadata: Metadata, resources: Resource[]): Promise<GenerateResponse>`
+    - `POST /civitai/generate` with `{ metadata, resources }`
+    - 回傳 `{ workflow, workflow_type, node_count }`
+- 在 `ui/src/App.vue` 中新增 workflow 生成流程：
+  - 新增 reactive state：`generatingWorkflow: boolean`、`workflowResult: { type, nodeCount } | null`
+  - 點擊 Generate Workflow → 檢查是否有缺少的 model
+    - 有缺少：顯示警告對話框（列出缺少的 model），使用者確認後繼續
+    - 無缺少：直接生成
+  - 呼叫 `generateWorkflow()` → 取得 workflow JSON
+  - 使用 `window.app.loadGraphData(workflow)` 或對應 API 載入到 canvas
+    - 注意：需要確認 API format vs graph format 的相容性，可能需要包裝成 `{ workflow: apiData, output: {} }` 格式
+  - 載入成功後在 sidebar 顯示確認訊息（workflow type + node count）
+- 新增 UI 元件或在 ModelList 下方新增區域：
+  - 「Generate Workflow」按鈕（條件：metadata 已載入）
+  - 生成中：按鈕 disabled + spinner
+  - 缺少模型警告對話框：列出缺少的 model name + type，Cancel / Continue 按鈕
+  - 成功確認訊息：✅ Workflow loaded · {nodeCount} nodes · {workflowType}
+- 擴展 `ui/src/types/index.ts`：
+  - 新增 `GenerateResponse` 型別
+
+**相關檔案**
+- `ui/src/composables/useCivitaiApi.ts` — 新增 generateWorkflow 函式
+- `ui/src/App.vue` — workflow 生成流程、狀態管理、警告對話框
+- `ui/src/components/ModelList.vue` — Generate Workflow 按鈕位置
+- `ui/src/types/index.ts` — 新增型別
+- `ui/src/types/comfyui.d.ts` — 可能需要新增 `loadGraphData` 型別宣告
+
+**完成檢查**
+- `cd ui && npm run build` 建置成功
+- 在 ComfyUI 中測試：
+  - 所有模型已存在時：點擊 Generate Workflow → canvas 載入 workflow → 顯示確認訊息
+  - 有缺少模型時：點擊 Generate Workflow → 顯示警告 → 點 Continue → canvas 載入 workflow
+  - 警告對話框點 Cancel → 不生成 workflow
+  - 使用三個測試 image ID（116872916、118577644、119258762）驗證不同 workflow type
+
+---
+
+### 發佈準備（GitHub Actions、版本號、README）
+
+**實作要點**
+- 建立 `.github/workflows/publish.yml`：
+  - 觸發條件：push tag matching `v*`（例如 `v0.1.0`）
+  - 步驟：
+    1. Checkout code
+    2. Setup Node.js + npm install + npm run build（在 `ui/` 目錄）
+    3. 使用 `comfy-cli` 或 ComfyUI Registry API 發佈
+    4. 或使用官方提供的 `comfy-org/publish-node-action` GitHub Action（如果存在）
+  - 需要 repository secret：`COMFY_REGISTRY_TOKEN`（或類似名稱）
+- 建立 `.github/workflows/ci.yml`（基本 CI）：
+  - 觸發條件：push to main、pull request
+  - 步驟：
+    1. Setup Node.js
+    2. `cd ui && npm install && npm run build`（確認前端建置成功）
+    3. 基本 Python lint（可選：`python -m py_compile civitai_routes.py` 等）
+- 確認 `pyproject.toml` 的 `[tool.comfy]` 區段完整且正確：
+  - 已有 `PublisherId`、`DisplayName`、`Icon`、`includes` — 確認值是否需要更新
+- 確認版本號：`version = "0.1.0"`（首次發佈）
+- 確認 `js/main.js` 已納入 git 追蹤（Phase 2 末期已完成，commit `14cd8f1`）
+- 更新 `README.md`：
+  - 新增 ComfyUI Manager 安裝方式說明
+  - 新增手動安裝方式說明（git clone → 無需建置前端）
+  - 新增 sidebar extension 使用教學
+  - 新增支援的 workflow 類型說明（txt2img、txt2img-hires）
+  - 更新 troubleshooting 區段
+
+**相關檔案**
+- `.github/workflows/publish.yml` — 新建：Registry 發佈 workflow
+- `.github/workflows/ci.yml` — 新建：CI 建置檢查
+- `pyproject.toml` — 確認 `[tool.comfy]` 設定
+- `README.md` — 更新安裝和使用說明
+
+**完成檢查**
+- `.github/workflows/publish.yml` 和 `ci.yml` 語法正確（使用 `act` 本地測試或 YAML lint）
+- `pyproject.toml` 包含完整的 `[tool.comfy]` 區段
+- `README.md` 包含 ComfyUI Manager 安裝說明和 sidebar 使用教學
+
+---
+
+### 執行驗收測試
+
+**實作要點**
+- 讀取 `acceptance.feature` 檔案
+- 在 ComfyUI 環境中逐一執行每個場景（使用 Playwright MCP 連線至 ComfyUI 頁面自動化執行驗收場景）
+- 驗證所有場景通過並記錄結果
+- 如發現問題，記錄詳細的錯誤資訊和重現步驟
+
+**相關檔案**
+- `docs/specs/2026-01-31-sidebar-extension-phase3-5/acceptance.feature` — Gherkin 格式的驗收測試場景
+- `docs/specs/2026-01-31-sidebar-extension-phase3-5/acceptance-report.md` — 詳細的驗收測試執行報告（執行時生成）
+
+**實作備註**
+<!-- 執行過程中填寫 -->
+
+---
+
+### 更新專案文件
+
+**實作要點**
+- 審查 `README.md`，根據新功能更新：
+  - 新增模型下載功能描述
+  - 新增 workflow 生成功能描述
+  - 更新功能清單
+  - 更新專案結構圖（如有新增檔案）
+- 審查 `CLAUDE.md`，更新：
+  - 新增下載 API endpoints 說明（`/civitai/download`、`/civitai/download-all`、`/civitai/download-cancel`、`/civitai/generate`）
+  - 更新 Supported Scope 章節，將 Phase 3-5 功能從 "Not Yet Supported" 移至已支援
+  - 更新前端架構說明（新增元件、WebSocket 監聽）
+  - 更新 UI 狀態機說明（7 個狀態）
+- 確保所有程式碼範例和指令都是最新且可執行的
+- **注意**：不需要更新 `docs/research/` 和 `docs/specs/` 目錄中的歷史文件
+
+**相關檔案**
+- `README.md` — 專案主要說明文件
+- `CLAUDE.md` — AI 助手的專案指引文件
+
+**實作備註**
+<!-- 執行過程中填寫 -->
+
+---
+
+## 實作參考資訊
+
+### 來自研究文件的技術洞察
+> **文件路徑：** `docs/research/2026-01-31-comfyui-sidebar-extension.md`
+
+**WebSocket 進度推送機制：**
+
+ComfyUI 的 `PromptServer` 提供 `send_sync()` 方法，可以向所有連線的 WebSocket 客戶端推送事件：
+
+```python
+# 後端推送進度
+PromptServer.instance.send_sync("civitai.download.progress", {
+    "task_id": "uuid-here",
+    "filename": "model.safetensors",
+    "status": "downloading",
+    "progress": 67,
+    "downloaded_bytes": 96_000_000,
+    "total_bytes": 144_000_000
+})
+```
+
+```typescript
+// 前端監聽進度
+window.app.api.addEventListener("civitai.download.progress", (event) => {
+    const { task_id, filename, status, progress } = event.detail
+    // 更新對應 resource 的下載狀態
+})
+```
+
+**非同步下載不阻塞 event loop：**
+
+ComfyUI 的後端是 aiohttp，所有 route handler 都在同一個 asyncio event loop 上執行。下載大型模型檔案（2-7 GB）時，必須確保不阻塞 event loop：
+
+- 方案 A：使用 `aiohttp.ClientSession` 進行非同步 HTTP 下載（推薦）
+- 方案 B：使用 `asyncio.to_thread()` 將同步的 `requests` 下載放到線程池
+- 方案 A 更好，因為可以精確控制 chunk 大小和進度回報
+
+**Civitai 下載認證：**
+
+Civitai 的模型下載 URL 需要 API key 認證，方式為在 URL 查詢參數中加入 `token`：
+```
+https://civitai.com/api/download/models/12345?token=sk_xxxxx
+```
+
+### 來自 PRD 的實作細節
+
+**UI 狀態機（7 個狀態）：**
+- 階段 0：API Key 未設定（已完成）
+- 階段 1：正常輸入狀態（已完成）
+- 階段 2：載入中（已完成）
+- 階段 3：結果展示 + Download 按鈕 + Generate Workflow 按鈕（Phase 3-4 新增）
+- 階段 4：下載中 — Model 卡片內進度條（Phase 3 新增）
+- 階段 5：Workflow 生成中（Phase 4 新增）
+- 階段 6：完成 — Workflow 已載入到 canvas（Phase 4 新增）
+
+**Model 卡片 7 種視覺狀態：**
+1. 已存在：✅ + 路徑
+2. 缺少（已解析）：❌ + Download 按鈕
+3. 缺少（未解析）：❌ + "Cannot resolve"
+4. 下載中：⏳ + 進度條 + Cancel 按鈕
+5. 校驗中：⏳ + "Verifying SHA256..."
+6. 下載失敗：❌ + 錯誤訊息 + Retry 按鈕
+7. 已取消：❌ + "Cancelled" + Download 按鈕
+
+**下載流程（`.part` + SHA256）：**
+1. 開始下載 → 寫入 `model.safetensors.part`
+2. 下載完成 → 計算 SHA256（`hashlib.sha256`）
+3. 比對 Civitai API 提供的 `hashes.SHA256`
+4. 校驗成功 → rename `.part` 為正式檔名
+5. 校驗失敗 / 取消 → 刪除 `.part` 檔案
+
+**CSS 風格延續：**
+- 使用 ComfyUI 原生 CSS 變數（`--fg-color`、`--descrip-text`、`--border-color`、`--comfy-input-bg`）
+- 不使用 PrimeVue tokens（`--p-text-color` 等），因為不隨 ComfyUI 深色主題切換
+- 進度條使用 PrimeVue `<ProgressBar>` 元件（ComfyUI Model Library 也使用此元件，自動適應主題）
+
+**Workflow 格式問題（開放問題）：**
+- `build_workflow()` 回傳 API format（flat dict, string keys as node IDs）
+- `app.loadGraphData()` 可能需要 graph format（含 node 座標、link 資訊）
+- 需要在實作時確認：
+  - 嘗試直接傳入 API format
+  - 如果不行，嘗試 `app.loadApiJson()` 或其他方法
+  - 最後方案：包裝成 `{ workflow: apiData }` 格式
+  - 備選方案：使用 `/prompt` endpoint 直接提交執行（但不載入 canvas）
+
+### 關鍵技術決策
+
+1. **非同步下載方式**：使用 `aiohttp.ClientSession`（非同步 HTTP 客戶端）而非 `requests`（同步），避免阻塞 ComfyUI 的 aiohttp event loop。進度透過 WebSocket 推送。
+
+2. **下載檔案安全機制**：`.part` 暫存檔 + SHA256 校驗 + rename。確保取消或失敗不會留下不完整的模型檔案，避免 ComfyUI 載入損壞的模型。
+
+3. **前端狀態管理**：所有下載狀態（progress、error、cancel）都掛在 `Resource` 物件上，透過 App.vue 的 reactive state 統一管理。WebSocket 事件透過 `window.app.api.addEventListener()` 監聽。
+
+4. **Workflow 生成重用**：直接呼叫 `build_workflow()` 函式，不重新實作。這個函式已經過三個測試 image 的驗證，支援 txt2img 和 txt2img-hires 工作流。
+
+5. **發佈策略**：`js/main.js` 已納入 git 追蹤，確保 git clone 安裝不需要建置前端。GitHub Actions 在 tag push 時自動發佈到 ComfyUI Registry。
+
+6. **Phase 1-2 技術教訓延續**：
+   - 模組命名不與 ComfyUI 內建模組衝突（`civitai_utils/` 而非 `utils/`）
+   - 路由使用裝飾器模式（`@routes.post()`）
+   - CSS 使用 ComfyUI 原生變數而非 PrimeVue tokens
+   - Vite library mode 需要 `vite-plugin-css-injected-by-js`
+   - 前端透過 `window.app` 全域物件存取 ComfyUI API
