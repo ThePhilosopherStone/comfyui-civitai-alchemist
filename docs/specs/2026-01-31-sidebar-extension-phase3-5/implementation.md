@@ -11,7 +11,7 @@
 - [x] 擴展前端 ModelCard 下載狀態與進度 UI
 - [x] 實作前端下載流程整合（單一下載、批次下載、取消）
 - [x] 實作後端 Workflow 生成 API
-- [ ] 實作前端 Workflow 生成與 Canvas 載入
+- [x] 實作前端 Workflow 生成與 Canvas 載入
 - [ ] 發佈準備（GitHub Actions、版本號、README）
 - [ ] 執行驗收測試
 - [ ] 更新專案文件
@@ -225,9 +225,9 @@
 **相關檔案**
 - `ui/src/composables/useCivitaiApi.ts` — 新增 generateWorkflow 函式
 - `ui/src/App.vue` — workflow 生成流程、狀態管理、警告對話框
-- `ui/src/components/ModelList.vue` — Generate Workflow 按鈕位置
-- `ui/src/types/index.ts` — 新增型別
-- `ui/src/types/comfyui.d.ts` — 可能需要新增 `loadGraphData` 型別宣告
+- `ui/src/components/ModelList.vue` — Generate Workflow 按鈕位置、確認訊息
+- `ui/src/types/index.ts` — 新增 GenerateResponse 型別
+- `ui/src/types/comfyui.d.ts` — 新增 `loadApiJson` 型別宣告
 
 **完成檢查**
 - `cd ui && npm run build` 建置成功
@@ -236,6 +236,9 @@
   - 有缺少模型時：點擊 Generate Workflow → 顯示警告 → 點 Continue → canvas 載入 workflow
   - 警告對話框點 Cancel → 不生成 workflow
   - 使用三個測試 image ID（116872916、118577644、119258762）驗證不同 workflow type
+
+**實作備註**
+照預期開發
 
 ---
 

@@ -1,4 +1,4 @@
-import type { Metadata, Resource, ResolveResponse } from '../types'
+import type { Metadata, Resource, ResolveResponse, GenerateResponse } from '../types'
 
 /**
  * Read the Civitai API key from ComfyUI Settings.
@@ -113,4 +113,21 @@ export async function cancelAllDownloads(): Promise<void> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ cancel_all: true }),
   })
+}
+
+/**
+ * Generate a ComfyUI workflow from metadata and resources.
+ * Returns the API-format workflow JSON, workflow type, and node count.
+ */
+export async function generateWorkflow(metadata: Metadata, resources: Resource[]): Promise<GenerateResponse> {
+  const response = await window.app.api.fetchApi('/civitai/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ metadata, resources }),
+  })
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}))
+    throw new Error(data.error || `Workflow generation failed (${response.status})`)
+  }
+  return response.json()
 }

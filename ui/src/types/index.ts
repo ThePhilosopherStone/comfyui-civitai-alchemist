@@ -64,3 +64,10 @@ export interface ResolveResponse {
   resolved_count: number
   unresolved_count: number
 }
+
+/** Response from POST /civitai/generate */
+export interface GenerateResponse {
+  workflow: Record<string, unknown>
+  workflow_type: string
+  node_count: number
+}

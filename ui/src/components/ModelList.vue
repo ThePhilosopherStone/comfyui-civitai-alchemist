@@ -34,6 +34,32 @@
         </button>
       </template>
     </div>
+
+    <!-- Generate Workflow button -->
+    <div class="workflow-actions">
+      <button
+        class="batch-btn generate-btn"
+        :disabled="generatingWorkflow"
+        @click="$emit('generate-workflow')"
+      >
+        <template v-if="generatingWorkflow">
+          <span class="btn-spinner"></span>
+          Generating...
+        </template>
+        <template v-else>
+          Generate Workflow
+        </template>
+      </button>
+
+      <!-- Workflow result confirmation -->
+      <div v-if="workflowResult" class="workflow-result">
+        <span class="workflow-result-icon">&#x2705;</span>
+        <div class="workflow-result-text">
+          <strong>Workflow loaded</strong>
+          <span>{{ workflowResult.nodeCount }} nodes &middot; {{ workflowResult.type }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +73,8 @@ const props = defineProps<{
   batchDownloading: boolean
   batchProgress: number
   batchTotal: number
+  generatingWorkflow: boolean
+  workflowResult: { type: string; nodeCount: number } | null
 }>()
 
 defineEmits<{
@@ -55,6 +83,7 @@ defineEmits<{
   retry: [resource: Resource]
   'download-all': []
   'cancel-all': []
+  'generate-workflow': []
 }>()
 
 const missingCount = computed(() =>
@@ -154,5 +183,74 @@ const downloadableCount = computed(() =>
 
 .cancel-all-btn:hover {
   background: rgba(220, 38, 38, 0.1);
+}
+
+.workflow-actions {
+  margin-top: 10px;
+}
+
+.generate-btn {
+  color: var(--p-primary-500);
+  border-color: var(--p-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);
+}
+
+.generate-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--p-primary-500);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.workflow-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--comfy-input-bg);
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.workflow-result-icon {
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.workflow-result-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--fg-color);
+}
+
+.workflow-result-text strong {
+  font-weight: 600;
+}
+
+.workflow-result-text span {
+  color: var(--descrip-text);
+  font-size: 11px;
 }
 </style>

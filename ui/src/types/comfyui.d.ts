@@ -43,6 +43,7 @@ interface ComfyApp {
   extensionManager: ComfyExtensionManager
   api: ComfyApi
   registerExtension(extension: ComfyExtensionDefinition): void
+  loadApiJson(apiData: Record<string, unknown>, fileName?: string): Promise<void>
 }
 
 declare global {

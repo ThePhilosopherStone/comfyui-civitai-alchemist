@@ -43,12 +43,30 @@
           :batch-downloading="batchDownloading"
           :batch-progress="batchProgress"
           :batch-total="batchTotal"
+          :generating-workflow="generatingWorkflow"
+          :workflow-result="workflowResult"
           @download="handleDownload"
           @cancel="handleCancel"
           @retry="handleDownload"
           @download-all="handleDownloadAll"
           @cancel-all="handleCancelAll"
+          @generate-workflow="handleGenerateWorkflow"
         />
+
+        <!-- Missing models warning dialog -->
+        <div v-if="showMissingWarning" class="warning-dialog">
+          <div class="warning-header">Missing models:</div>
+          <ul class="warning-list">
+            <li v-for="m in missingModels" :key="m.name">{{ m.name }} ({{ m.type }})</li>
+          </ul>
+          <p class="warning-note">
+            Workflow will be generated with original filenames. You can replace them on canvas.
+          </p>
+          <div class="warning-actions">
+            <button class="warning-btn warning-cancel-btn" @click="handleWarningCancel">Cancel</button>
+            <button class="warning-btn warning-continue-btn" @click="handleWarningContinue">Continue</button>
+          </div>
+        </div>
       </template>
 
       <!-- Empty state hint -->
@@ -65,6 +83,7 @@ import type { Metadata, Resource } from './types'
 import {
   getApiKey, parseImageId, fetchMetadata, resolveModels,
   downloadModel, downloadAllMissing, cancelDownload, cancelAllDownloads,
+  generateWorkflow,
 } from './composables/useCivitaiApi'
 import ApiKeyWarning from './components/ApiKeyWarning.vue'
 import ImageInput from './components/ImageInput.vue'
@@ -83,6 +102,12 @@ const batchDownloading = ref(false)
 const batchTaskId = ref<string | null>(null)
 const batchProgress = ref(0) // current index (1-based) in batch
 const batchTotal = ref(0)    // total count of resources in batch
+
+// Workflow generation state
+const generatingWorkflow = ref(false)
+const workflowResult = ref<{ type: string; nodeCount: number } | null>(null)
+const showMissingWarning = ref(false)
+const missingModels = ref<{ name: string; type: string }[]>([])
 
 /**
  * Find a resource by filename match.
@@ -181,6 +206,8 @@ async function handleSubmit(input: string) {
   error.value = ''
   metadata.value = null
   resources.value = []
+  workflowResult.value = null
+  showMissingWarning.value = false
 
   // Validate input format on the client side first
   let imageId: string
@@ -274,6 +301,49 @@ async function handleCancelAll() {
     // Cancel is best-effort
   }
 }
+
+function handleGenerateWorkflow() {
+  // Check for missing models
+  const missing = resources.value.filter(r => !r.already_downloaded)
+  if (missing.length > 0) {
+    missingModels.value = missing.map(r => ({ name: r.name, type: r.type }))
+    showMissingWarning.value = true
+    return
+  }
+  doGenerateWorkflow()
+}
+
+function handleWarningCancel() {
+  showMissingWarning.value = false
+  missingModels.value = []
+}
+
+function handleWarningContinue() {
+  showMissingWarning.value = false
+  missingModels.value = []
+  doGenerateWorkflow()
+}
+
+async function doGenerateWorkflow() {
+  if (!metadata.value) return
+  generatingWorkflow.value = true
+  workflowResult.value = null
+  error.value = ''
+
+  try {
+    const result = await generateWorkflow(metadata.value, resources.value)
+    const filename = `civitai_${metadata.value.image_id || 'workflow'}.json`
+    await window.app.loadApiJson(result.workflow, filename)
+    workflowResult.value = {
+      type: result.workflow_type,
+      nodeCount: result.node_count,
+    }
+  } catch (e: unknown) {
+    error.value = (e as Error).message
+  } finally {
+    generatingWorkflow.value = false
+  }
+}
 </script>
 
 <style scoped>
@@ -334,5 +404,67 @@ async function handleCancelAll() {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.warning-dialog {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--comfy-input-bg);
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.warning-header {
+  font-weight: 600;
+  color: var(--fg-color);
+  margin-bottom: 6px;
+}
+
+.warning-list {
+  margin: 0 0 8px 0;
+  padding-left: 18px;
+  color: var(--error-text);
+}
+
+.warning-list li {
+  margin-bottom: 2px;
+}
+
+.warning-note {
+  color: var(--descrip-text);
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.warning-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.warning-btn {
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--comfy-input-bg);
+  color: var(--fg-color);
+  transition: background 0.15s;
+}
+
+.warning-btn:hover {
+  background: var(--border-color);
+}
+
+.warning-continue-btn {
+  color: var(--p-primary-500);
+  border-color: var(--p-primary-500);
+}
+
+.warning-continue-btn:hover {
+  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);
 }
 </style>
