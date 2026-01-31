@@ -32,7 +32,7 @@ Works as both a **ComfyUI sidebar extension** and a **standalone CLI tool**.
 - Python 3.10–3.12
 - A working [ComfyUI](https://github.com/comfyanonymous/ComfyUI) installation
 - A [Civitai API key](https://civitai.com/user/account) (free)
-- [Node.js](https://nodejs.org/) 18+ (only for building the frontend from source)
+- [Node.js](https://nodejs.org/) 18+ (only needed for frontend development)
 
 ## Installation
 
@@ -45,17 +45,11 @@ cd ComfyUI/custom_nodes
 git clone https://github.com/ThePhilosopherStone/comfyui-civitai-alchemist.git
 ```
 
-2. Build the frontend:
+2. Start (or restart) ComfyUI. The Civitai Alchemist tab will appear in the left sidebar.
 
-```bash
-cd comfyui-civitai-alchemist/ui
-npm install
-npm run build
-```
+3. Open ComfyUI Settings (`Ctrl + ,`) and enter your Civitai API key in the **Civitai API Key** field.
 
-3. Start (or restart) ComfyUI. The Civitai Alchemist tab will appear in the left sidebar.
-
-4. Open ComfyUI Settings (`Ctrl + ,`) and enter your Civitai API key in the **Civitai API Key** field.
+> **Note:** The pre-built frontend (`js/main.js`) is included in the repository. No Node.js or build step required for end users.
 
 ### As a Standalone CLI Tool
 
@@ -161,7 +155,7 @@ comfyui-civitai-alchemist/
 │   │   └── types/              # TypeScript type definitions
 │   ├── package.json
 │   └── vite.config.ts          # Vite library mode → ../js/
-├── js/                         # Built frontend output (gitignored)
+├── js/                         # Built frontend output (committed for distribution)
 ├── output/                     # CLI pipeline output (gitignored)
 ├── scripts/                    # Environment setup scripts (Linux/WSL2)
 ├── pyproject.toml              # Python project config
@@ -220,17 +214,11 @@ cd comfyui-civitai-alchemist
 # 4. Install ComfyUI dependencies
 uv pip install -r ../ComfyUI/requirements.txt
 
-# 5. Build the frontend
-cd ui
-npm install
-npm run build
-cd ..
-
-# 6. Set up environment variables (for CLI mode)
+# 5. Set up environment variables (for CLI mode)
 copy .env.example .env
 # Edit .env — fill in your Civitai API key and models directory path
 
-# 7. Create directory junctions (Windows equivalent of symlinks)
+# 6. Create directory junctions (Windows equivalent of symlinks)
 # Share .venv with ComfyUI:
 New-Item -ItemType Junction -Path ..\ComfyUI\.venv -Target (Resolve-Path .venv)
 # Register as custom node:
