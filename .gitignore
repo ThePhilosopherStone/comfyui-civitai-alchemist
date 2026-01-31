@@ -40,8 +40,8 @@ Thumbs.db
 # Pipeline output
 output/
 
-# Frontend build output
-js/
+# Frontend build output (sourcemaps only; main.js is committed for distribution)
+js/*.map
 
 # Frontend dependencies
 ui/node_modules/
