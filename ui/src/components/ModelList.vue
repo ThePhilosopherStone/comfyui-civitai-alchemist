@@ -10,6 +10,9 @@
         v-for="(resource, index) in resources"
         :key="index"
         :resource="resource"
+        @download="(r) => $emit('download', r)"
+        @cancel="(r) => $emit('cancel', r)"
+        @retry="(r) => $emit('retry', r)"
       />
     </div>
   </div>
@@ -22,6 +25,12 @@ import ModelCard from './ModelCard.vue'
 
 const props = defineProps<{
   resources: Resource[]
+}>()
+
+defineEmits<{
+  download: [resource: Resource]
+  cancel: [resource: Resource]
+  retry: [resource: Resource]
 }>()
 
 const missingCount = computed(() =>

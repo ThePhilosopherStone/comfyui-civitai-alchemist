@@ -8,7 +8,7 @@
 ## 任務概要
 
 - [x] 實作後端下載 API 與 WebSocket 進度推送
-- [ ] 擴展前端 ModelCard 下載狀態與進度 UI
+- [x] 擴展前端 ModelCard 下載狀態與進度 UI
 - [ ] 實作前端下載流程整合（單一下載、批次下載、取消）
 - [ ] 實作後端 Workflow 生成 API
 - [ ] 實作前端 Workflow 生成與 Canvas 載入
@@ -104,6 +104,9 @@
   - 缺少的 model 卡片顯示 Download 按鈕
   - 已存在的 model 卡片不顯示 Download 按鈕
   - 未解析的 model 卡片顯示 "Cannot resolve"
+
+**實作備註**
+[方向調整] DownloadStatus 型別新增了 `'waiting'` 狀態（原計畫沒有），用於批次下載時等待中的 model 卡片顯示「Waiting...」文字。另外新增了 `hashes` 欄位到 Resource 型別，對應後端 resolve API 回傳的 SHA256 hash（來自任務一的後續依賴）。
 
 ---
 

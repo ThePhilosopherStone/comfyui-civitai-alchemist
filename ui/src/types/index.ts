@@ -29,6 +29,9 @@ export interface MetadataResource {
   model_version_id?: number
 }
 
+/** Download status of a resource */
+export type DownloadStatus = 'idle' | 'waiting' | 'downloading' | 'verifying' | 'completed' | 'failed' | 'cancelled'
+
 /** Resolved resource returned by POST /civitai/resolve */
 export interface Resource {
   name: string
@@ -46,6 +49,13 @@ export interface Resource {
   resolved: boolean
   resolve_method?: string
   error?: string
+  hashes?: Record<string, string>
+  downloadStatus?: DownloadStatus
+  downloadProgress?: number
+  downloadedBytes?: number
+  totalBytes?: number
+  downloadError?: string
+  taskId?: string
 }
 
 /** Response from POST /civitai/resolve */

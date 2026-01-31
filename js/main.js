@@ -3,7 +3,7 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".api-key-warning[data-v-3da5e8fa] {\r\n  margin-bottom: 8px;\n}\n.warning-box[data-v-3da5e8fa] {\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--p-yellow-500);\r\n  border-radius: 6px;\r\n  padding: 12px;\n}\n.warning-title[data-v-3da5e8fa] {\r\n  margin: 0 0 6px 0;\r\n  font-size: 13px;\r\n  font-weight: 600;\r\n  color: var(--p-yellow-500);\n}\n.warning-text[data-v-3da5e8fa] {\r\n  margin: 0 0 10px 0;\r\n  font-size: 12px;\r\n  color: var(--descrip-text);\r\n  line-height: 1.4;\n}\n.open-settings-btn[data-v-3da5e8fa] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 6px 12px;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--fg-color);\r\n  background: var(--comfy-menu-secondary-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  transition: background 0.15s;\n}\n.open-settings-btn[data-v-3da5e8fa]:hover {\r\n  background: var(--border-color);\n}\r\n\n.image-input[data-v-5991d069] {\r\n  margin-bottom: 8px;\n}\n.input-label[data-v-5991d069] {\r\n  display: block;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--descrip-text);\r\n  margin-bottom: 4px;\n}\n.input-row[data-v-5991d069] {\r\n  display: flex;\r\n  gap: 4px;\n}\n.input-field[data-v-5991d069] {\r\n  flex: 1;\r\n  min-width: 0;\r\n  padding: 6px 8px;\r\n  font-size: 12px;\r\n  color: var(--input-text);\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 4px;\r\n  outline: none;\r\n  transition: border-color 0.15s;\n}\n.input-field[data-v-5991d069]:focus {\r\n  border-color: var(--p-primary-500);\n}\n.input-field[data-v-5991d069]:disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\n}\n.go-btn[data-v-5991d069] {\r\n  padding: 6px 14px;\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: #fff;\r\n  background: var(--p-primary-600);\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  transition: background 0.15s;\r\n  white-space: nowrap;\n}\n.go-btn[data-v-5991d069]:hover:not(:disabled) {\r\n  background: var(--p-primary-500);\n}\n.go-btn[data-v-5991d069]:disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\n}\r\n\n.generation-info[data-v-34381e0c] {\r\n  margin-bottom: 16px;\n}\n.section-title[data-v-34381e0c] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  margin: 0 0 8px 0;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\n}\n.accordion-panel[data-v-34381e0c] {\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 6px;\r\n  margin-bottom: 6px;\r\n  overflow: hidden;\n}\n.accordion-header[data-v-34381e0c] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 4px;\r\n  width: 100%;\r\n  padding: 6px 8px;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--descrip-text);\r\n  background: var(--comfy-input-bg);\r\n  border: none;\r\n  cursor: pointer;\r\n  transition: color 0.15s;\n}\n.accordion-header[data-v-34381e0c]:hover {\r\n  color: var(--fg-color);\n}\n.toggle-icon[data-v-34381e0c] {\r\n  font-size: 10px;\r\n  transition: transform 0.15s;\r\n  display: inline-block;\n}\n.toggle-icon.open[data-v-34381e0c] {\r\n  transform: rotate(90deg);\n}\n.accordion-body[data-v-34381e0c] {\r\n  padding: 8px;\r\n  border-top: 1px solid var(--border-color);\n}\n.prompt-text[data-v-34381e0c] {\r\n  font-size: 11px;\r\n  line-height: 1.5;\r\n  color: var(--descrip-text);\r\n  word-break: break-word;\r\n  white-space: pre-wrap;\r\n  max-height: 200px;\r\n  overflow-y: auto;\n}\n.param-grid[data-v-34381e0c] {\r\n  display: grid;\r\n  grid-template-columns: auto 1fr;\r\n  gap: 4px 12px;\r\n  margin-top: 8px;\r\n  font-size: 12px;\n}\n.param-label[data-v-34381e0c] {\r\n  color: var(--descrip-text);\r\n  font-weight: 600;\r\n  white-space: nowrap;\n}\n.param-value[data-v-34381e0c] {\r\n  color: var(--fg-color);\n}\r\n\n.model-card[data-v-c5f735fa] {\r\n  padding: 8px 10px;\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 6px;\n}\n.model-missing[data-v-c5f735fa] {\r\n  border-color: var(--p-red-500);\r\n  border-style: dashed;\n}\n.card-header[data-v-c5f735fa] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  min-width: 0;\n}\n.model-status[data-v-c5f735fa] {\r\n  flex-shrink: 0;\r\n  font-size: 12px;\n}\n.model-name[data-v-c5f735fa] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  min-width: 0;\n}\n.model-meta[data-v-c5f735fa] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 4px;\r\n  flex-shrink: 0;\r\n  margin-left: auto;\n}\n.model-type-tag[data-v-c5f735fa] {\r\n  display: inline-block;\r\n  padding: 1px 6px;\r\n  font-size: 10px;\r\n  font-weight: 600;\r\n  text-transform: uppercase;\r\n  color: var(--p-primary-500);\r\n  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);\r\n  border-radius: 3px;\r\n  white-space: nowrap;\n}\n.meta-sep[data-v-c5f735fa] {\r\n  color: var(--descrip-text);\r\n  font-size: 11px;\n}\n.model-size[data-v-c5f735fa] {\r\n  font-size: 11px;\r\n  color: var(--descrip-text);\r\n  white-space: nowrap;\n}\n.card-path[data-v-c5f735fa] {\r\n  font-size: 10px;\r\n  color: var(--descrip-text);\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  margin-top: 4px;\n}\n.card-error[data-v-c5f735fa] {\r\n  font-size: 10px;\r\n  color: var(--error-text);\r\n  margin-top: 4px;\n}\r\n\n.model-list[data-v-20364ad0] {\r\n  margin-bottom: 16px;\n}\n.section-header[data-v-20364ad0] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  margin-bottom: 8px;\n}\n.section-title[data-v-20364ad0] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  margin: 0;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\n}\n.summary-text[data-v-20364ad0] {\r\n  font-size: 11px;\n}\n.summary-text.all-found[data-v-20364ad0] {\r\n  color: var(--p-green-600);\r\n  font-weight: 600;\n}\n.summary-text.has-missing[data-v-20364ad0] {\r\n  color: var(--error-text);\r\n  font-weight: 600;\n}\n.cards[data-v-20364ad0] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6px;\n}\r\n\n.image-preview[data-v-241f85ab] {\r\n  margin-bottom: 12px;\r\n  border-radius: 6px;\r\n  overflow: hidden;\r\n  border: 1px solid var(--border-color);\r\n  max-height: 180px;\r\n  background: var(--comfy-input-bg);\n}\n.image-preview img[data-v-241f85ab] {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  max-height: 180px;\r\n  object-fit: contain;\n}\n.hint-text[data-v-241f85ab] {\r\n  color: var(--descrip-text);\r\n  font-size: 12px;\r\n  margin: 0;\r\n  line-height: 1.4;\n}\n.status-box[data-v-241f85ab] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  padding: 10px 12px;\r\n  border-radius: 6px;\r\n  font-size: 12px;\r\n  margin-bottom: 12px;\n}\n.loading-box[data-v-241f85ab] {\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  color: var(--descrip-text);\n}\n.error-box[data-v-241f85ab] {\r\n  background: rgba(220, 38, 38, 0.1);\r\n  border: 1px solid var(--error-text);\r\n  color: var(--error-text);\n}\n.spinner[data-v-241f85ab] {\r\n  width: 14px;\r\n  height: 14px;\r\n  border: 2px solid var(--border-color);\r\n  border-top-color: var(--p-primary-500);\r\n  border-radius: 50%;\r\n  animation: spin-241f85ab 0.6s linear infinite;\n}\n@keyframes spin-241f85ab {\nto { transform: rotate(360deg);\n}\n}"));
+      elementStyle.appendChild(document.createTextNode(".api-key-warning[data-v-3da5e8fa] {\r\n  margin-bottom: 8px;\n}\n.warning-box[data-v-3da5e8fa] {\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--p-yellow-500);\r\n  border-radius: 6px;\r\n  padding: 12px;\n}\n.warning-title[data-v-3da5e8fa] {\r\n  margin: 0 0 6px 0;\r\n  font-size: 13px;\r\n  font-weight: 600;\r\n  color: var(--p-yellow-500);\n}\n.warning-text[data-v-3da5e8fa] {\r\n  margin: 0 0 10px 0;\r\n  font-size: 12px;\r\n  color: var(--descrip-text);\r\n  line-height: 1.4;\n}\n.open-settings-btn[data-v-3da5e8fa] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 6px 12px;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--fg-color);\r\n  background: var(--comfy-menu-secondary-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  transition: background 0.15s;\n}\n.open-settings-btn[data-v-3da5e8fa]:hover {\r\n  background: var(--border-color);\n}\r\n\n.image-input[data-v-5991d069] {\r\n  margin-bottom: 8px;\n}\n.input-label[data-v-5991d069] {\r\n  display: block;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--descrip-text);\r\n  margin-bottom: 4px;\n}\n.input-row[data-v-5991d069] {\r\n  display: flex;\r\n  gap: 4px;\n}\n.input-field[data-v-5991d069] {\r\n  flex: 1;\r\n  min-width: 0;\r\n  padding: 6px 8px;\r\n  font-size: 12px;\r\n  color: var(--input-text);\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 4px;\r\n  outline: none;\r\n  transition: border-color 0.15s;\n}\n.input-field[data-v-5991d069]:focus {\r\n  border-color: var(--p-primary-500);\n}\n.input-field[data-v-5991d069]:disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\n}\n.go-btn[data-v-5991d069] {\r\n  padding: 6px 14px;\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: #fff;\r\n  background: var(--p-primary-600);\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  transition: background 0.15s;\r\n  white-space: nowrap;\n}\n.go-btn[data-v-5991d069]:hover:not(:disabled) {\r\n  background: var(--p-primary-500);\n}\n.go-btn[data-v-5991d069]:disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\n}\r\n\n.generation-info[data-v-34381e0c] {\r\n  margin-bottom: 16px;\n}\n.section-title[data-v-34381e0c] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  margin: 0 0 8px 0;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\n}\n.accordion-panel[data-v-34381e0c] {\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 6px;\r\n  margin-bottom: 6px;\r\n  overflow: hidden;\n}\n.accordion-header[data-v-34381e0c] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 4px;\r\n  width: 100%;\r\n  padding: 6px 8px;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  color: var(--descrip-text);\r\n  background: var(--comfy-input-bg);\r\n  border: none;\r\n  cursor: pointer;\r\n  transition: color 0.15s;\n}\n.accordion-header[data-v-34381e0c]:hover {\r\n  color: var(--fg-color);\n}\n.toggle-icon[data-v-34381e0c] {\r\n  font-size: 10px;\r\n  transition: transform 0.15s;\r\n  display: inline-block;\n}\n.toggle-icon.open[data-v-34381e0c] {\r\n  transform: rotate(90deg);\n}\n.accordion-body[data-v-34381e0c] {\r\n  padding: 8px;\r\n  border-top: 1px solid var(--border-color);\n}\n.prompt-text[data-v-34381e0c] {\r\n  font-size: 11px;\r\n  line-height: 1.5;\r\n  color: var(--descrip-text);\r\n  word-break: break-word;\r\n  white-space: pre-wrap;\r\n  max-height: 200px;\r\n  overflow-y: auto;\n}\n.param-grid[data-v-34381e0c] {\r\n  display: grid;\r\n  grid-template-columns: auto 1fr;\r\n  gap: 4px 12px;\r\n  margin-top: 8px;\r\n  font-size: 12px;\n}\n.param-label[data-v-34381e0c] {\r\n  color: var(--descrip-text);\r\n  font-weight: 600;\r\n  white-space: nowrap;\n}\n.param-value[data-v-34381e0c] {\r\n  color: var(--fg-color);\n}\r\n\n.model-card[data-v-75a4eecf] {\r\n  padding: 8px 10px;\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 6px;\n}\n.model-missing[data-v-75a4eecf] {\r\n  border-color: var(--p-red-500);\r\n  border-style: dashed;\n}\n.model-downloading[data-v-75a4eecf] {\r\n  border-color: var(--p-primary-500);\r\n  border-style: solid;\n}\n.card-header[data-v-75a4eecf] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 6px;\r\n  min-width: 0;\n}\n.model-status[data-v-75a4eecf] {\r\n  flex-shrink: 0;\r\n  font-size: 12px;\n}\n.model-name[data-v-75a4eecf] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  min-width: 0;\n}\n.model-meta[data-v-75a4eecf] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 4px;\r\n  flex-shrink: 0;\r\n  margin-left: auto;\n}\n.model-type-tag[data-v-75a4eecf] {\r\n  display: inline-block;\r\n  padding: 1px 6px;\r\n  font-size: 10px;\r\n  font-weight: 600;\r\n  text-transform: uppercase;\r\n  color: var(--p-primary-500);\r\n  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);\r\n  border-radius: 3px;\r\n  white-space: nowrap;\n}\n.meta-sep[data-v-75a4eecf] {\r\n  color: var(--descrip-text);\r\n  font-size: 11px;\n}\n.model-size[data-v-75a4eecf] {\r\n  font-size: 11px;\r\n  color: var(--descrip-text);\r\n  white-space: nowrap;\n}\n.card-path[data-v-75a4eecf] {\r\n  font-size: 10px;\r\n  color: var(--descrip-text);\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  margin-top: 4px;\n}\n.card-detail[data-v-75a4eecf] {\r\n  margin-top: 6px;\n}\n.card-error[data-v-75a4eecf] {\r\n  font-size: 10px;\r\n  color: var(--error-text);\r\n  display: block;\n}\n.card-status-text[data-v-75a4eecf] {\r\n  font-size: 10px;\r\n  color: var(--descrip-text);\n}\n.download-progress[data-v-75a4eecf] {\r\n  height: 6px;\r\n  margin-bottom: 4px;\n}\n.progress-text[data-v-75a4eecf] {\r\n  font-size: 10px;\r\n  color: var(--descrip-text);\r\n  display: block;\r\n  margin-bottom: 4px;\n}\n.action-btn[data-v-75a4eecf] {\r\n  display: inline-block;\r\n  padding: 3px 12px;\r\n  font-size: 11px;\r\n  font-weight: 600;\r\n  border: 1px solid var(--border-color);\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  background: var(--comfy-input-bg);\r\n  color: var(--fg-color);\r\n  margin-top: 4px;\r\n  transition: background 0.15s, border-color 0.15s;\n}\n.action-btn[data-v-75a4eecf]:hover {\r\n  background: var(--border-color);\n}\n.download-btn[data-v-75a4eecf] {\r\n  color: var(--p-primary-500);\r\n  border-color: var(--p-primary-500);\n}\n.download-btn[data-v-75a4eecf]:hover {\r\n  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);\n}\n.cancel-btn[data-v-75a4eecf] {\r\n  color: var(--error-text);\r\n  border-color: var(--error-text);\n}\n.cancel-btn[data-v-75a4eecf]:hover {\r\n  background: rgba(220, 38, 38, 0.1);\n}\n.retry-btn[data-v-75a4eecf] {\r\n  color: var(--p-primary-500);\r\n  border-color: var(--p-primary-500);\r\n  margin-top: 4px;\n}\n.retry-btn[data-v-75a4eecf]:hover {\r\n  background: rgba(var(--p-primary-500-rgb, 59, 130, 246), 0.15);\n}\r\n\n.model-list[data-v-f57a1591] {\r\n  margin-bottom: 16px;\n}\n.section-header[data-v-f57a1591] {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  margin-bottom: 8px;\n}\n.section-title[data-v-f57a1591] {\r\n  font-size: 12px;\r\n  font-weight: 600;\r\n  color: var(--fg-color);\r\n  margin: 0;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\n}\n.summary-text[data-v-f57a1591] {\r\n  font-size: 11px;\n}\n.summary-text.all-found[data-v-f57a1591] {\r\n  color: var(--p-green-600);\r\n  font-weight: 600;\n}\n.summary-text.has-missing[data-v-f57a1591] {\r\n  color: var(--error-text);\r\n  font-weight: 600;\n}\n.cards[data-v-f57a1591] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 6px;\n}\r\n\n.image-preview[data-v-241f85ab] {\r\n  margin-bottom: 12px;\r\n  border-radius: 6px;\r\n  overflow: hidden;\r\n  border: 1px solid var(--border-color);\r\n  max-height: 180px;\r\n  background: var(--comfy-input-bg);\n}\n.image-preview img[data-v-241f85ab] {\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  max-height: 180px;\r\n  object-fit: contain;\n}\n.hint-text[data-v-241f85ab] {\r\n  color: var(--descrip-text);\r\n  font-size: 12px;\r\n  margin: 0;\r\n  line-height: 1.4;\n}\n.status-box[data-v-241f85ab] {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  padding: 10px 12px;\r\n  border-radius: 6px;\r\n  font-size: 12px;\r\n  margin-bottom: 12px;\n}\n.loading-box[data-v-241f85ab] {\r\n  background: var(--comfy-input-bg);\r\n  border: 1px solid var(--border-color);\r\n  color: var(--descrip-text);\n}\n.error-box[data-v-241f85ab] {\r\n  background: rgba(220, 38, 38, 0.1);\r\n  border: 1px solid var(--error-text);\r\n  color: var(--error-text);\n}\n.spinner[data-v-241f85ab] {\r\n  width: 14px;\r\n  height: 14px;\r\n  border: 2px solid var(--border-color);\r\n  border-top-color: var(--p-primary-500);\r\n  border-radius: 50%;\r\n  animation: spin-241f85ab 0.6s linear infinite;\n}\n@keyframes spin-241f85ab {\nto { transform: rotate(360deg);\n}\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
@@ -2268,6 +2268,13 @@ function defineComponent(options, extraOptions) {
     /* @__PURE__ */ (() => extend({ name: options.name }, extraOptions, { setup: options }))()
   ) : options;
 }
+function useId() {
+  const i2 = getCurrentInstance();
+  if (i2) {
+    return (i2.appContext.config.idPrefix || "v") + "-" + i2.ids[0] + i2.ids[1]++;
+  }
+  return "";
+}
 function markAsyncBoundary(instance) {
   instance.ids = [instance.ids[0] + instance.ids[2]++ + "-", 0, 0];
 }
@@ -2512,6 +2519,51 @@ function renderList(source, renderItem, cache, index2) {
   }
   return ret;
 }
+function renderSlot(slots, name, props = {}, fallback, noSlotted) {
+  if (currentRenderingInstance.ce || currentRenderingInstance.parent && isAsyncWrapper(currentRenderingInstance.parent) && currentRenderingInstance.parent.ce) {
+    const hasProps = Object.keys(props).length > 0;
+    return openBlock(), createBlock(
+      Fragment,
+      null,
+      [createVNode("slot", props, fallback && fallback())],
+      hasProps ? -2 : 64
+    );
+  }
+  let slot = slots[name];
+  if (slot && slot._c) {
+    slot._d = false;
+  }
+  openBlock();
+  const validSlotContent = slot && ensureValidVNode(slot(props));
+  const slotKey = props.key || // slot content array of a dynamic conditional slot may have a branch
+  // key attached in the `createSlots` helper, respect that
+  validSlotContent && validSlotContent.key;
+  const rendered = createBlock(
+    Fragment,
+    {
+      key: (slotKey && !isSymbol(slotKey) ? slotKey : `_${name}`) + // #7256 force differentiate fallback content from actual content
+      (!validSlotContent && fallback ? "_fb" : "")
+    },
+    validSlotContent || (fallback ? fallback() : []),
+    validSlotContent && slots._ === 1 ? 64 : -2
+  );
+  if (rendered.scopeId) {
+    rendered.slotScopeIds = [rendered.scopeId + "-s"];
+  }
+  if (slot && slot._c) {
+    slot._d = true;
+  }
+  return rendered;
+}
+function ensureValidVNode(vnodes) {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true;
+    if (child.type === Comment) return false;
+    if (child.type === Fragment && !ensureValidVNode(child.children))
+      return false;
+    return true;
+  }) ? vnodes : null;
+}
 const getPublicInstance = (i2) => {
   if (!i2) return null;
   if (isStatefulComponent(i2)) return getComponentPublicInstance(i2);
@@ -2659,18 +2711,18 @@ function applyOptions(instance) {
     provide: provideOptions,
     inject: injectOptions,
     // lifecycle
-    created,
-    beforeMount,
-    mounted,
-    beforeUpdate,
-    updated,
+    created: created2,
+    beforeMount: beforeMount2,
+    mounted: mounted2,
+    beforeUpdate: beforeUpdate2,
+    updated: updated2,
     activated,
     deactivated,
     beforeDestroy,
-    beforeUnmount,
+    beforeUnmount: beforeUnmount2,
     destroyed,
-    unmounted,
-    render,
+    unmounted: unmounted2,
+    render: render2,
     renderTracked,
     renderTriggered,
     errorCaptured,
@@ -2733,27 +2785,27 @@ function applyOptions(instance) {
       provide(key, provides[key]);
     });
   }
-  if (created) {
-    callHook(created, instance, "c");
+  if (created2) {
+    callHook(created2, instance, "c");
   }
   function registerLifecycleHook(register, hook) {
     if (isArray(hook)) {
-      hook.forEach((_hook) => register(_hook.bind(publicThis)));
+      hook.forEach((_hook2) => register(_hook2.bind(publicThis)));
     } else if (hook) {
       register(hook.bind(publicThis));
     }
   }
-  registerLifecycleHook(onBeforeMount, beforeMount);
-  registerLifecycleHook(onMounted, mounted);
-  registerLifecycleHook(onBeforeUpdate, beforeUpdate);
-  registerLifecycleHook(onUpdated, updated);
+  registerLifecycleHook(onBeforeMount, beforeMount2);
+  registerLifecycleHook(onMounted, mounted2);
+  registerLifecycleHook(onBeforeUpdate, beforeUpdate2);
+  registerLifecycleHook(onUpdated, updated2);
   registerLifecycleHook(onActivated, activated);
   registerLifecycleHook(onDeactivated, deactivated);
   registerLifecycleHook(onErrorCaptured, errorCaptured);
   registerLifecycleHook(onRenderTracked, renderTracked);
   registerLifecycleHook(onRenderTriggered, renderTriggered);
-  registerLifecycleHook(onBeforeUnmount, beforeUnmount);
-  registerLifecycleHook(onUnmounted, unmounted);
+  registerLifecycleHook(onBeforeUnmount, beforeUnmount2);
+  registerLifecycleHook(onUnmounted, unmounted2);
   registerLifecycleHook(onServerPrefetch, serverPrefetch);
   if (isArray(expose)) {
     if (expose.length) {
@@ -2769,8 +2821,8 @@ function applyOptions(instance) {
       instance.exposed = {};
     }
   }
-  if (render && instance.render === NOOP) {
-    instance.render = render;
+  if (render2 && instance.render === NOOP) {
+    instance.render = render2;
   }
   if (inheritAttrs != null) {
     instance.inheritAttrs = inheritAttrs;
@@ -2823,10 +2875,10 @@ function callHook(hook, instance, type) {
 function createWatcher(raw, ctx, publicThis, key) {
   let getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
   if (isString(raw)) {
-    const handler = ctx[raw];
-    if (isFunction(handler)) {
+    const handler3 = ctx[raw];
+    if (isFunction(handler3)) {
       {
-        watch(getter, handler);
+        watch(getter, handler3);
       }
     }
   } else if (isFunction(raw)) {
@@ -2837,9 +2889,9 @@ function createWatcher(raw, ctx, publicThis, key) {
     if (isArray(raw)) {
       raw.forEach((r2) => createWatcher(r2, ctx, publicThis, key));
     } else {
-      const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
-      if (isFunction(handler)) {
-        watch(getter, handler, raw);
+      const handler3 = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+      if (isFunction(handler3)) {
+        watch(getter, handler3, raw);
       }
     }
   } else ;
@@ -3002,7 +3054,7 @@ function createAppContext() {
   };
 }
 let uid$1 = 0;
-function createAppAPI(render, hydrate) {
+function createAppAPI(render2, hydrate) {
   return function createApp2(rootComponent, rootProps = null) {
     if (!isFunction(rootComponent)) {
       rootComponent = extend({}, rootComponent);
@@ -3070,7 +3122,7 @@ function createAppAPI(render, hydrate) {
             namespace = void 0;
           }
           {
-            render(vnode, rootContainer, namespace);
+            render2(vnode, rootContainer, namespace);
           }
           isMounted = true;
           app._container = rootContainer;
@@ -3088,7 +3140,7 @@ function createAppAPI(render, hydrate) {
             app._instance,
             16
           );
-          render(null, app._container);
+          render2(null, app._container);
           delete app._container.__vue_app__;
         }
       },
@@ -3128,14 +3180,14 @@ function emit(instance, event, ...rawArgs) {
     }
   }
   let handlerName;
-  let handler = props[handlerName = toHandlerKey(event)] || // also try camelCase event handler (#2249)
+  let handler3 = props[handlerName = toHandlerKey(event)] || // also try camelCase event handler (#2249)
   props[handlerName = toHandlerKey(camelize(event))];
-  if (!handler && isModelListener2) {
-    handler = props[handlerName = toHandlerKey(hyphenate(event))];
+  if (!handler3 && isModelListener2) {
+    handler3 = props[handlerName = toHandlerKey(hyphenate(event))];
   }
-  if (handler) {
+  if (handler3) {
     callWithAsyncErrorHandling(
-      handler,
+      handler3,
       instance,
       6,
       args
@@ -3220,7 +3272,7 @@ function renderComponentRoot(instance) {
     slots,
     attrs,
     emit: emit2,
-    render,
+    render: render2,
     renderCache,
     props,
     data,
@@ -3245,7 +3297,7 @@ function renderComponentRoot(instance) {
         }
       }) : proxyToUse;
       result = normalizeVNode(
-        render.call(
+        render2.call(
           thisProxy,
           proxyToUse,
           renderCache,
@@ -3257,10 +3309,10 @@ function renderComponentRoot(instance) {
       );
       fallthroughAttrs = attrs;
     } else {
-      const render2 = Component;
+      const render22 = Component;
       if (false) ;
       result = normalizeVNode(
-        render2.length > 1 ? render2(
+        render22.length > 1 ? render22(
           false ? /* @__PURE__ */ shallowReadonly(props) : props,
           false ? {
             get attrs() {
@@ -3270,7 +3322,7 @@ function renderComponentRoot(instance) {
             slots,
             emit: emit2
           } : { attrs, slots, emit: emit2 }
-        ) : render2(
+        ) : render22(
           false ? /* @__PURE__ */ shallowReadonly(props) : props,
           null
         )
@@ -3282,10 +3334,10 @@ function renderComponentRoot(instance) {
     handleError(err, instance, 1);
     result = createVNode(Comment);
   }
-  let root = result;
+  let root2 = result;
   if (fallthroughAttrs && inheritAttrs !== false) {
     const keys = Object.keys(fallthroughAttrs);
-    const { shapeFlag } = root;
+    const { shapeFlag } = root2;
     if (keys.length) {
       if (shapeFlag & (1 | 6)) {
         if (propsOptions && keys.some(isModelListener)) {
@@ -3294,19 +3346,19 @@ function renderComponentRoot(instance) {
             propsOptions
           );
         }
-        root = cloneVNode(root, fallthroughAttrs, false, true);
+        root2 = cloneVNode(root2, fallthroughAttrs, false, true);
       }
     }
   }
   if (vnode.dirs) {
-    root = cloneVNode(root, null, false, true);
-    root.dirs = root.dirs ? root.dirs.concat(vnode.dirs) : vnode.dirs;
+    root2 = cloneVNode(root2, null, false, true);
+    root2.dirs = root2.dirs ? root2.dirs.concat(vnode.dirs) : vnode.dirs;
   }
   if (vnode.transition) {
-    setTransitionHooks(root, vnode.transition);
+    setTransitionHooks(root2, vnode.transition);
   }
   {
-    result = root;
+    result = root2;
   }
   setCurrentRenderingInstance(prev);
   return result;
@@ -3388,11 +3440,11 @@ function hasPropsChanged(prevProps, nextProps, emitsOptions) {
 }
 function updateHOCHostEl({ vnode, parent }, el) {
   while (parent) {
-    const root = parent.subTree;
-    if (root.suspense && root.suspense.activeBranch === vnode) {
-      root.el = vnode.el;
+    const root2 = parent.subTree;
+    if (root2.suspense && root2.suspense.activeBranch === vnode) {
+      root2.el = vnode.el;
     }
-    if (root === vnode) {
+    if (root2 === vnode) {
       (vnode = parent.vnode).el = el;
       parent = parent.parent;
     } else {
@@ -4360,7 +4412,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       if (!instance.isMounted) {
         let vnodeHook;
         const { el, props } = initialVNode;
-        const { bm, m: m2, parent, root, type } = instance;
+        const { bm, m: m2, parent, root: root2, type } = instance;
         const isAsyncWrapperVNode = isAsyncWrapper(initialVNode);
         toggleRecurse(instance, false);
         if (bm) {
@@ -4371,9 +4423,9 @@ function baseCreateRenderer(options, createHydrationFns) {
         }
         toggleRecurse(instance, true);
         {
-          if (root.ce && // @ts-expect-error _def is private
-          root.ce._def.shadowRoot !== false) {
-            root.ce._injectChildStyle(type);
+          if (root2.ce && // @ts-expect-error _def is private
+          root2.ce._def.shadowRoot !== false) {
+            root2.ce._injectChildStyle(type);
           }
           const subTree = instance.subTree = renderComponentRoot(instance);
           patch(
@@ -4983,7 +5035,7 @@ function baseCreateRenderer(options, createHydrationFns) {
     return teleportEnd ? hostNextSibling(teleportEnd) : el;
   };
   let isFlushing = false;
-  const render = (vnode, container, namespace) => {
+  const render2 = (vnode, container, namespace) => {
     let instance;
     if (vnode == null) {
       if (container._vnode) {
@@ -5023,9 +5075,9 @@ function baseCreateRenderer(options, createHydrationFns) {
   };
   let hydrate;
   return {
-    render,
+    render: render2,
     hydrate,
-    createApp: createAppAPI(render)
+    createApp: createAppAPI(render2)
   };
 }
 function resolveChildrenNamespace({ type, props }, currentNamespace) {
@@ -6062,11 +6114,11 @@ function patchDOMProp(el, key, value, parentComponent, attrName) {
   }
   needRemove && el.removeAttribute(attrName || key);
 }
-function addEventListener(el, event, handler, options) {
-  el.addEventListener(event, handler, options);
+function addEventListener(el, event, handler3, options) {
+  el.addEventListener(event, handler3, options);
 }
-function removeEventListener(el, event, handler, options) {
-  el.removeEventListener(event, handler, options);
+function removeEventListener(el, event, handler3, options) {
+  el.removeEventListener(event, handler3, options);
 }
 const veiKey = /* @__PURE__ */ Symbol("_vei");
 function patchEvent(el, rawName, prevValue, nextValue, instance = null) {
@@ -6368,7 +6420,24 @@ function m$3(e2, ...t2) {
 function a$F(e2, t2 = true) {
   return typeof e2 == "string" && (t2 || e2 !== "");
 }
-function z(e2) {
+function g$5(e2) {
+  return a$F(e2) ? e2.replace(/(-|_)/g, "").toLowerCase() : e2;
+}
+function F$1(e2, t2 = "", n2 = {}) {
+  let o2 = g$5(t2).split("."), r2 = o2.shift();
+  if (r2) {
+    if (i$r(e2)) {
+      let u2 = Object.keys(e2).find((f2) => g$5(f2) === r2) || "";
+      return F$1(m$3(e2[u2], n2), o2.join("."), n2);
+    }
+    return;
+  }
+  return m$3(e2, n2);
+}
+function C$1(e2, t2 = true) {
+  return Array.isArray(e2) && (t2 || e2.length !== 0);
+}
+function z$1(e2) {
   return s$b(e2) && !isNaN(e2);
 }
 function G(e2, t2) {
@@ -6403,6 +6472,22 @@ function s$a() {
   }, clear() {
     r2.clear();
   } };
+}
+function f$a(...e2) {
+  if (e2) {
+    let t2 = [];
+    for (let i2 = 0; i2 < e2.length; i2++) {
+      let n2 = e2[i2];
+      if (!n2) continue;
+      let s2 = typeof n2;
+      if (s2 === "string" || s2 === "number") t2.push(n2);
+      else if (s2 === "object") {
+        let c2 = Array.isArray(n2) ? [f$a(...n2)] : Object.entries(n2).map(([r2, o2]) => o2 ? r2 : void 0);
+        t2 = c2.length ? t2.concat(c2.filter((r2) => !!r2)) : t2;
+      }
+    }
+    return t2.join(" ").trim();
+  }
 }
 function y(t2) {
   if (t2) {
@@ -6441,6 +6526,9 @@ function A(t2, e2 = {}) {
       }
     });
   }
+}
+function z(t2, e2) {
+  return c$q(t2) ? t2.matches(e2) ? t2 : t2.querySelector(e2) : null;
 }
 function tt() {
   return !!(typeof window != "undefined" && window.document && window.document.createElement);
@@ -6496,7 +6584,7 @@ function Y(e2, t2 = "", r2 = "", s2 = [], i2) {
       return G(n2.replace(ie, "0"), ne) ? `calc(${n2})` : n2;
     }
     return a2;
-  } else if (z(e2)) return e2;
+  } else if (z$1(e2)) return e2;
 }
 function Re(e2, t2, r2) {
   a$F(t2, false) && e2.push(`${t2}:${r2};`);
@@ -6777,16 +6865,16 @@ var FilterMatchMode = {
   DATE_BEFORE: "dateBefore",
   DATE_AFTER: "dateAfter"
 };
-var style = "\n    *,\n    ::before,\n    ::after {\n        box-sizing: border-box;\n    }\n\n    .p-collapsible-enter-active {\n        animation: p-animate-collapsible-expand 0.2s ease-out;\n        overflow: hidden;\n    }\n\n    .p-collapsible-leave-active {\n        animation: p-animate-collapsible-collapse 0.2s ease-out;\n        overflow: hidden;\n    }\n\n    @keyframes p-animate-collapsible-expand {\n        from {\n            grid-template-rows: 0fr;\n        }\n        to {\n            grid-template-rows: 1fr;\n        }\n    }\n\n    @keyframes p-animate-collapsible-collapse {\n        from {\n            grid-template-rows: 1fr;\n        }\n        to {\n            grid-template-rows: 0fr;\n        }\n    }\n\n    .p-disabled,\n    .p-disabled * {\n        cursor: default;\n        pointer-events: none;\n        user-select: none;\n    }\n\n    .p-disabled,\n    .p-component:disabled {\n        opacity: dt('disabled.opacity');\n    }\n\n    .pi {\n        font-size: dt('icon.size');\n    }\n\n    .p-icon {\n        width: dt('icon.size');\n        height: dt('icon.size');\n    }\n\n    .p-overlay-mask {\n        background: var(--px-mask-background, dt('mask.background'));\n        color: dt('mask.color');\n        position: fixed;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n    }\n\n    .p-overlay-mask-enter-active {\n        animation: p-animate-overlay-mask-enter dt('mask.transition.duration') forwards;\n    }\n\n    .p-overlay-mask-leave-active {\n        animation: p-animate-overlay-mask-leave dt('mask.transition.duration') forwards;\n    }\n\n    @keyframes p-animate-overlay-mask-enter {\n        from {\n            background: transparent;\n        }\n        to {\n            background: var(--px-mask-background, dt('mask.background'));\n        }\n    }\n    @keyframes p-animate-overlay-mask-leave {\n        from {\n            background: var(--px-mask-background, dt('mask.background'));\n        }\n        to {\n            background: transparent;\n        }\n    }\n\n    .p-anchored-overlay-enter-active {\n        animation: p-animate-anchored-overlay-enter 300ms cubic-bezier(.19,1,.22,1);\n    }\n\n    .p-anchored-overlay-leave-active {\n        animation: p-animate-anchored-overlay-leave 300ms cubic-bezier(.19,1,.22,1);\n    }\n\n    @keyframes p-animate-anchored-overlay-enter {\n        from {\n            opacity: 0;\n            transform: scale(0.93);\n        }\n    }\n\n    @keyframes p-animate-anchored-overlay-leave {\n        to {\n            opacity: 0;\n            transform: scale(0.93);\n        }\n    }\n";
-function _typeof$3(o2) {
+var style$1 = "\n    *,\n    ::before,\n    ::after {\n        box-sizing: border-box;\n    }\n\n    .p-collapsible-enter-active {\n        animation: p-animate-collapsible-expand 0.2s ease-out;\n        overflow: hidden;\n    }\n\n    .p-collapsible-leave-active {\n        animation: p-animate-collapsible-collapse 0.2s ease-out;\n        overflow: hidden;\n    }\n\n    @keyframes p-animate-collapsible-expand {\n        from {\n            grid-template-rows: 0fr;\n        }\n        to {\n            grid-template-rows: 1fr;\n        }\n    }\n\n    @keyframes p-animate-collapsible-collapse {\n        from {\n            grid-template-rows: 1fr;\n        }\n        to {\n            grid-template-rows: 0fr;\n        }\n    }\n\n    .p-disabled,\n    .p-disabled * {\n        cursor: default;\n        pointer-events: none;\n        user-select: none;\n    }\n\n    .p-disabled,\n    .p-component:disabled {\n        opacity: dt('disabled.opacity');\n    }\n\n    .pi {\n        font-size: dt('icon.size');\n    }\n\n    .p-icon {\n        width: dt('icon.size');\n        height: dt('icon.size');\n    }\n\n    .p-overlay-mask {\n        background: var(--px-mask-background, dt('mask.background'));\n        color: dt('mask.color');\n        position: fixed;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n    }\n\n    .p-overlay-mask-enter-active {\n        animation: p-animate-overlay-mask-enter dt('mask.transition.duration') forwards;\n    }\n\n    .p-overlay-mask-leave-active {\n        animation: p-animate-overlay-mask-leave dt('mask.transition.duration') forwards;\n    }\n\n    @keyframes p-animate-overlay-mask-enter {\n        from {\n            background: transparent;\n        }\n        to {\n            background: var(--px-mask-background, dt('mask.background'));\n        }\n    }\n    @keyframes p-animate-overlay-mask-leave {\n        from {\n            background: var(--px-mask-background, dt('mask.background'));\n        }\n        to {\n            background: transparent;\n        }\n    }\n\n    .p-anchored-overlay-enter-active {\n        animation: p-animate-anchored-overlay-enter 300ms cubic-bezier(.19,1,.22,1);\n    }\n\n    .p-anchored-overlay-leave-active {\n        animation: p-animate-anchored-overlay-leave 300ms cubic-bezier(.19,1,.22,1);\n    }\n\n    @keyframes p-animate-anchored-overlay-enter {\n        from {\n            opacity: 0;\n            transform: scale(0.93);\n        }\n    }\n\n    @keyframes p-animate-anchored-overlay-leave {\n        to {\n            opacity: 0;\n            transform: scale(0.93);\n        }\n    }\n";
+function _typeof$4(o2) {
   "@babel/helpers - typeof";
-  return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+  return _typeof$4 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
     return typeof o3;
   } : function(o3) {
     return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
-  }, _typeof$3(o2);
+  }, _typeof$4(o2);
 }
-function ownKeys$3(e2, r2) {
+function ownKeys$4(e2, r2) {
   var t2 = Object.keys(e2);
   if (Object.getOwnPropertySymbols) {
     var o2 = Object.getOwnPropertySymbols(e2);
@@ -6796,30 +6884,30 @@ function ownKeys$3(e2, r2) {
   }
   return t2;
 }
-function _objectSpread$3(e2) {
+function _objectSpread$4(e2) {
   for (var r2 = 1; r2 < arguments.length; r2++) {
     var t2 = null != arguments[r2] ? arguments[r2] : {};
-    r2 % 2 ? ownKeys$3(Object(t2), true).forEach(function(r3) {
-      _defineProperty$3(e2, r3, t2[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$3(Object(t2)).forEach(function(r3) {
+    r2 % 2 ? ownKeys$4(Object(t2), true).forEach(function(r3) {
+      _defineProperty$4(e2, r3, t2[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$4(Object(t2)).forEach(function(r3) {
       Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
     });
   }
   return e2;
 }
-function _defineProperty$3(e2, r2, t2) {
-  return (r2 = _toPropertyKey$3(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+function _defineProperty$4(e2, r2, t2) {
+  return (r2 = _toPropertyKey$4(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
 }
-function _toPropertyKey$3(t2) {
-  var i2 = _toPrimitive$3(t2, "string");
-  return "symbol" == _typeof$3(i2) ? i2 : i2 + "";
+function _toPropertyKey$4(t2) {
+  var i2 = _toPrimitive$4(t2, "string");
+  return "symbol" == _typeof$4(i2) ? i2 : i2 + "";
 }
-function _toPrimitive$3(t2, r2) {
-  if ("object" != _typeof$3(t2) || !t2) return t2;
+function _toPrimitive$4(t2, r2) {
+  if ("object" != _typeof$4(t2) || !t2) return t2;
   var e2 = t2[Symbol.toPrimitive];
   if (void 0 !== e2) {
     var i2 = e2.call(t2, r2);
-    if ("object" != _typeof$3(i2)) return i2;
+    if ("object" != _typeof$4(i2)) return i2;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return ("string" === r2 ? String : Number)(t2);
@@ -6843,7 +6931,7 @@ function useStyle(css3) {
   var load2 = function load3(_css) {
     var _props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     if (!document2) return;
-    var _styleProps = _objectSpread$3(_objectSpread$3({}, props), _props);
+    var _styleProps = _objectSpread$4(_objectSpread$4({}, props), _props);
     var _name = _styleProps.name || name, _id2 = _styleProps.id || id, _nonce = _styleProps.nonce || nonce;
     styleRef.value = document2.querySelector('style[data-primevue-style-id="'.concat(_name, '"]')) || document2.getElementById(_id2) || document2.createElement("style");
     if (!styleRef.value.isConnected) {
@@ -6891,34 +6979,34 @@ function useStyle(css3) {
     isLoaded: /* @__PURE__ */ readonly(isLoaded)
   };
 }
-function _typeof$2(o2) {
+function _typeof$3(o2) {
   "@babel/helpers - typeof";
-  return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+  return _typeof$3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
     return typeof o3;
   } : function(o3) {
     return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
-  }, _typeof$2(o2);
+  }, _typeof$3(o2);
 }
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
-function _slicedToArray(r2, e2) {
-  return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e2) || _unsupportedIterableToArray(r2, e2) || _nonIterableRest();
+function _slicedToArray$1(r2, e2) {
+  return _arrayWithHoles$1(r2) || _iterableToArrayLimit$1(r2, e2) || _unsupportedIterableToArray$1(r2, e2) || _nonIterableRest$1();
 }
-function _nonIterableRest() {
+function _nonIterableRest$1() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray(r2, a2) {
+function _unsupportedIterableToArray$1(r2, a2) {
   if (r2) {
-    if ("string" == typeof r2) return _arrayLikeToArray(r2, a2);
+    if ("string" == typeof r2) return _arrayLikeToArray$1(r2, a2);
     var t2 = {}.toString.call(r2).slice(8, -1);
-    return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r2, a2) : void 0;
+    return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray$1(r2, a2) : void 0;
   }
 }
-function _arrayLikeToArray(r2, a2) {
+function _arrayLikeToArray$1(r2, a2) {
   (null == a2 || a2 > r2.length) && (a2 = r2.length);
   for (var e2 = 0, n2 = Array(a2); e2 < a2; e2++) n2[e2] = r2[e2];
   return n2;
 }
-function _iterableToArrayLimit(r2, l2) {
+function _iterableToArrayLimit$1(r2, l2) {
   var t2 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
   if (null != t2) {
     var e2, n2, i2, u2, a2 = [], f2 = true, o2 = false;
@@ -6937,10 +7025,10 @@ function _iterableToArrayLimit(r2, l2) {
     return a2;
   }
 }
-function _arrayWithHoles(r2) {
+function _arrayWithHoles$1(r2) {
   if (Array.isArray(r2)) return r2;
 }
-function ownKeys$2(e2, r2) {
+function ownKeys$3(e2, r2) {
   var t2 = Object.keys(e2);
   if (Object.getOwnPropertySymbols) {
     var o2 = Object.getOwnPropertySymbols(e2);
@@ -6950,30 +7038,30 @@ function ownKeys$2(e2, r2) {
   }
   return t2;
 }
-function _objectSpread$2(e2) {
+function _objectSpread$3(e2) {
   for (var r2 = 1; r2 < arguments.length; r2++) {
     var t2 = null != arguments[r2] ? arguments[r2] : {};
-    r2 % 2 ? ownKeys$2(Object(t2), true).forEach(function(r3) {
-      _defineProperty$2(e2, r3, t2[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$2(Object(t2)).forEach(function(r3) {
+    r2 % 2 ? ownKeys$3(Object(t2), true).forEach(function(r3) {
+      _defineProperty$3(e2, r3, t2[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$3(Object(t2)).forEach(function(r3) {
       Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
     });
   }
   return e2;
 }
-function _defineProperty$2(e2, r2, t2) {
-  return (r2 = _toPropertyKey$2(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+function _defineProperty$3(e2, r2, t2) {
+  return (r2 = _toPropertyKey$3(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
 }
-function _toPropertyKey$2(t2) {
-  var i2 = _toPrimitive$2(t2, "string");
-  return "symbol" == _typeof$2(i2) ? i2 : i2 + "";
+function _toPropertyKey$3(t2) {
+  var i2 = _toPrimitive$3(t2, "string");
+  return "symbol" == _typeof$3(i2) ? i2 : i2 + "";
 }
-function _toPrimitive$2(t2, r2) {
-  if ("object" != _typeof$2(t2) || !t2) return t2;
+function _toPrimitive$3(t2, r2) {
+  if ("object" != _typeof$3(t2) || !t2) return t2;
   var e2 = t2[Symbol.toPrimitive];
   if (void 0 !== e2) {
     var i2 = e2.call(t2, r2);
-    if ("object" != _typeof$2(i2)) return i2;
+    if ("object" != _typeof$3(i2)) return i2;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return ("string" === r2 ? String : Number)(t2);
@@ -6985,13 +7073,13 @@ var css$3 = function css(_ref) {
   var dt2 = _ref.dt;
   return "\n.p-hidden-accessible {\n    border: 0;\n    clip: rect(0 0 0 0);\n    height: 1px;\n    margin: -1px;\n    opacity: 0;\n    overflow: hidden;\n    padding: 0;\n    pointer-events: none;\n    position: absolute;\n    white-space: nowrap;\n    width: 1px;\n}\n\n.p-overflow-hidden {\n    overflow: hidden;\n    padding-right: ".concat(dt2("scrollbar.width"), ";\n}\n");
 };
-var classes = {};
+var classes$1 = {};
 var inlineStyles = {};
 var BaseStyle = {
   name: "base",
   css: css$3,
-  style,
-  classes,
+  style: style$1,
+  classes: classes$1,
   inlineStyles,
   load: function load(style2) {
     var options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
@@ -6999,7 +7087,7 @@ var BaseStyle = {
       return cs;
     };
     var computedStyle = transform(ar(_templateObject || (_templateObject = _taggedTemplateLiteral(["", ""])), style2));
-    return s$b(computedStyle) ? useStyle(Y$1(computedStyle), _objectSpread$2({
+    return s$b(computedStyle) ? useStyle(Y$1(computedStyle), _objectSpread$3({
       name: this.name
     }, options)) : {};
   },
@@ -7040,7 +7128,7 @@ var BaseStyle = {
       }) || "";
       var _style = Y$1(ar(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["", "", ""])), _css, extendedCSS));
       var _props = Object.entries(props).reduce(function(acc, _ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2), k2 = _ref3[0], v2 = _ref3[1];
+        var _ref3 = _slicedToArray$1(_ref2, 2), k2 = _ref3[0], v2 = _ref3[1];
         return acc.push("".concat(k2, '="').concat(v2, '"')) && acc;
       }, []).join(" ");
       return s$b(_style) ? '<style type="text/css" data-primevue-style-id="'.concat(this.name, '" ').concat(_props, ">").concat(_style, "</style>") : "";
@@ -7061,7 +7149,7 @@ var BaseStyle = {
       }));
       var _style = Y$1(S.transformCSS(name, _css));
       var _props = Object.entries(props).reduce(function(acc, _ref4) {
-        var _ref5 = _slicedToArray(_ref4, 2), k2 = _ref5[0], v2 = _ref5[1];
+        var _ref5 = _slicedToArray$1(_ref4, 2), k2 = _ref5[0], v2 = _ref5[1];
         return acc.push("".concat(k2, '="').concat(v2, '"')) && acc;
       }, []).join(" ");
       s$b(_style) && css3.push('<style type="text/css" data-primevue-style-id="'.concat(name, '" ').concat(_props, ">").concat(_style, "</style>"));
@@ -7069,22 +7157,22 @@ var BaseStyle = {
     return css3.join("");
   },
   extend: function extend2(inStyle) {
-    return _objectSpread$2(_objectSpread$2({}, this), {}, {
+    return _objectSpread$3(_objectSpread$3({}, this), {}, {
       css: void 0,
       style: void 0
     }, inStyle);
   }
 };
 var PrimeVueService = s$a();
-function _typeof$1(o2) {
+function _typeof$2(o2) {
   "@babel/helpers - typeof";
-  return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+  return _typeof$2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
     return typeof o3;
   } : function(o3) {
     return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
-  }, _typeof$1(o2);
+  }, _typeof$2(o2);
 }
-function ownKeys$1(e2, r2) {
+function ownKeys$2(e2, r2) {
   var t2 = Object.keys(e2);
   if (Object.getOwnPropertySymbols) {
     var o2 = Object.getOwnPropertySymbols(e2);
@@ -7094,30 +7182,30 @@ function ownKeys$1(e2, r2) {
   }
   return t2;
 }
-function _objectSpread$1(e2) {
+function _objectSpread$2(e2) {
   for (var r2 = 1; r2 < arguments.length; r2++) {
     var t2 = null != arguments[r2] ? arguments[r2] : {};
-    r2 % 2 ? ownKeys$1(Object(t2), true).forEach(function(r3) {
-      _defineProperty$1(e2, r3, t2[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$1(Object(t2)).forEach(function(r3) {
+    r2 % 2 ? ownKeys$2(Object(t2), true).forEach(function(r3) {
+      _defineProperty$2(e2, r3, t2[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$2(Object(t2)).forEach(function(r3) {
       Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
     });
   }
   return e2;
 }
-function _defineProperty$1(e2, r2, t2) {
-  return (r2 = _toPropertyKey$1(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+function _defineProperty$2(e2, r2, t2) {
+  return (r2 = _toPropertyKey$2(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
 }
-function _toPropertyKey$1(t2) {
-  var i2 = _toPrimitive$1(t2, "string");
-  return "symbol" == _typeof$1(i2) ? i2 : i2 + "";
+function _toPropertyKey$2(t2) {
+  var i2 = _toPrimitive$2(t2, "string");
+  return "symbol" == _typeof$2(i2) ? i2 : i2 + "";
 }
-function _toPrimitive$1(t2, r2) {
-  if ("object" != _typeof$1(t2) || !t2) return t2;
+function _toPrimitive$2(t2, r2) {
+  if ("object" != _typeof$2(t2) || !t2) return t2;
   var e2 = t2[Symbol.toPrimitive];
   if (void 0 !== e2) {
     var i2 = e2.call(t2, r2);
-    if ("object" != _typeof$1(i2)) return i2;
+    if ("object" != _typeof$2(i2)) return i2;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return ("string" === r2 ? String : Number)(t2);
@@ -7299,16 +7387,16 @@ function setupConfig(app, PrimeVue2) {
       var styleOptions = {
         nonce: (_PrimeVue$config2 = PrimeVue2.config) === null || _PrimeVue$config2 === void 0 || (_PrimeVue$config2 = _PrimeVue$config2.csp) === null || _PrimeVue$config2 === void 0 ? void 0 : _PrimeVue$config2.nonce
       };
-      BaseStyle.load(primitive === null || primitive === void 0 ? void 0 : primitive.css, _objectSpread$1({
+      BaseStyle.load(primitive === null || primitive === void 0 ? void 0 : primitive.css, _objectSpread$2({
         name: "primitive-variables"
       }, styleOptions));
-      BaseStyle.load(semantic === null || semantic === void 0 ? void 0 : semantic.css, _objectSpread$1({
+      BaseStyle.load(semantic === null || semantic === void 0 ? void 0 : semantic.css, _objectSpread$2({
         name: "semantic-variables"
       }, styleOptions));
-      BaseStyle.load(global2 === null || global2 === void 0 ? void 0 : global2.css, _objectSpread$1({
+      BaseStyle.load(global2 === null || global2 === void 0 ? void 0 : global2.css, _objectSpread$2({
         name: "global-variables"
       }, styleOptions));
-      BaseStyle.loadStyle(_objectSpread$1({
+      BaseStyle.loadStyle(_objectSpread$2({
         name: "global-style"
       }, styleOptions), style2);
       S.setLoadedStyleName("common");
@@ -7472,15 +7560,15 @@ var o$3 = { background: "{content.background}", color: "{content.color}", paddin
 var o$2 = { background: "{form.field.background}", disabledBackground: "{form.field.disabled.background}", filledBackground: "{form.field.filled.background}", filledHoverBackground: "{form.field.filled.hover.background}", filledFocusBackground: "{form.field.filled.focus.background}", borderColor: "{form.field.border.color}", hoverBorderColor: "{form.field.hover.border.color}", focusBorderColor: "{form.field.focus.border.color}", invalidBorderColor: "{form.field.invalid.border.color}", color: "{form.field.color}", disabledColor: "{form.field.disabled.color}", placeholderColor: "{form.field.placeholder.color}", invalidPlaceholderColor: "{form.field.invalid.placeholder.color}", shadow: "{form.field.shadow}", paddingX: "{form.field.padding.x}", paddingY: "{form.field.padding.y}", borderRadius: "{form.field.border.radius}", focusRing: { width: "{form.field.focus.ring.width}", style: "{form.field.focus.ring.style}", color: "{form.field.focus.ring.color}", offset: "{form.field.focus.ring.offset}", shadow: "{form.field.focus.ring.shadow}" }, transitionDuration: "{form.field.transition.duration}", sm: { fontSize: "{form.field.sm.font.size}", paddingX: "{form.field.sm.padding.x}", paddingY: "{form.field.sm.padding.y}" }, lg: { fontSize: "{form.field.lg.font.size}", paddingX: "{form.field.lg.padding.x}", paddingY: "{form.field.lg.padding.y}" } }, r$1 = { width: "2.5rem", color: "{form.field.icon.color}" }, d$1 = { background: "{overlay.select.background}", borderColor: "{overlay.select.border.color}", borderRadius: "{overlay.select.border.radius}", color: "{overlay.select.color}", shadow: "{overlay.select.shadow}" }, l$1 = { padding: "{list.padding}" }, e$2 = { padding: "{list.option.padding}" }, i$1 = { borderRadius: "{border.radius.sm}" }, f$1 = { color: "{form.field.icon.color}" }, a$1 = { root: o$2, dropdown: r$1, overlay: d$1, tree: l$1, emptyMessage: e$2, chip: i$1, clearIcon: f$1 };
 var o$1 = { transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{treetable.border.color}", color: "{content.color}", borderWidth: "0 0 1px 0", padding: "0.75rem 1rem" }, e$1 = { background: "{content.background}", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", borderColor: "{treetable.border.color}", color: "{content.color}", hoverColor: "{content.hover.color}", selectedColor: "{highlight.color}", gap: "0.5rem", padding: "0.75rem 1rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "-1px", shadow: "{focus.ring.shadow}" } }, t = { fontWeight: "600" }, c = { background: "{content.background}", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", color: "{content.color}", hoverColor: "{content.hover.color}", selectedColor: "{highlight.color}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "-1px", shadow: "{focus.ring.shadow}" } }, n = { borderColor: "{treetable.border.color}", padding: "0.75rem 1rem", gap: "0.5rem" }, l = { background: "{content.background}", borderColor: "{treetable.border.color}", color: "{content.color}", padding: "0.75rem 1rem" }, d = { fontWeight: "600" }, a = { background: "{content.background}", borderColor: "{treetable.border.color}", color: "{content.color}", borderWidth: "0 0 1px 0", padding: "0.75rem 1rem" }, i = { width: "0.5rem" }, g = { width: "1px", color: "{primary.color}" }, s = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}", size: "0.875rem" }, u = { size: "2rem" }, b = { hoverBackground: "{content.hover.background}", selectedHoverBackground: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.color}", selectedHoverColor: "{primary.color}", size: "1.75rem", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, h = { borderColor: "{content.border.color}", borderWidth: "0 0 1px 0" }, m = { borderColor: "{content.border.color}", borderWidth: "0 0 1px 0" }, f = { light: { root: { borderColor: "{content.border.color}" }, bodyCell: { selectedBorderColor: "{primary.100}" } }, dark: { root: { borderColor: "{surface.800}" }, bodyCell: { selectedBorderColor: "{primary.900}" } } }, css2 = "\n    .p-treetable-mask.p-overlay-mask {\n        --px-mask-background: light-dark(rgba(255,255,255,0.5),rgba(0,0,0,0.3));\n    }\n", k = { root: o$1, header: r, headerCell: e$1, columnTitle: t, row: c, bodyCell: n, footerCell: l, columnFooter: d, footer: a, columnResizer: i, resizeIndicator: g, sortIcon: s, loadingIcon: u, nodeToggleButton: b, paginatorTop: h, paginatorBottom: m, colorScheme: f, css: css2 };
 var o = { mask: { background: "{content.background}", color: "{text.muted.color}" }, icon: { size: "2rem" } }, e = { loader: o };
-function _typeof(o2) {
+function _typeof$1(o2) {
   "@babel/helpers - typeof";
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+  return _typeof$1 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
     return typeof o3;
   } : function(o3) {
     return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
-  }, _typeof(o2);
+  }, _typeof$1(o2);
 }
-function ownKeys(e2, r2) {
+function ownKeys$1(e2, r2) {
   var t2 = Object.keys(e2);
   if (Object.getOwnPropertySymbols) {
     var o2 = Object.getOwnPropertySymbols(e2);
@@ -7490,35 +7578,35 @@ function ownKeys(e2, r2) {
   }
   return t2;
 }
-function _objectSpread(e2) {
+function _objectSpread$1(e2) {
   for (var r2 = 1; r2 < arguments.length; r2++) {
     var t2 = null != arguments[r2] ? arguments[r2] : {};
-    r2 % 2 ? ownKeys(Object(t2), true).forEach(function(r3) {
-      _defineProperty(e2, r3, t2[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys(Object(t2)).forEach(function(r3) {
+    r2 % 2 ? ownKeys$1(Object(t2), true).forEach(function(r3) {
+      _defineProperty$1(e2, r3, t2[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys$1(Object(t2)).forEach(function(r3) {
       Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
     });
   }
   return e2;
 }
-function _defineProperty(e2, r2, t2) {
-  return (r2 = _toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+function _defineProperty$1(e2, r2, t2) {
+  return (r2 = _toPropertyKey$1(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
 }
-function _toPropertyKey(t2) {
-  var i2 = _toPrimitive(t2, "string");
-  return "symbol" == _typeof(i2) ? i2 : i2 + "";
+function _toPropertyKey$1(t2) {
+  var i2 = _toPrimitive$1(t2, "string");
+  return "symbol" == _typeof$1(i2) ? i2 : i2 + "";
 }
-function _toPrimitive(t2, r2) {
-  if ("object" != _typeof(t2) || !t2) return t2;
+function _toPrimitive$1(t2, r2) {
+  if ("object" != _typeof$1(t2) || !t2) return t2;
   var e2 = t2[Symbol.toPrimitive];
   if (void 0 !== e2) {
     var i2 = e2.call(t2, r2);
-    if ("object" != _typeof(i2)) return i2;
+    if ("object" != _typeof$1(i2)) return i2;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return ("string" === r2 ? String : Number)(t2);
 }
-var index = _objectSpread(_objectSpread({}, e$Q), {}, {
+var index = _objectSpread$1(_objectSpread$1({}, e$Q), {}, {
   components: {
     accordion: c$p,
     autocomplete: a$E,
@@ -7650,7 +7738,7 @@ async function resolveModels(metadata) {
   }
   return response.json();
 }
-const _hoisted_1$5 = { class: "api-key-warning" };
+const _hoisted_1$6 = { class: "api-key-warning" };
 const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   __name: "ApiKeyWarning",
   setup(__props) {
@@ -7663,7 +7751,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
       }));
     }
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$5, [
+      return openBlock(), createElementBlock("div", _hoisted_1$6, [
         createBaseVNode("div", { class: "warning-box" }, [
           _cache[0] || (_cache[0] = createBaseVNode("p", { class: "warning-title" }, "⚠ Civitai API Key not configured.", -1)),
           _cache[1] || (_cache[1] = createBaseVNode("p", { class: "warning-text" }, " Go to Settings (Ctrl+,) → Civitai Alchemist to set your API key. ", -1)),
@@ -7684,10 +7772,10 @@ const _export_sfc = (sfc, props) => {
   return target;
 };
 const ApiKeyWarning = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-3da5e8fa"]]);
-const _hoisted_1$4 = { class: "image-input" };
-const _hoisted_2$4 = { class: "input-row" };
-const _hoisted_3$4 = ["disabled"];
-const _hoisted_4$4 = ["disabled"];
+const _hoisted_1$5 = { class: "image-input" };
+const _hoisted_2$5 = { class: "input-row" };
+const _hoisted_3$5 = ["disabled"];
+const _hoisted_4$5 = ["disabled"];
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "ImageInput",
   props: {
@@ -7705,9 +7793,9 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       emit2("submit", inputValue.value.trim());
     }
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$4, [
+      return openBlock(), createElementBlock("div", _hoisted_1$5, [
         _cache[1] || (_cache[1] = createBaseVNode("label", { class: "input-label" }, "Image ID or URL", -1)),
-        createBaseVNode("div", _hoisted_2$4, [
+        createBaseVNode("div", _hoisted_2$5, [
           withDirectives(createBaseVNode("input", {
             ref_key: "inputEl",
             ref: inputEl,
@@ -7717,24 +7805,24 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
             placeholder: "116872916",
             disabled: __props.disabled || __props.loading,
             onKeydown: withKeys(submit, ["enter"])
-          }, null, 40, _hoisted_3$4), [
+          }, null, 40, _hoisted_3$5), [
             [vModelText, inputValue.value]
           ]),
           createBaseVNode("button", {
             class: "go-btn",
             disabled: __props.disabled || __props.loading || !inputValue.value.trim(),
             onClick: submit
-          }, toDisplayString(__props.loading ? "..." : "Go"), 9, _hoisted_4$4)
+          }, toDisplayString(__props.loading ? "..." : "Go"), 9, _hoisted_4$5)
         ])
       ]);
     };
   }
 });
 const ImageInput = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-5991d069"]]);
-const _hoisted_1$3 = { class: "generation-info" };
-const _hoisted_2$3 = { class: "param-grid" };
-const _hoisted_3$3 = { class: "param-label" };
-const _hoisted_4$3 = { class: "param-value" };
+const _hoisted_1$4 = { class: "generation-info" };
+const _hoisted_2$4 = { class: "param-grid" };
+const _hoisted_3$4 = { class: "param-label" };
+const _hoisted_4$4 = { class: "param-value" };
 const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   __name: "GenerationInfo",
   props: {
@@ -7758,7 +7846,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       return params;
     });
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", _hoisted_1$3, [
+      return openBlock(), createElementBlock("div", _hoisted_1$4, [
         _cache[4] || (_cache[4] = createBaseVNode("h3", { class: "section-title" }, "Generation Info", -1)),
         __props.metadata.prompt ? (openBlock(), createElementBlock("div", {
           key: 0,
@@ -7794,13 +7882,13 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
             [vShow, negPromptOpen.value]
           ])
         ], 2)) : createCommentVNode("", true),
-        createBaseVNode("div", _hoisted_2$3, [
+        createBaseVNode("div", _hoisted_2$4, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(visibleParams.value, (param) => {
             return openBlock(), createElementBlock(Fragment, {
               key: param.label
             }, [
-              createBaseVNode("span", _hoisted_3$3, toDisplayString(param.label), 1),
-              createBaseVNode("span", _hoisted_4$3, toDisplayString(param.value), 1)
+              createBaseVNode("span", _hoisted_3$4, toDisplayString(param.label), 1),
+              createBaseVNode("span", _hoisted_4$4, toDisplayString(param.value), 1)
             ], 64);
           }), 128))
         ])
@@ -7809,6 +7897,660 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   }
 });
 const GenerationInfo = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-34381e0c"]]);
+var Base = {
+  _loadedStyleNames: /* @__PURE__ */ new Set(),
+  getLoadedStyleNames: function getLoadedStyleNames() {
+    return this._loadedStyleNames;
+  },
+  isStyleNameLoaded: function isStyleNameLoaded(name) {
+    return this._loadedStyleNames.has(name);
+  },
+  setLoadedStyleName: function setLoadedStyleName(name) {
+    this._loadedStyleNames.add(name);
+  },
+  deleteLoadedStyleName: function deleteLoadedStyleName(name) {
+    this._loadedStyleNames["delete"](name);
+  },
+  clearLoadedStyleNames: function clearLoadedStyleNames() {
+    this._loadedStyleNames.clear();
+  }
+};
+function useAttrSelector() {
+  var prefix = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "pc";
+  var idx = useId();
+  return "".concat(prefix).concat(idx.replace("v-", "").replaceAll("-", "_"));
+}
+var BaseComponentStyle = BaseStyle.extend({
+  name: "common"
+});
+function _typeof(o2) {
+  "@babel/helpers - typeof";
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
+    return typeof o3;
+  } : function(o3) {
+    return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
+  }, _typeof(o2);
+}
+function _toArray(r2) {
+  return _arrayWithHoles(r2) || _iterableToArray(r2) || _unsupportedIterableToArray(r2) || _nonIterableRest();
+}
+function _iterableToArray(r2) {
+  if ("undefined" != typeof Symbol && null != r2[Symbol.iterator] || null != r2["@@iterator"]) return Array.from(r2);
+}
+function _slicedToArray(r2, e2) {
+  return _arrayWithHoles(r2) || _iterableToArrayLimit(r2, e2) || _unsupportedIterableToArray(r2, e2) || _nonIterableRest();
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(r2, a2) {
+  if (r2) {
+    if ("string" == typeof r2) return _arrayLikeToArray(r2, a2);
+    var t2 = {}.toString.call(r2).slice(8, -1);
+    return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r2, a2) : void 0;
+  }
+}
+function _arrayLikeToArray(r2, a2) {
+  (null == a2 || a2 > r2.length) && (a2 = r2.length);
+  for (var e2 = 0, n2 = Array(a2); e2 < a2; e2++) n2[e2] = r2[e2];
+  return n2;
+}
+function _iterableToArrayLimit(r2, l2) {
+  var t2 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
+  if (null != t2) {
+    var e2, n2, i2, u2, a2 = [], f2 = true, o2 = false;
+    try {
+      if (i2 = (t2 = t2.call(r2)).next, 0 === l2) {
+        if (Object(t2) !== t2) return;
+        f2 = false;
+      } else for (; !(f2 = (e2 = i2.call(t2)).done) && (a2.push(e2.value), a2.length !== l2); f2 = true) ;
+    } catch (r3) {
+      o2 = true, n2 = r3;
+    } finally {
+      try {
+        if (!f2 && null != t2["return"] && (u2 = t2["return"](), Object(u2) !== u2)) return;
+      } finally {
+        if (o2) throw n2;
+      }
+    }
+    return a2;
+  }
+}
+function _arrayWithHoles(r2) {
+  if (Array.isArray(r2)) return r2;
+}
+function ownKeys(e2, r2) {
+  var t2 = Object.keys(e2);
+  if (Object.getOwnPropertySymbols) {
+    var o2 = Object.getOwnPropertySymbols(e2);
+    r2 && (o2 = o2.filter(function(r3) {
+      return Object.getOwnPropertyDescriptor(e2, r3).enumerable;
+    })), t2.push.apply(t2, o2);
+  }
+  return t2;
+}
+function _objectSpread(e2) {
+  for (var r2 = 1; r2 < arguments.length; r2++) {
+    var t2 = null != arguments[r2] ? arguments[r2] : {};
+    r2 % 2 ? ownKeys(Object(t2), true).forEach(function(r3) {
+      _defineProperty(e2, r3, t2[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys(Object(t2)).forEach(function(r3) {
+      Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
+    });
+  }
+  return e2;
+}
+function _defineProperty(e2, r2, t2) {
+  return (r2 = _toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, { value: t2, enumerable: true, configurable: true, writable: true }) : e2[r2] = t2, e2;
+}
+function _toPropertyKey(t2) {
+  var i2 = _toPrimitive(t2, "string");
+  return "symbol" == _typeof(i2) ? i2 : i2 + "";
+}
+function _toPrimitive(t2, r2) {
+  if ("object" != _typeof(t2) || !t2) return t2;
+  var e2 = t2[Symbol.toPrimitive];
+  if (void 0 !== e2) {
+    var i2 = e2.call(t2, r2);
+    if ("object" != _typeof(i2)) return i2;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r2 ? String : Number)(t2);
+}
+var script$2 = {
+  name: "BaseComponent",
+  props: {
+    pt: {
+      type: Object,
+      "default": void 0
+    },
+    ptOptions: {
+      type: Object,
+      "default": void 0
+    },
+    unstyled: {
+      type: Boolean,
+      "default": void 0
+    },
+    dt: {
+      type: Object,
+      "default": void 0
+    }
+  },
+  inject: {
+    $parentInstance: {
+      "default": void 0
+    }
+  },
+  watch: {
+    isUnstyled: {
+      immediate: true,
+      handler: function handler(newValue) {
+        N.off("theme:change", this._loadCoreStyles);
+        if (!newValue) {
+          this._loadCoreStyles();
+          this._themeChangeListener(this._loadCoreStyles);
+        }
+      }
+    },
+    dt: {
+      immediate: true,
+      handler: function handler2(newValue, oldValue) {
+        var _this = this;
+        N.off("theme:change", this._themeScopedListener);
+        if (newValue) {
+          this._loadScopedThemeStyles(newValue);
+          this._themeScopedListener = function() {
+            return _this._loadScopedThemeStyles(newValue);
+          };
+          this._themeChangeListener(this._themeScopedListener);
+        } else {
+          this._unloadScopedThemeStyles();
+        }
+      }
+    }
+  },
+  scopedStyleEl: void 0,
+  rootEl: void 0,
+  uid: void 0,
+  $attrSelector: void 0,
+  beforeCreate: function beforeCreate() {
+    var _this$pt, _this$pt2, _this$pt3, _ref, _ref$onBeforeCreate, _this$$primevueConfig, _this$$primevue, _this$$primevue2, _this$$primevue3, _ref2, _ref2$onBeforeCreate;
+    var _usept = (_this$pt = this.pt) === null || _this$pt === void 0 ? void 0 : _this$pt["_usept"];
+    var originalValue = _usept ? (_this$pt2 = this.pt) === null || _this$pt2 === void 0 || (_this$pt2 = _this$pt2.originalValue) === null || _this$pt2 === void 0 ? void 0 : _this$pt2[this.$.type.name] : void 0;
+    var value = _usept ? (_this$pt3 = this.pt) === null || _this$pt3 === void 0 || (_this$pt3 = _this$pt3.value) === null || _this$pt3 === void 0 ? void 0 : _this$pt3[this.$.type.name] : this.pt;
+    (_ref = value || originalValue) === null || _ref === void 0 || (_ref = _ref.hooks) === null || _ref === void 0 || (_ref$onBeforeCreate = _ref["onBeforeCreate"]) === null || _ref$onBeforeCreate === void 0 || _ref$onBeforeCreate.call(_ref);
+    var _useptInConfig = (_this$$primevueConfig = this.$primevueConfig) === null || _this$$primevueConfig === void 0 || (_this$$primevueConfig = _this$$primevueConfig.pt) === null || _this$$primevueConfig === void 0 ? void 0 : _this$$primevueConfig["_usept"];
+    var originalValueInConfig = _useptInConfig ? (_this$$primevue = this.$primevue) === null || _this$$primevue === void 0 || (_this$$primevue = _this$$primevue.config) === null || _this$$primevue === void 0 || (_this$$primevue = _this$$primevue.pt) === null || _this$$primevue === void 0 ? void 0 : _this$$primevue.originalValue : void 0;
+    var valueInConfig = _useptInConfig ? (_this$$primevue2 = this.$primevue) === null || _this$$primevue2 === void 0 || (_this$$primevue2 = _this$$primevue2.config) === null || _this$$primevue2 === void 0 || (_this$$primevue2 = _this$$primevue2.pt) === null || _this$$primevue2 === void 0 ? void 0 : _this$$primevue2.value : (_this$$primevue3 = this.$primevue) === null || _this$$primevue3 === void 0 || (_this$$primevue3 = _this$$primevue3.config) === null || _this$$primevue3 === void 0 ? void 0 : _this$$primevue3.pt;
+    (_ref2 = valueInConfig || originalValueInConfig) === null || _ref2 === void 0 || (_ref2 = _ref2[this.$.type.name]) === null || _ref2 === void 0 || (_ref2 = _ref2.hooks) === null || _ref2 === void 0 || (_ref2$onBeforeCreate = _ref2["onBeforeCreate"]) === null || _ref2$onBeforeCreate === void 0 || _ref2$onBeforeCreate.call(_ref2);
+    this.$attrSelector = useAttrSelector();
+    this.uid = this.$attrs.id || this.$attrSelector.replace("pc", "pv_id_");
+  },
+  created: function created() {
+    this._hook("onCreated");
+  },
+  beforeMount: function beforeMount() {
+    var _this$$el;
+    this.rootEl = z(c$q(this.$el) ? this.$el : (_this$$el = this.$el) === null || _this$$el === void 0 ? void 0 : _this$$el.parentElement, "[".concat(this.$attrSelector, "]"));
+    if (this.rootEl) {
+      this.rootEl.$pc = _objectSpread({
+        name: this.$.type.name,
+        attrSelector: this.$attrSelector
+      }, this.$params);
+    }
+    this._loadStyles();
+    this._hook("onBeforeMount");
+  },
+  mounted: function mounted() {
+    this._hook("onMounted");
+  },
+  beforeUpdate: function beforeUpdate() {
+    this._hook("onBeforeUpdate");
+  },
+  updated: function updated() {
+    this._hook("onUpdated");
+  },
+  beforeUnmount: function beforeUnmount() {
+    this._hook("onBeforeUnmount");
+  },
+  unmounted: function unmounted() {
+    this._removeThemeListeners();
+    this._unloadScopedThemeStyles();
+    this._hook("onUnmounted");
+  },
+  methods: {
+    _hook: function _hook(hookName) {
+      if (!this.$options.hostName) {
+        var selfHook = this._usePT(this._getPT(this.pt, this.$.type.name), this._getOptionValue, "hooks.".concat(hookName));
+        var defaultHook = this._useDefaultPT(this._getOptionValue, "hooks.".concat(hookName));
+        selfHook === null || selfHook === void 0 || selfHook();
+        defaultHook === null || defaultHook === void 0 || defaultHook();
+      }
+    },
+    _mergeProps: function _mergeProps(fn) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+      return c$r(fn) ? fn.apply(void 0, args) : mergeProps.apply(void 0, args);
+    },
+    _load: function _load() {
+      if (!Base.isStyleNameLoaded("base")) {
+        BaseStyle.loadCSS(this.$styleOptions);
+        this._loadGlobalStyles();
+        Base.setLoadedStyleName("base");
+      }
+      this._loadThemeStyles();
+    },
+    _loadStyles: function _loadStyles() {
+      this._load();
+      this._themeChangeListener(this._load);
+    },
+    _loadCoreStyles: function _loadCoreStyles() {
+      var _this$$style, _this$$style2;
+      if (!Base.isStyleNameLoaded((_this$$style = this.$style) === null || _this$$style === void 0 ? void 0 : _this$$style.name) && (_this$$style2 = this.$style) !== null && _this$$style2 !== void 0 && _this$$style2.name) {
+        BaseComponentStyle.loadCSS(this.$styleOptions);
+        this.$options.style && this.$style.loadCSS(this.$styleOptions);
+        Base.setLoadedStyleName(this.$style.name);
+      }
+    },
+    _loadGlobalStyles: function _loadGlobalStyles() {
+      var globalCSS = this._useGlobalPT(this._getOptionValue, "global.css", this.$params);
+      s$b(globalCSS) && BaseStyle.load(globalCSS, _objectSpread({
+        name: "global"
+      }, this.$styleOptions));
+    },
+    _loadThemeStyles: function _loadThemeStyles() {
+      var _this$$style4, _this$$style5;
+      if (this.isUnstyled || this.$theme === "none") return;
+      if (!S.isStyleNameLoaded("common")) {
+        var _this$$style3, _this$$style3$getComm;
+        var _ref3 = ((_this$$style3 = this.$style) === null || _this$$style3 === void 0 || (_this$$style3$getComm = _this$$style3.getCommonTheme) === null || _this$$style3$getComm === void 0 ? void 0 : _this$$style3$getComm.call(_this$$style3)) || {}, primitive = _ref3.primitive, semantic = _ref3.semantic, global2 = _ref3.global, style2 = _ref3.style;
+        BaseStyle.load(primitive === null || primitive === void 0 ? void 0 : primitive.css, _objectSpread({
+          name: "primitive-variables"
+        }, this.$styleOptions));
+        BaseStyle.load(semantic === null || semantic === void 0 ? void 0 : semantic.css, _objectSpread({
+          name: "semantic-variables"
+        }, this.$styleOptions));
+        BaseStyle.load(global2 === null || global2 === void 0 ? void 0 : global2.css, _objectSpread({
+          name: "global-variables"
+        }, this.$styleOptions));
+        BaseStyle.loadStyle(_objectSpread({
+          name: "global-style"
+        }, this.$styleOptions), style2);
+        S.setLoadedStyleName("common");
+      }
+      if (!S.isStyleNameLoaded((_this$$style4 = this.$style) === null || _this$$style4 === void 0 ? void 0 : _this$$style4.name) && (_this$$style5 = this.$style) !== null && _this$$style5 !== void 0 && _this$$style5.name) {
+        var _this$$style6, _this$$style6$getComp, _this$$style7, _this$$style8;
+        var _ref4 = ((_this$$style6 = this.$style) === null || _this$$style6 === void 0 || (_this$$style6$getComp = _this$$style6.getComponentTheme) === null || _this$$style6$getComp === void 0 ? void 0 : _this$$style6$getComp.call(_this$$style6)) || {}, css3 = _ref4.css, _style = _ref4.style;
+        (_this$$style7 = this.$style) === null || _this$$style7 === void 0 || _this$$style7.load(css3, _objectSpread({
+          name: "".concat(this.$style.name, "-variables")
+        }, this.$styleOptions));
+        (_this$$style8 = this.$style) === null || _this$$style8 === void 0 || _this$$style8.loadStyle(_objectSpread({
+          name: "".concat(this.$style.name, "-style")
+        }, this.$styleOptions), _style);
+        S.setLoadedStyleName(this.$style.name);
+      }
+      if (!S.isStyleNameLoaded("layer-order")) {
+        var _this$$style9, _this$$style9$getLaye;
+        var layerOrder = (_this$$style9 = this.$style) === null || _this$$style9 === void 0 || (_this$$style9$getLaye = _this$$style9.getLayerOrderThemeCSS) === null || _this$$style9$getLaye === void 0 ? void 0 : _this$$style9$getLaye.call(_this$$style9);
+        BaseStyle.load(layerOrder, _objectSpread({
+          name: "layer-order",
+          first: true
+        }, this.$styleOptions));
+        S.setLoadedStyleName("layer-order");
+      }
+    },
+    _loadScopedThemeStyles: function _loadScopedThemeStyles(preset) {
+      var _this$$style0, _this$$style0$getPres, _this$$style1;
+      var _ref5 = ((_this$$style0 = this.$style) === null || _this$$style0 === void 0 || (_this$$style0$getPres = _this$$style0.getPresetTheme) === null || _this$$style0$getPres === void 0 ? void 0 : _this$$style0$getPres.call(_this$$style0, preset, "[".concat(this.$attrSelector, "]"))) || {}, css3 = _ref5.css;
+      var scopedStyle = (_this$$style1 = this.$style) === null || _this$$style1 === void 0 ? void 0 : _this$$style1.load(css3, _objectSpread({
+        name: "".concat(this.$attrSelector, "-").concat(this.$style.name)
+      }, this.$styleOptions));
+      this.scopedStyleEl = scopedStyle.el;
+    },
+    _unloadScopedThemeStyles: function _unloadScopedThemeStyles() {
+      var _this$scopedStyleEl;
+      (_this$scopedStyleEl = this.scopedStyleEl) === null || _this$scopedStyleEl === void 0 || (_this$scopedStyleEl = _this$scopedStyleEl.value) === null || _this$scopedStyleEl === void 0 || _this$scopedStyleEl.remove();
+    },
+    _themeChangeListener: function _themeChangeListener() {
+      var callback = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
+      };
+      Base.clearLoadedStyleNames();
+      N.on("theme:change", callback);
+    },
+    _removeThemeListeners: function _removeThemeListeners() {
+      N.off("theme:change", this._loadCoreStyles);
+      N.off("theme:change", this._load);
+      N.off("theme:change", this._themeScopedListener);
+    },
+    _getHostInstance: function _getHostInstance(instance) {
+      return instance ? this.$options.hostName ? instance.$.type.name === this.$options.hostName ? instance : this._getHostInstance(instance.$parentInstance) : instance.$parentInstance : void 0;
+    },
+    _getPropValue: function _getPropValue(name) {
+      var _this$_getHostInstanc;
+      return this[name] || ((_this$_getHostInstanc = this._getHostInstance(this)) === null || _this$_getHostInstanc === void 0 ? void 0 : _this$_getHostInstanc[name]);
+    },
+    _getOptionValue: function _getOptionValue(options) {
+      var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
+      var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+      return F$1(options, key, params);
+    },
+    _getPTValue: function _getPTValue() {
+      var _this$$primevueConfig2;
+      var obj = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
+      var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+      var searchInDefaultPT = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : true;
+      var searchOut = /./g.test(key) && !!params[key.split(".")[0]];
+      var _ref6 = this._getPropValue("ptOptions") || ((_this$$primevueConfig2 = this.$primevueConfig) === null || _this$$primevueConfig2 === void 0 ? void 0 : _this$$primevueConfig2.ptOptions) || {}, _ref6$mergeSections = _ref6.mergeSections, mergeSections = _ref6$mergeSections === void 0 ? true : _ref6$mergeSections, _ref6$mergeProps = _ref6.mergeProps, useMergeProps = _ref6$mergeProps === void 0 ? false : _ref6$mergeProps;
+      var global2 = searchInDefaultPT ? searchOut ? this._useGlobalPT(this._getPTClassValue, key, params) : this._useDefaultPT(this._getPTClassValue, key, params) : void 0;
+      var self2 = searchOut ? void 0 : this._getPTSelf(obj, this._getPTClassValue, key, _objectSpread(_objectSpread({}, params), {}, {
+        global: global2 || {}
+      }));
+      var datasets = this._getPTDatasets(key);
+      return mergeSections || !mergeSections && self2 ? useMergeProps ? this._mergeProps(useMergeProps, global2, self2, datasets) : _objectSpread(_objectSpread(_objectSpread({}, global2), self2), datasets) : _objectSpread(_objectSpread({}, self2), datasets);
+    },
+    _getPTSelf: function _getPTSelf() {
+      var obj = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key3 = 1; _key3 < _len2; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
+      }
+      return mergeProps(
+        this._usePT.apply(this, [this._getPT(obj, this.$name)].concat(args)),
+        // Exp; <component :pt="{}"
+        this._usePT.apply(this, [this.$_attrsPT].concat(args))
+        // Exp; <component :pt:[passthrough_key]:[attribute]="{value}" or <component :pt:[passthrough_key]="() =>{value}"
+      );
+    },
+    _getPTDatasets: function _getPTDatasets() {
+      var _this$pt4, _this$pt5;
+      var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+      var datasetPrefix = "data-pc-";
+      var isExtended = key === "root" && s$b((_this$pt4 = this.pt) === null || _this$pt4 === void 0 ? void 0 : _this$pt4["data-pc-section"]);
+      return key !== "transition" && _objectSpread(_objectSpread({}, key === "root" && _objectSpread(_objectSpread(_defineProperty({}, "".concat(datasetPrefix, "name"), g$5(isExtended ? (_this$pt5 = this.pt) === null || _this$pt5 === void 0 ? void 0 : _this$pt5["data-pc-section"] : this.$.type.name)), isExtended && _defineProperty({}, "".concat(datasetPrefix, "extend"), g$5(this.$.type.name))), {}, _defineProperty({}, "".concat(this.$attrSelector), ""))), {}, _defineProperty({}, "".concat(datasetPrefix, "section"), g$5(key)));
+    },
+    _getPTClassValue: function _getPTClassValue() {
+      var value = this._getOptionValue.apply(this, arguments);
+      return a$F(value) || C$1(value) ? {
+        "class": value
+      } : value;
+    },
+    _getPT: function _getPT(pt) {
+      var _this2 = this;
+      var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
+      var callback = arguments.length > 2 ? arguments[2] : void 0;
+      var getValue = function getValue2(value) {
+        var _ref8;
+        var checkSameKey = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
+        var computedValue = callback ? callback(value) : value;
+        var _key = g$5(key);
+        var _cKey = g$5(_this2.$name);
+        return (_ref8 = checkSameKey ? _key !== _cKey ? computedValue === null || computedValue === void 0 ? void 0 : computedValue[_key] : void 0 : computedValue === null || computedValue === void 0 ? void 0 : computedValue[_key]) !== null && _ref8 !== void 0 ? _ref8 : computedValue;
+      };
+      return pt !== null && pt !== void 0 && pt.hasOwnProperty("_usept") ? {
+        _usept: pt["_usept"],
+        originalValue: getValue(pt.originalValue),
+        value: getValue(pt.value)
+      } : getValue(pt, true);
+    },
+    _usePT: function _usePT(pt, callback, key, params) {
+      var fn = function fn2(value2) {
+        return callback(value2, key, params);
+      };
+      if (pt !== null && pt !== void 0 && pt.hasOwnProperty("_usept")) {
+        var _this$$primevueConfig3;
+        var _ref9 = pt["_usept"] || ((_this$$primevueConfig3 = this.$primevueConfig) === null || _this$$primevueConfig3 === void 0 ? void 0 : _this$$primevueConfig3.ptOptions) || {}, _ref9$mergeSections = _ref9.mergeSections, mergeSections = _ref9$mergeSections === void 0 ? true : _ref9$mergeSections, _ref9$mergeProps = _ref9.mergeProps, useMergeProps = _ref9$mergeProps === void 0 ? false : _ref9$mergeProps;
+        var originalValue = fn(pt.originalValue);
+        var value = fn(pt.value);
+        if (originalValue === void 0 && value === void 0) return void 0;
+        else if (a$F(value)) return value;
+        else if (a$F(originalValue)) return originalValue;
+        return mergeSections || !mergeSections && value ? useMergeProps ? this._mergeProps(useMergeProps, originalValue, value) : _objectSpread(_objectSpread({}, originalValue), value) : value;
+      }
+      return fn(pt);
+    },
+    _useGlobalPT: function _useGlobalPT(callback, key, params) {
+      return this._usePT(this.globalPT, callback, key, params);
+    },
+    _useDefaultPT: function _useDefaultPT(callback, key, params) {
+      return this._usePT(this.defaultPT, callback, key, params);
+    },
+    ptm: function ptm() {
+      var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+      var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+      return this._getPTValue(this.pt, key, _objectSpread(_objectSpread({}, this.$params), params));
+    },
+    ptmi: function ptmi() {
+      var _attrs$id;
+      var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+      var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+      var attrs = mergeProps(this.$_attrsWithoutPT, this.ptm(key, params));
+      (attrs === null || attrs === void 0 ? void 0 : attrs.hasOwnProperty("id")) && ((_attrs$id = attrs.id) !== null && _attrs$id !== void 0 ? _attrs$id : attrs.id = this.$id);
+      return attrs;
+    },
+    ptmo: function ptmo() {
+      var obj = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      var key = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
+      var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+      return this._getPTValue(obj, key, _objectSpread({
+        instance: this
+      }, params), false);
+    },
+    cx: function cx() {
+      var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+      var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+      return !this.isUnstyled ? this._getOptionValue(this.$style.classes, key, _objectSpread(_objectSpread({}, this.$params), params)) : void 0;
+    },
+    sx: function sx() {
+      var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
+      var when = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+      var params = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+      if (when) {
+        var self2 = this._getOptionValue(this.$style.inlineStyles, key, _objectSpread(_objectSpread({}, this.$params), params));
+        var base = this._getOptionValue(BaseComponentStyle.inlineStyles, key, _objectSpread(_objectSpread({}, this.$params), params));
+        return [base, self2];
+      }
+      return void 0;
+    }
+  },
+  computed: {
+    globalPT: function globalPT() {
+      var _this$$primevueConfig4, _this3 = this;
+      return this._getPT((_this$$primevueConfig4 = this.$primevueConfig) === null || _this$$primevueConfig4 === void 0 ? void 0 : _this$$primevueConfig4.pt, void 0, function(value) {
+        return m$3(value, {
+          instance: _this3
+        });
+      });
+    },
+    defaultPT: function defaultPT() {
+      var _this$$primevueConfig5, _this4 = this;
+      return this._getPT((_this$$primevueConfig5 = this.$primevueConfig) === null || _this$$primevueConfig5 === void 0 ? void 0 : _this$$primevueConfig5.pt, void 0, function(value) {
+        return _this4._getOptionValue(value, _this4.$name, _objectSpread({}, _this4.$params)) || m$3(value, _objectSpread({}, _this4.$params));
+      });
+    },
+    isUnstyled: function isUnstyled() {
+      var _this$$primevueConfig6;
+      return this.unstyled !== void 0 ? this.unstyled : (_this$$primevueConfig6 = this.$primevueConfig) === null || _this$$primevueConfig6 === void 0 ? void 0 : _this$$primevueConfig6.unstyled;
+    },
+    $id: function $id() {
+      return this.$attrs.id || this.uid;
+    },
+    $inProps: function $inProps() {
+      var _this$$$vnode;
+      var nodePropKeys = Object.keys(((_this$$$vnode = this.$.vnode) === null || _this$$$vnode === void 0 ? void 0 : _this$$$vnode.props) || {});
+      return Object.fromEntries(Object.entries(this.$props).filter(function(_ref0) {
+        var _ref1 = _slicedToArray(_ref0, 1), k2 = _ref1[0];
+        return nodePropKeys === null || nodePropKeys === void 0 ? void 0 : nodePropKeys.includes(k2);
+      }));
+    },
+    $theme: function $theme() {
+      var _this$$primevueConfig7;
+      return (_this$$primevueConfig7 = this.$primevueConfig) === null || _this$$primevueConfig7 === void 0 ? void 0 : _this$$primevueConfig7.theme;
+    },
+    $style: function $style() {
+      return _objectSpread(_objectSpread({
+        classes: void 0,
+        inlineStyles: void 0,
+        load: function load2() {
+        },
+        loadCSS: function loadCSS2() {
+        },
+        loadStyle: function loadStyle2() {
+        }
+      }, (this._getHostInstance(this) || {}).$style), this.$options.style);
+    },
+    $styleOptions: function $styleOptions() {
+      var _this$$primevueConfig8;
+      return {
+        nonce: (_this$$primevueConfig8 = this.$primevueConfig) === null || _this$$primevueConfig8 === void 0 || (_this$$primevueConfig8 = _this$$primevueConfig8.csp) === null || _this$$primevueConfig8 === void 0 ? void 0 : _this$$primevueConfig8.nonce
+      };
+    },
+    $primevueConfig: function $primevueConfig() {
+      var _this$$primevue4;
+      return (_this$$primevue4 = this.$primevue) === null || _this$$primevue4 === void 0 ? void 0 : _this$$primevue4.config;
+    },
+    $name: function $name() {
+      return this.$options.hostName || this.$.type.name;
+    },
+    $params: function $params() {
+      var parentInstance = this._getHostInstance(this) || this.$parent;
+      return {
+        instance: this,
+        props: this.$props,
+        state: this.$data,
+        attrs: this.$attrs,
+        parent: {
+          instance: parentInstance,
+          props: parentInstance === null || parentInstance === void 0 ? void 0 : parentInstance.$props,
+          state: parentInstance === null || parentInstance === void 0 ? void 0 : parentInstance.$data,
+          attrs: parentInstance === null || parentInstance === void 0 ? void 0 : parentInstance.$attrs
+        }
+      };
+    },
+    $_attrsPT: function $_attrsPT() {
+      return Object.entries(this.$attrs || {}).filter(function(_ref10) {
+        var _ref11 = _slicedToArray(_ref10, 1), key = _ref11[0];
+        return key === null || key === void 0 ? void 0 : key.startsWith("pt:");
+      }).reduce(function(result, _ref12) {
+        var _ref13 = _slicedToArray(_ref12, 2), key = _ref13[0], value = _ref13[1];
+        var _key$split = key.split(":"), _key$split2 = _toArray(_key$split), rest = _arrayLikeToArray(_key$split2).slice(1);
+        rest === null || rest === void 0 || rest.reduce(function(currentObj, nestedKey, index2, array) {
+          !currentObj[nestedKey] && (currentObj[nestedKey] = index2 === array.length - 1 ? value : {});
+          return currentObj[nestedKey];
+        }, result);
+        return result;
+      }, {});
+    },
+    $_attrsWithoutPT: function $_attrsWithoutPT() {
+      return Object.entries(this.$attrs || {}).filter(function(_ref14) {
+        var _ref15 = _slicedToArray(_ref14, 1), key = _ref15[0];
+        return !(key !== null && key !== void 0 && key.startsWith("pt:"));
+      }).reduce(function(acc, _ref16) {
+        var _ref17 = _slicedToArray(_ref16, 2), key = _ref17[0], value = _ref17[1];
+        acc[key] = value;
+        return acc;
+      }, {});
+    }
+  }
+};
+var style = "\n    .p-progressbar {\n        display: block;\n        position: relative;\n        overflow: hidden;\n        height: dt('progressbar.height');\n        background: dt('progressbar.background');\n        border-radius: dt('progressbar.border.radius');\n    }\n\n    .p-progressbar-value {\n        margin: 0;\n        background: dt('progressbar.value.background');\n    }\n\n    .p-progressbar-label {\n        color: dt('progressbar.label.color');\n        font-size: dt('progressbar.label.font.size');\n        font-weight: dt('progressbar.label.font.weight');\n    }\n\n    .p-progressbar-determinate .p-progressbar-value {\n        height: 100%;\n        width: 0%;\n        position: absolute;\n        display: none;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        overflow: hidden;\n        transition: width 1s ease-in-out;\n    }\n\n    .p-progressbar-determinate .p-progressbar-label {\n        display: inline-flex;\n    }\n\n    .p-progressbar-indeterminate .p-progressbar-value::before {\n        content: '';\n        position: absolute;\n        background: inherit;\n        inset-block-start: 0;\n        inset-inline-start: 0;\n        inset-block-end: 0;\n        will-change: inset-inline-start, inset-inline-end;\n        animation: p-progressbar-indeterminate-anim 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;\n    }\n\n    .p-progressbar-indeterminate .p-progressbar-value::after {\n        content: '';\n        position: absolute;\n        background: inherit;\n        inset-block-start: 0;\n        inset-inline-start: 0;\n        inset-block-end: 0;\n        will-change: inset-inline-start, inset-inline-end;\n        animation: p-progressbar-indeterminate-anim-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;\n        animation-delay: 1.15s;\n    }\n\n    @keyframes p-progressbar-indeterminate-anim {\n        0% {\n            inset-inline-start: -35%;\n            inset-inline-end: 100%;\n        }\n        60% {\n            inset-inline-start: 100%;\n            inset-inline-end: -90%;\n        }\n        100% {\n            inset-inline-start: 100%;\n            inset-inline-end: -90%;\n        }\n    }\n    @-webkit-keyframes p-progressbar-indeterminate-anim {\n        0% {\n            inset-inline-start: -35%;\n            inset-inline-end: 100%;\n        }\n        60% {\n            inset-inline-start: 100%;\n            inset-inline-end: -90%;\n        }\n        100% {\n            inset-inline-start: 100%;\n            inset-inline-end: -90%;\n        }\n    }\n\n    @keyframes p-progressbar-indeterminate-anim-short {\n        0% {\n            inset-inline-start: -200%;\n            inset-inline-end: 100%;\n        }\n        60% {\n            inset-inline-start: 107%;\n            inset-inline-end: -8%;\n        }\n        100% {\n            inset-inline-start: 107%;\n            inset-inline-end: -8%;\n        }\n    }\n    @-webkit-keyframes p-progressbar-indeterminate-anim-short {\n        0% {\n            inset-inline-start: -200%;\n            inset-inline-end: 100%;\n        }\n        60% {\n            inset-inline-start: 107%;\n            inset-inline-end: -8%;\n        }\n        100% {\n            inset-inline-start: 107%;\n            inset-inline-end: -8%;\n        }\n    }\n";
+var classes = {
+  root: function root(_ref) {
+    var instance = _ref.instance;
+    return ["p-progressbar p-component", {
+      "p-progressbar-determinate": instance.determinate,
+      "p-progressbar-indeterminate": instance.indeterminate
+    }];
+  },
+  value: "p-progressbar-value",
+  label: "p-progressbar-label"
+};
+var ProgressBarStyle = BaseStyle.extend({
+  name: "progressbar",
+  style,
+  classes
+});
+var script$1 = {
+  name: "BaseProgressBar",
+  "extends": script$2,
+  props: {
+    value: {
+      type: Number,
+      "default": null
+    },
+    mode: {
+      type: String,
+      "default": "determinate"
+    },
+    showValue: {
+      type: Boolean,
+      "default": true
+    }
+  },
+  style: ProgressBarStyle,
+  provide: function provide2() {
+    return {
+      $pcProgressBar: this,
+      $parentInstance: this
+    };
+  }
+};
+var script = {
+  name: "ProgressBar",
+  "extends": script$1,
+  inheritAttrs: false,
+  computed: {
+    progressStyle: function progressStyle() {
+      return {
+        width: this.value + "%",
+        display: "flex"
+      };
+    },
+    indeterminate: function indeterminate() {
+      return this.mode === "indeterminate";
+    },
+    determinate: function determinate() {
+      return this.mode === "determinate";
+    },
+    dataP: function dataP() {
+      return f$a({
+        determinate: this.determinate,
+        indeterminate: this.indeterminate
+      });
+    }
+  }
+};
+var _hoisted_1$3 = ["aria-valuenow", "data-p"];
+var _hoisted_2$3 = ["data-p"];
+var _hoisted_3$3 = ["data-p"];
+var _hoisted_4$3 = ["data-p"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", mergeProps({
+    role: "progressbar",
+    "class": _ctx.cx("root"),
+    "aria-valuemin": "0",
+    "aria-valuenow": _ctx.value,
+    "aria-valuemax": "100",
+    "data-p": $options.dataP
+  }, _ctx.ptmi("root")), [$options.determinate ? (openBlock(), createElementBlock("div", mergeProps({
+    key: 0,
+    "class": _ctx.cx("value"),
+    style: $options.progressStyle,
+    "data-p": $options.dataP
+  }, _ctx.ptm("value")), [_ctx.value != null && _ctx.value !== 0 && _ctx.showValue ? (openBlock(), createElementBlock("div", mergeProps({
+    key: 0,
+    "class": _ctx.cx("label"),
+    "data-p": $options.dataP
+  }, _ctx.ptm("label")), [renderSlot(_ctx.$slots, "default", {}, function() {
+    return [createTextVNode(toDisplayString(_ctx.value + "%"), 1)];
+  })], 16, _hoisted_3$3)) : createCommentVNode("", true)], 16, _hoisted_2$3)) : $options.indeterminate ? (openBlock(), createElementBlock("div", mergeProps({
+    key: 1,
+    "class": _ctx.cx("value"),
+    "data-p": $options.dataP
+  }, _ctx.ptm("value")), null, 16, _hoisted_4$3)) : createCommentVNode("", true)], 16, _hoisted_1$3);
+}
+script.render = render;
 const _hoisted_1$2 = { class: "card-header" };
 const _hoisted_2$2 = { class: "model-status" };
 const _hoisted_3$2 = ["title"];
@@ -7818,15 +8560,63 @@ const _hoisted_6$1 = { class: "model-size" };
 const _hoisted_7$1 = ["title"];
 const _hoisted_8$1 = {
   key: 1,
-  class: "card-error"
+  class: "card-detail"
+};
+const _hoisted_9$1 = { class: "card-error" };
+const _hoisted_10 = {
+  key: 2,
+  class: "card-detail"
+};
+const _hoisted_11 = {
+  key: 3,
+  class: "card-detail"
+};
+const _hoisted_12 = {
+  key: 4,
+  class: "card-detail"
+};
+const _hoisted_13 = { class: "progress-text" };
+const _hoisted_14 = {
+  key: 5,
+  class: "card-detail"
+};
+const _hoisted_15 = {
+  key: 6,
+  class: "card-detail"
+};
+const _hoisted_16 = { class: "card-error" };
+const _hoisted_17 = {
+  key: 7,
+  class: "card-detail"
 };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "ModelCard",
   props: {
     resource: {}
   },
+  emits: ["download", "cancel", "retry"],
   setup(__props) {
     const props = __props;
+    const isDownloading = computed(() => {
+      const s2 = props.resource.downloadStatus;
+      return s2 === "downloading" || s2 === "verifying" || s2 === "waiting";
+    });
+    const showDownloadButton = computed(() => {
+      const r2 = props.resource;
+      return !r2.already_downloaded && r2.resolved && (!r2.downloadStatus || r2.downloadStatus === "idle");
+    });
+    const statusIcon = computed(() => {
+      const r2 = props.resource;
+      if (r2.downloadStatus === "downloading" || r2.downloadStatus === "verifying" || r2.downloadStatus === "waiting") return "⏳";
+      if (r2.already_downloaded) return "✅";
+      return "❌";
+    });
+    const cardClass = computed(() => {
+      const r2 = props.resource;
+      if (r2.downloadStatus === "downloading" || r2.downloadStatus === "verifying" || r2.downloadStatus === "waiting") return "model-downloading";
+      if (!r2.already_downloaded) return "model-missing";
+      return "";
+    });
     const displayName = computed(() => {
       const name = props.resource.name;
       if (name && name !== "unknown") return name;
@@ -7850,12 +8640,21 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       }
       return p2.replace(/\\/g, "/").split("/").pop() || p2;
     });
+    function formatBytes(bytes) {
+      if (bytes == null) return "?";
+      if (bytes >= 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+      if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+      if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${bytes} B`;
+    }
+    const formattedDownloaded = computed(() => formatBytes(props.resource.downloadedBytes));
+    const formattedTotal = computed(() => formatBytes(props.resource.totalBytes));
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
-        class: normalizeClass(["model-card", { "model-missing": !__props.resource.already_downloaded }])
+        class: normalizeClass(["model-card", cardClass.value])
       }, [
         createBaseVNode("div", _hoisted_1$2, [
-          createBaseVNode("span", _hoisted_2$2, toDisplayString(__props.resource.already_downloaded ? "✅" : "❌"), 1),
+          createBaseVNode("span", _hoisted_2$2, toDisplayString(statusIcon.value), 1),
           createBaseVNode("span", {
             class: "model-name",
             title: displayName.value
@@ -7863,7 +8662,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           createBaseVNode("span", _hoisted_4$2, [
             createBaseVNode("span", _hoisted_5$2, toDisplayString(__props.resource.type), 1),
             formattedSize.value ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-              _cache[0] || (_cache[0] = createBaseVNode("span", { class: "meta-sep" }, "·", -1)),
+              _cache[4] || (_cache[4] = createBaseVNode("span", { class: "meta-sep" }, "·", -1)),
               createBaseVNode("span", _hoisted_6$1, toDisplayString(formattedSize.value), 1)
             ], 64)) : createCommentVNode("", true)
           ])
@@ -7873,12 +8672,52 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           class: "card-path",
           title: __props.resource.target_path
         }, toDisplayString(shortenedPath.value), 9, _hoisted_7$1)) : createCommentVNode("", true),
-        !__props.resource.resolved && __props.resource.error ? (openBlock(), createElementBlock("div", _hoisted_8$1, toDisplayString(__props.resource.error), 1)) : createCommentVNode("", true)
+        !__props.resource.already_downloaded && !__props.resource.resolved && !isDownloading.value ? (openBlock(), createElementBlock("div", _hoisted_8$1, [
+          createBaseVNode("span", _hoisted_9$1, toDisplayString(__props.resource.error || "Cannot resolve"), 1)
+        ])) : createCommentVNode("", true),
+        showDownloadButton.value ? (openBlock(), createElementBlock("div", _hoisted_10, [
+          createBaseVNode("button", {
+            class: "action-btn download-btn",
+            onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("download", __props.resource))
+          }, "Download")
+        ])) : createCommentVNode("", true),
+        __props.resource.downloadStatus === "waiting" ? (openBlock(), createElementBlock("div", _hoisted_11, [..._cache[5] || (_cache[5] = [
+          createBaseVNode("span", { class: "card-status-text" }, "Waiting...", -1)
+        ])])) : createCommentVNode("", true),
+        __props.resource.downloadStatus === "downloading" ? (openBlock(), createElementBlock("div", _hoisted_12, [
+          createVNode(unref(script), {
+            value: __props.resource.downloadProgress ?? 0,
+            showValue: (__props.resource.downloadProgress ?? 0) > 10,
+            class: "download-progress"
+          }, null, 8, ["value", "showValue"]),
+          createBaseVNode("span", _hoisted_13, toDisplayString(formattedDownloaded.value) + " / " + toDisplayString(formattedTotal.value), 1),
+          createBaseVNode("button", {
+            class: "action-btn cancel-btn",
+            onClick: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("cancel", __props.resource))
+          }, "Cancel")
+        ])) : createCommentVNode("", true),
+        __props.resource.downloadStatus === "verifying" ? (openBlock(), createElementBlock("div", _hoisted_14, [..._cache[6] || (_cache[6] = [
+          createBaseVNode("span", { class: "card-status-text" }, "Verifying SHA256...", -1)
+        ])])) : createCommentVNode("", true),
+        __props.resource.downloadStatus === "failed" ? (openBlock(), createElementBlock("div", _hoisted_15, [
+          createBaseVNode("span", _hoisted_16, toDisplayString(__props.resource.downloadError || "Download failed"), 1),
+          createBaseVNode("button", {
+            class: "action-btn retry-btn",
+            onClick: _cache[2] || (_cache[2] = ($event) => _ctx.$emit("retry", __props.resource))
+          }, "Retry")
+        ])) : createCommentVNode("", true),
+        __props.resource.downloadStatus === "cancelled" ? (openBlock(), createElementBlock("div", _hoisted_17, [
+          _cache[7] || (_cache[7] = createBaseVNode("span", { class: "card-status-text" }, "Cancelled", -1)),
+          createBaseVNode("button", {
+            class: "action-btn download-btn",
+            onClick: _cache[3] || (_cache[3] = ($event) => _ctx.$emit("download", __props.resource))
+          }, "Download")
+        ])) : createCommentVNode("", true)
       ], 2);
     };
   }
 });
-const ModelCard = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-c5f735fa"]]);
+const ModelCard = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-75a4eecf"]]);
 const _hoisted_1$1 = { class: "model-list" };
 const _hoisted_2$1 = { class: "section-header" };
 const _hoisted_3$1 = {
@@ -7895,6 +8734,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     resources: {}
   },
+  emits: ["download", "cancel", "retry"],
   setup(__props) {
     const props = __props;
     const missingCount = computed(
@@ -7903,14 +8743,17 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createBaseVNode("div", _hoisted_2$1, [
-          _cache[0] || (_cache[0] = createBaseVNode("h3", { class: "section-title" }, "Models", -1)),
+          _cache[3] || (_cache[3] = createBaseVNode("h3", { class: "section-title" }, "Models", -1)),
           missingCount.value === 0 ? (openBlock(), createElementBlock("span", _hoisted_3$1, "All found")) : (openBlock(), createElementBlock("span", _hoisted_4$1, "Missing: " + toDisplayString(missingCount.value) + " of " + toDisplayString(__props.resources.length), 1))
         ]),
         createBaseVNode("div", _hoisted_5$1, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(__props.resources, (resource, index2) => {
             return openBlock(), createBlock(ModelCard, {
               key: index2,
-              resource
+              resource,
+              onDownload: _cache[0] || (_cache[0] = (r2) => _ctx.$emit("download", r2)),
+              onCancel: _cache[1] || (_cache[1] = (r2) => _ctx.$emit("cancel", r2)),
+              onRetry: _cache[2] || (_cache[2] = (r2) => _ctx.$emit("retry", r2))
             }, null, 8, ["resource"]);
           }), 128))
         ])
@@ -7918,7 +8761,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const ModelList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-20364ad0"]]);
+const ModelList = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-f57a1591"]]);
 const _hoisted_1 = { class: "comfy-vue-side-bar-container flex h-full flex-col" };
 const _hoisted_2 = { class: "comfy-vue-side-bar-header flex flex-col gap-2" };
 const _hoisted_3 = { class: "px-2 2xl:px-4 pb-2" };
