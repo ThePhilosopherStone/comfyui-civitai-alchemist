@@ -7,7 +7,7 @@
 
 ## 任務概要
 
-- [ ] 重構 pyproject.toml 與 Pipeline 相容性調整
+- [x] 重構 pyproject.toml 與 Pipeline 相容性調整
 - [ ] 建立前端 Vue 3 專案與 Sidebar 框架
 - [ ] 實作後端 API Routes 與 Pipeline 重構
 - [ ] 實作前端 API Key 管理與 Image Input 元件
@@ -52,7 +52,7 @@
 - 在沒有 tqdm/dotenv 的環境中 import `utils.model_manager` 和 `pipeline.fetch_metadata` 不會崩潰
 
 **實作備註**
-<!-- 執行過程中填寫重要的技術決策、障礙和需要傳遞的上下文 -->
+照預期開發
 
 ---
 

@@ -1,68 +1,32 @@
 [project]
 name = "comfyui-civitai-alchemist"
-version = "0.1.0"
 description = "Reproduce Civitai images locally via ComfyUI"
+version = "0.1.0"
+license = { file = "LICENSE" }
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+# CLI mode requires tqdm (progress bars) and python-dotenv (.env loading)
+cli = [
     "tqdm",
     "python-dotenv",
 ]
 
-[project.optional-dependencies]
-# Full development environment (PyTorch + ComfyUI dependencies)
-dev = [
-    "torch>=2.7.0",
-    "torchvision>=0.20.0",
-    "torchaudio>=2.7.0",
-    "sageattention>=1.0.0",
-    "numpy==1.26.4",
-    "triton>=3.3.0",
-    "torchsde",
-    "einops",
-    "transformers>=4.50.3",
-    "tokenizers>=0.13.3",
-    "sentencepiece",
-    "safetensors>=0.4.2",
-    "aiohttp>=3.11.8",
-    "yarl>=1.18.0",
-    "pyyaml",
-    "pillow",
-    "scipy",
-    "psutil",
-    "alembic",
-    "sqlalchemy",
-    "av>=14.2.0",
-    "beautifulsoup4>=4.12.0",
-]
-# Flash Attention (optional, may require compilation)
-flash-attn = [
-    "flash-attn>=2.8.3",
-]
+[project.urls]
+Repository = "https://github.com/ThePhilosopherStone/comfyui-civitai-alchemist"
+
+[tool.comfy]
+PublisherId = "ThePhilosopherStone"
+DisplayName = "Civitai Alchemist"
+Icon = ""
+includes = ["js/"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
-explicit = true
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cu130" },
-]
-torchvision = [
-    { index = "pytorch-cu130" },
-]
-torchaudio = [
-    { index = "pytorch-cu130" },
-]
-
 [tool.hatch.build.targets.wheel]
 packages = ["."]
-
-[tool.uv]
-# Python version preference (new format)
-# Use requires-python in [project] section instead

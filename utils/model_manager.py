@@ -10,7 +10,11 @@ from pathlib import Path
 from typing import List, Optional
 
 import requests
-from tqdm import tqdm
+
+try:
+    from tqdm import tqdm
+except ImportError:
+    tqdm = None
 
 
 class ModelManager:
@@ -127,16 +131,21 @@ class ModelManager:
         total_size = int(response.headers.get("Content-Length", 0))
 
         with open(destination, "wb") as f:
-            with tqdm(
-                total=total_size,
-                unit="B",
-                unit_scale=True,
-                desc=destination.name,
-            ) as pbar:
+            if tqdm:
+                with tqdm(
+                    total=total_size,
+                    unit="B",
+                    unit_scale=True,
+                    desc=destination.name,
+                ) as pbar:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+                            pbar.update(len(chunk))
+            else:
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         f.write(chunk)
-                        pbar.update(len(chunk))
 
         return destination
 

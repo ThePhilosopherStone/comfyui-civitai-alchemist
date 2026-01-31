@@ -15,7 +15,10 @@ import os
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -23,7 +26,8 @@ from utils.model_manager import ModelManager
 
 
 def main():
-    load_dotenv()
+    if load_dotenv:
+        load_dotenv()
 
     parser = argparse.ArgumentParser(description="Download model files to ComfyUI")
     parser.add_argument("--input", "-i", default="output/resources.json",

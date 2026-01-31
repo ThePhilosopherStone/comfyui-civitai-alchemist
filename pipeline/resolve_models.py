@@ -15,7 +15,10 @@ import os
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -181,7 +184,8 @@ def _fill_from_version_data(
 
 
 def main():
-    load_dotenv()
+    if load_dotenv:
+        load_dotenv()
 
     parser = argparse.ArgumentParser(description="Resolve model resources to download URLs")
     parser.add_argument("--input", "-i", default="output/metadata.json",

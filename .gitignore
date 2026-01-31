@@ -40,6 +40,12 @@ Thumbs.db
 # Pipeline output
 output/
 
+# Frontend build output
+js/
+
+# Frontend dependencies
+ui/node_modules/
+
 # Claude
 .claude/
 .mcp.json

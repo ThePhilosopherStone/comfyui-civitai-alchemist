@@ -16,7 +16,10 @@ import re
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
 
 # Add project root to path so we can import utils
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -163,7 +166,8 @@ def extract_metadata(image_data: dict) -> dict:
 
 
 def main():
-    load_dotenv()
+    if load_dotenv:
+        load_dotenv()
 
     parser = argparse.ArgumentParser(description="Fetch image metadata from Civitai")
     parser.add_argument("url", help="Civitai image URL or image ID")
