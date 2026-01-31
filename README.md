@@ -125,13 +125,55 @@ comfyui-civitai-alchemist/
 
 ## Development Setup
 
-If you want to set up a full development environment (including ComfyUI and PyTorch with CUDA), see the setup script:
+### Linux / WSL2
+
+If you want to set up a full development environment (including ComfyUI and PyTorch with CUDA), use the setup script:
 
 ```bash
 bash scripts/setup.sh
 ```
 
-This will install PyTorch with CUDA support, clone ComfyUI, set up symlinks, and configure the full development environment. See [CLAUDE.md](CLAUDE.md) for development details.
+This will install PyTorch with CUDA support, clone ComfyUI, set up symlinks, and configure the full development environment.
+
+### Windows (Native)
+
+> **Note:** `triton` and `sageattention` are not available on native Windows. ComfyUI will still work but without SageAttention acceleration.
+
+```powershell
+# 1. Create virtual environment and install core dependencies
+cd comfyui-civitai-alchemist
+uv venv .venv --python 3.12
+uv pip install -e .
+
+# 2. Install PyTorch with CUDA 12.8
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+# 3. Clone ComfyUI (into sibling directory)
+cd ..
+git clone https://github.com/comfyanonymous/ComfyUI.git
+cd comfyui-civitai-alchemist
+
+# 4. Install ComfyUI dependencies
+uv pip install -r ../ComfyUI/requirements.txt
+
+# 5. Set up environment variables
+copy .env.example .env
+# Edit .env — fill in your Civitai API key and models directory path
+
+# 6. Create directory junctions (Windows equivalent of symlinks)
+# Share .venv with ComfyUI:
+New-Item -ItemType Junction -Path ..\ComfyUI\.venv -Target (Resolve-Path .venv)
+# Register as custom node:
+New-Item -ItemType Junction -Path ..\ComfyUI\custom_nodes\comfyui-civitai-alchemist -Target (Resolve-Path .)
+```
+
+On Windows, run pipeline commands with:
+
+```powershell
+.venv\Scripts\python -m pipeline.reproduce https://civitai.com/images/116872916
+```
+
+See [CLAUDE.md](CLAUDE.md) for more development details.
 
 ## Not Yet Supported
 
