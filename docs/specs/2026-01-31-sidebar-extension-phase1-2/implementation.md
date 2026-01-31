@@ -91,7 +91,7 @@
 **完成檢查**
 - `cd ui && npm run build` 成功建置，`js/main.js` 存在
 - `__init__.py` 包含 `WEB_DIRECTORY = "./js"`
-- 啟動 ComfyUI 後，左側 sidebar 可以看到 Civitai Alchemist 的 tab icon，點擊後展開空白面板
+- 啟動 ComfyUI 後，左側 sidebar 可以看到 Civitai Alchemist 的 tab icon，點擊後展開空白面板（可用 Playwright MCP 連線至 ComfyUI 頁面自動化檢查）
 
 **實作備註**
 <!-- 執行過程中填寫重要的技術決策、障礙和需要傳遞的上下文 -->
@@ -175,9 +175,9 @@
 
 **完成檢查**
 - 建置成功（`cd ui && npm run build`）
-- 在 ComfyUI 中：未設定 API key 時顯示警告訊息和 Open Settings 按鈕
-- 設定 API key 後，輸入欄位和 Go 按鈕變為可用
-- 輸入 image ID 後點擊 Go，可以看到載入中狀態
+- 在 ComfyUI 中：未設定 API key 時顯示警告訊息和 Open Settings 按鈕（可用 Playwright MCP 檢查）
+- 設定 API key 後，輸入欄位和 Go 按鈕變為可用（可用 Playwright MCP 檢查）
+- 輸入 image ID 後點擊 Go，可以看到載入中狀態（可用 Playwright MCP 檢查）
 
 **實作備註**
 <!-- 執行過程中填寫重要的技術決策、障礙和需要傳遞的上下文 -->
@@ -213,7 +213,7 @@
 
 **完成檢查**
 - 建置成功（`cd ui && npm run build`）
-- 在 ComfyUI 中輸入有效 image ID 後：
+- 在 ComfyUI 中輸入有效 image ID 後（以下皆可用 Playwright MCP 檢查）：
   - 生成參數區域正確顯示 prompt、sampler、steps 等資訊
   - Model 列表正確顯示每個 model 的名稱、類型、大小
   - 已存在的 model 顯示 ✅ + 路徑
@@ -243,9 +243,9 @@
 - 所有前端和後端檔案（視發現的問題而定）
 
 **完成檢查**
-- 三個測試 image ID 都可以正確完成完整流程
-- 錯誤情境都有適當的錯誤訊息
-- UI 狀態切換流暢無異常
+- 三個測試 image ID 都可以正確完成完整流程（可用 Playwright MCP 自動化執行）
+- 錯誤情境都有適當的錯誤訊息（可用 Playwright MCP 檢查）
+- UI 狀態切換流暢無異常（可用 Playwright MCP 檢查）
 
 **實作備註**
 <!-- 執行過程中填寫重要的技術決策、障礙和需要傳遞的上下文 -->
@@ -256,7 +256,7 @@
 
 **實作要點**
 - 讀取 `acceptance.feature` 檔案
-- 在 ComfyUI 環境中逐一執行每個場景
+- 在 ComfyUI 環境中逐一執行每個場景（使用 Playwright MCP 連線至 ComfyUI 頁面自動化執行驗收場景）
 - 驗證所有場景通過並記錄結果
 - 如發現問題，記錄詳細的錯誤資訊和重現步驟
 
