@@ -7,7 +7,7 @@
 
 ## 任務概要
 
-- [ ] 實作後端下載 API 與 WebSocket 進度推送
+- [x] 實作後端下載 API 與 WebSocket 進度推送
 - [ ] 擴展前端 ModelCard 下載狀態與進度 UI
 - [ ] 實作前端下載流程整合（單一下載、批次下載、取消）
 - [ ] 實作後端 Workflow 生成 API
@@ -61,6 +61,9 @@
 - 下載完成後，檔案出現在正確的 ComfyUI models 目錄中
 - 取消下載後，`.part` 暫存檔案已被刪除
 - WebSocket 訊息可以在 ComfyUI 的瀏覽器 console 中觀察到（`ws.onmessage` 事件）
+
+**實作備註**
+[後續依賴] resolve_models.py 的 `_fill_from_version_data()` 新增了 `result["hashes"] = primary_file.get("hashes")` 來保存 Civitai API 的 SHA256 hash，前端傳送 resource 到 download API 時須包含此欄位。
 
 ---
 

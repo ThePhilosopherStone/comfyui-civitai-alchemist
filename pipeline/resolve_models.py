@@ -150,6 +150,7 @@ def _fill_from_version_data(
         result["size_kb"] = primary_file.get("sizeKB")
         result["download_url"] = primary_file.get("downloadUrl") or \
             f"https://civitai.com/api/download/models/{result['model_version_id']}"
+        result["hashes"] = primary_file.get("hashes")
 
     # Override type if we got it from search
     if model_type_override:

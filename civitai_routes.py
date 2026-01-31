@@ -2,14 +2,22 @@
 API Routes for Civitai Alchemist ComfyUI Extension
 
 Registers custom API endpoints on the ComfyUI PromptServer for
-fetching Civitai image metadata and resolving model resources.
+fetching Civitai image metadata, resolving model resources,
+downloading models, and generating workflows.
 
 Routes are registered at import time via decorators, following the
 standard ComfyUI custom node pattern (same approach as comfyui-deploy).
 """
 
+import asyncio
+import hashlib
+import re
 import sys
+import time
+import uuid
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Dict, Optional
 
 # Add extension root to sys.path so submodules (pipeline/, civitai_utils/)
 # can be imported. The old `utils/` was renamed to `civitai_utils/` to avoid
@@ -19,6 +27,7 @@ _EXT_ROOT = str(Path(__file__).resolve().parent)
 if _EXT_ROOT not in sys.path:
     sys.path.append(_EXT_ROOT)
 
+import aiohttp
 from aiohttp import web
 import server
 
@@ -225,3 +234,291 @@ async def handle_resolve_models(request):
         "resolved_count": len(resolved),
         "unresolved_count": len(unresolved),
     })
+
+
+# ── Download infrastructure ──────────────────────────────────────────
+
+
+DOWNLOAD_CHUNK_SIZE = 64 * 1024  # 64 KB
+PROGRESS_INTERVAL = 0.5  # seconds between WebSocket progress updates
+
+
+@dataclass
+class DownloadTask:
+    """Tracks state for an in-flight download task."""
+    task_id: str
+    asyncio_task: Optional[asyncio.Task] = None
+    cancel_event: asyncio.Event = field(default_factory=asyncio.Event)
+    resources: list = field(default_factory=list)
+
+
+# Module-level registry of active downloads
+_active_downloads: Dict[str, DownloadTask] = {}
+
+
+def _send_progress(task_id: str, filename: str, status: str,
+                   progress: int = 0, downloaded_bytes: int = 0,
+                   total_bytes: int = 0, error: str = ""):
+    """Push a download progress event via WebSocket."""
+    server.PromptServer.instance.send_sync("civitai.download.progress", {
+        "task_id": task_id,
+        "filename": filename,
+        "status": status,
+        "progress": progress,
+        "downloaded_bytes": downloaded_bytes,
+        "total_bytes": total_bytes,
+        "error": error,
+    })
+
+
+async def _download_single(resource: dict, api_key: str, task_id: str,
+                           cancel_event: asyncio.Event) -> bool:
+    """
+    Download a single model file asynchronously.
+
+    Writes to a .part temp file, verifies SHA256, then renames.
+    Returns True on success, False on failure/cancel.
+    """
+    adapter = FolderPathsModelAdapter()
+    model_type = resource.get("type", "checkpoint")
+    filename = resource.get("filename", "model.safetensors")
+    download_url = resource.get("download_url", "")
+
+    if not download_url:
+        _send_progress(task_id, filename, "failed", error="No download URL")
+        return False
+
+    # Determine target directory
+    target_dir = adapter.get_model_dir(model_type)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target_path = target_dir / filename
+    part_path = target_dir / f"{filename}.part"
+
+    # Civitai download URL needs API key as query parameter
+    separator = "&" if "?" in download_url else "?"
+    auth_url = f"{download_url}{separator}token={api_key}"
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(auth_url, timeout=aiohttp.ClientTimeout(total=None, connect=60)) as resp:
+                if resp.status != 200:
+                    error_msg = f"HTTP {resp.status}"
+                    _send_progress(task_id, filename, "failed", error=error_msg)
+                    return False
+
+                # Check Content-Disposition for actual filename
+                content_disp = resp.headers.get("Content-Disposition", "")
+                if "filename=" in content_disp:
+                    match = re.search(r'filename="?([^";\n]+)"?', content_disp)
+                    if match:
+                        actual_filename = match.group(1).strip()
+                        filename = actual_filename
+                        target_path = target_dir / filename
+                        part_path = target_dir / f"{filename}.part"
+
+                total_bytes = int(resp.headers.get("Content-Length", 0))
+                downloaded_bytes = 0
+                last_progress_time = 0.0
+                sha256_hash = hashlib.sha256()
+
+                with open(part_path, "wb") as f:
+                    async for chunk in resp.content.iter_chunked(DOWNLOAD_CHUNK_SIZE):
+                        if cancel_event.is_set():
+                            _cleanup_part(part_path)
+                            _send_progress(task_id, filename, "cancelled")
+                            return False
+
+                        f.write(chunk)
+                        sha256_hash.update(chunk)
+                        downloaded_bytes += len(chunk)
+
+                        # Throttle progress updates
+                        now = time.monotonic()
+                        if now - last_progress_time >= PROGRESS_INTERVAL:
+                            last_progress_time = now
+                            progress = int(downloaded_bytes * 100 / total_bytes) if total_bytes else 0
+                            _send_progress(task_id, filename, "downloading",
+                                           progress=progress,
+                                           downloaded_bytes=downloaded_bytes,
+                                           total_bytes=total_bytes)
+
+                # Final 100% progress
+                _send_progress(task_id, filename, "downloading",
+                               progress=100,
+                               downloaded_bytes=downloaded_bytes,
+                               total_bytes=total_bytes)
+
+        # SHA256 verification
+        _send_progress(task_id, filename, "verifying",
+                       downloaded_bytes=downloaded_bytes,
+                       total_bytes=total_bytes)
+
+        expected_hash = _get_expected_hash(resource)
+        if expected_hash:
+            actual_hash = sha256_hash.hexdigest().upper()
+            if actual_hash != expected_hash.upper():
+                _cleanup_part(part_path)
+                _send_progress(task_id, filename, "failed",
+                               error="Checksum mismatch")
+                return False
+
+        # Rename .part to final filename
+        if target_path.exists():
+            target_path.unlink()
+        part_path.rename(target_path)
+
+        _send_progress(task_id, filename, "completed",
+                       progress=100,
+                       downloaded_bytes=downloaded_bytes,
+                       total_bytes=total_bytes)
+        return True
+
+    except asyncio.CancelledError:
+        _cleanup_part(part_path)
+        _send_progress(task_id, filename, "cancelled")
+        return False
+    except Exception as e:
+        _cleanup_part(part_path)
+        _send_progress(task_id, filename, "failed", error=str(e))
+        return False
+
+
+def _get_expected_hash(resource: dict) -> Optional[str]:
+    """Extract expected SHA256 hash from resource dict."""
+    hashes = resource.get("hashes")
+    if isinstance(hashes, dict):
+        return hashes.get("SHA256")
+    return None
+
+
+def _cleanup_part(part_path: Path):
+    """Delete .part file if it exists."""
+    try:
+        if part_path.exists():
+            part_path.unlink()
+    except OSError:
+        pass
+
+
+async def _run_single_download(resource: dict, api_key: str, task_id: str,
+                               cancel_event: asyncio.Event):
+    """Coroutine wrapper for single download task."""
+    try:
+        await _download_single(resource, api_key, task_id, cancel_event)
+    finally:
+        _active_downloads.pop(task_id, None)
+
+
+async def _run_batch_download(resources: list, api_key: str, task_id: str,
+                              cancel_event: asyncio.Event):
+    """Coroutine wrapper for batch download: downloads resources sequentially."""
+    try:
+        for resource in resources:
+            if cancel_event.is_set():
+                # Send cancelled for remaining resources
+                filename = resource.get("filename", "unknown")
+                _send_progress(task_id, filename, "cancelled")
+                continue
+            await _download_single(resource, api_key, task_id, cancel_event)
+    finally:
+        _active_downloads.pop(task_id, None)
+
+
+@routes.post("/civitai/download")
+async def handle_download(request):
+    """
+    POST /civitai/download
+
+    Accepts: { "resource": {...}, "api_key": "sk_..." }
+    Starts a background download for a single model.
+    Returns: { "task_id": "uuid" }
+    """
+    try:
+        data = await request.json()
+    except Exception:
+        return web.json_response({"error": "Invalid JSON"}, status=400)
+
+    resource = data.get("resource")
+    api_key = data.get("api_key", "")
+
+    if not resource:
+        return web.json_response({"error": "resource is required"}, status=400)
+    if not api_key:
+        return web.json_response({"error": "API key is required"}, status=401)
+
+    task_id = str(uuid.uuid4())
+    cancel_event = asyncio.Event()
+    task = DownloadTask(task_id=task_id, cancel_event=cancel_event,
+                        resources=[resource])
+
+    coro = _run_single_download(resource, api_key, task_id, cancel_event)
+    task.asyncio_task = asyncio.create_task(coro)
+    _active_downloads[task_id] = task
+
+    return web.json_response({"task_id": task_id})
+
+
+@routes.post("/civitai/download-all")
+async def handle_download_all(request):
+    """
+    POST /civitai/download-all
+
+    Accepts: { "resources": [...], "api_key": "sk_..." }
+    Starts background sequential download for multiple models.
+    Returns: { "task_id": "uuid" }
+    """
+    try:
+        data = await request.json()
+    except Exception:
+        return web.json_response({"error": "Invalid JSON"}, status=400)
+
+    resources = data.get("resources", [])
+    api_key = data.get("api_key", "")
+
+    if not resources:
+        return web.json_response({"error": "resources list is required"}, status=400)
+    if not api_key:
+        return web.json_response({"error": "API key is required"}, status=401)
+
+    task_id = str(uuid.uuid4())
+    cancel_event = asyncio.Event()
+    task = DownloadTask(task_id=task_id, cancel_event=cancel_event,
+                        resources=resources)
+
+    coro = _run_batch_download(resources, api_key, task_id, cancel_event)
+    task.asyncio_task = asyncio.create_task(coro)
+    _active_downloads[task_id] = task
+
+    return web.json_response({"task_id": task_id})
+
+
+@routes.post("/civitai/download-cancel")
+async def handle_download_cancel(request):
+    """
+    POST /civitai/download-cancel
+
+    Accepts: { "task_id": "uuid" } or { "cancel_all": true }
+    Signals cancellation; the download loop will stop on the next chunk.
+    """
+    try:
+        data = await request.json()
+    except Exception:
+        return web.json_response({"error": "Invalid JSON"}, status=400)
+
+    cancel_all = data.get("cancel_all", False)
+    task_id = data.get("task_id")
+
+    if cancel_all:
+        for dt in list(_active_downloads.values()):
+            dt.cancel_event.set()
+        return web.json_response({"cancelled": True})
+
+    if not task_id:
+        return web.json_response({"error": "task_id is required"}, status=400)
+
+    dt = _active_downloads.get(task_id)
+    if dt:
+        dt.cancel_event.set()
+        return web.json_response({"cancelled": True})
+
+    return web.json_response({"error": "Task not found"}, status=404)
