@@ -45,19 +45,19 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [[tool.uv.index]]
-name = "pytorch-cu128"
-url = "https://download.pytorch.org/whl/cu128"
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cu128" },
+    { index = "pytorch-cu130" },
 ]
 torchvision = [
-    { index = "pytorch-cu128" },
+    { index = "pytorch-cu130" },
 ]
 torchaudio = [
-    { index = "pytorch-cu128" },
+    { index = "pytorch-cu130" },
 ]
 
 [tool.hatch.build.targets.wheel]

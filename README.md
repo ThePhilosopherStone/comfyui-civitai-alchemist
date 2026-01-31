@@ -145,8 +145,8 @@ cd comfyui-civitai-alchemist
 uv venv .venv --python 3.12
 uv pip install -e .
 
-# 2. Install PyTorch with CUDA 12.8
-uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+# 2. Install PyTorch with CUDA 13.0
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
 
 # 3. Clone ComfyUI (into sibling directory)
 cd ..

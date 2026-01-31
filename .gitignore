@@ -42,3 +42,5 @@ output/
 
 # Claude
 .claude/
+.mcp.json
+.playwright-mcp/

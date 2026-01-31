@@ -11,7 +11,7 @@ This file provides context for AI assistants (like Claude) working on this proje
 ### Windows (Native)
 
 - **Hardware**: NVIDIA GeForce RTX 5090 Laptop GPU
-- **CUDA Version**: 12.8 (PyTorch cu128)
+- **CUDA Version**: 13.0 (PyTorch cu130)
 - **Driver Version**: 581.29
 - **OS**: Windows 11
 - **Python**: 3.12.10
@@ -208,8 +208,8 @@ bash scripts/run_comfyui.sh
 uv venv .venv --python 3.12
 uv pip install -e .
 
-# 2. Install PyTorch with CUDA 12.8
-uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+# 2. Install PyTorch with CUDA 13.0
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
 
 # 3. Clone ComfyUI (into sibling directory)
 cd ..
