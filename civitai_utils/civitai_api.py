@@ -6,6 +6,7 @@ Provides methods for interacting with the Civitai REST API.
 API Documentation: https://github.com/civitai/civitai/wiki/REST-API-Reference
 """
 
+import json
 import time
 import requests
 from typing import Dict, List, Optional
@@ -141,6 +142,31 @@ class CivitaiAPI:
         response = self._request("GET", url, params=params)
         data = response.json()
         return data.get("items", [])
+
+    def get_image_generation_data(self, image_id: int) -> Optional[Dict]:
+        """
+        Get server-side resolved generation data from Civitai's tRPC endpoint.
+
+        This returns resources with modelVersionId even when the uploader
+        has hidden model info from the embedded metadata.
+
+        Args:
+            image_id: Image ID
+
+        Returns:
+            Generation data dict with 'meta' and 'resources' keys, or None
+        """
+        url = "https://civitai.com/api/trpc/image.getGenerationData"
+        params = {"input": json.dumps({"json": {"id": image_id}})}
+
+        try:
+            response = self._request("GET", url, params=params)
+            data = response.json()
+            return data.get("result", {}).get("data", {}).get("json")
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                return None
+            raise
 
     def get_model(self, model_id: int) -> Optional[Dict]:
         """

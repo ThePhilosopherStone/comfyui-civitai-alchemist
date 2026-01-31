@@ -165,6 +165,118 @@ def extract_metadata(image_data: dict) -> dict:
     }
 
 
+def enrich_metadata(metadata: dict, api) -> dict:
+    """
+    Enrich metadata with server-side resolved resources from Civitai's tRPC endpoint.
+
+    Civitai's image.getGenerationData endpoint returns canonical resource data
+    (with modelVersionId) even when the uploader hid model info in the embedded
+    metadata (e.g. "unknown_model" / "unknown_hash").
+
+    Args:
+        metadata: Metadata dict from extract_metadata()
+        api: CivitaiAPI instance (must be authenticated)
+
+    Returns:
+        Enriched metadata dict (modified in place and returned)
+    """
+    image_id = metadata.get("image_id")
+    if not image_id:
+        return metadata
+
+    try:
+        gen_data = api.get_image_generation_data(image_id)
+    except Exception as e:
+        print(f"  tRPC enrichment failed: {e}")
+        return metadata
+
+    if not gen_data:
+        return metadata
+
+    trpc_resources = gen_data.get("resources", [])
+    if trpc_resources:
+        _merge_trpc_resources(metadata, trpc_resources)
+
+    return metadata
+
+
+# Civitai modelType -> normalized type used throughout the codebase
+_TRPC_TYPE_NORMALIZE = {
+    "Checkpoint": "checkpoint",
+    "checkpoint": "checkpoint",
+    "model": "checkpoint",
+    "LORA": "lora",
+    "Lora": "lora",
+    "LoCon": "lora",
+    "TextualInversion": "embedding",
+    "Upscaler": "upscaler",
+    "VAE": "vae",
+}
+
+
+def _merge_trpc_resources(metadata: dict, trpc_resources: list) -> None:
+    """
+    Merge server-side resolved resources from tRPC into metadata.
+
+    For each tRPC resource:
+    - If a matching embedded resource exists (by type), enrich it with model_version_id
+    - If no match exists, append as a new resource
+    - Fix metadata-level model_name if the checkpoint was 'unknown_model'
+
+    Modifies metadata dict in place.
+    """
+    existing = metadata.get("resources", [])
+
+    for trpc_r in trpc_resources:
+        trpc_type = _TRPC_TYPE_NORMALIZE.get(
+            trpc_r.get("modelType", ""),
+            trpc_r.get("modelType", "").lower(),
+        )
+        trpc_name = trpc_r.get("modelName", "")
+        trpc_version_id = trpc_r.get("modelVersionId")
+
+        if not trpc_version_id:
+            continue
+
+        # Try to match an existing embedded resource
+        matched = False
+        for res in existing:
+            if res.get("type", "") != trpc_type:
+                continue
+
+            res_name = res.get("name", "")
+            is_unknown = res_name.lower() in ("unknown", "unknown_model", "")
+            names_match = (
+                res_name.lower() in trpc_name.lower()
+                or trpc_name.lower() in res_name.lower()
+            )
+
+            if is_unknown or names_match:
+                res["model_version_id"] = trpc_version_id
+                if is_unknown:
+                    res["name"] = trpc_name
+                matched = True
+                break
+
+        if not matched:
+            existing.append({
+                "name": trpc_name,
+                "type": trpc_type,
+                "weight": None,
+                "hash": None,
+                "model_version_id": trpc_version_id,
+            })
+
+    # Fix metadata-level model_name if it was unknown
+    if metadata.get("model_name", "").lower() in ("unknown_model", "unknown", ""):
+        for trpc_r in trpc_resources:
+            if _TRPC_TYPE_NORMALIZE.get(trpc_r.get("modelType", "")) == "checkpoint":
+                metadata["model_name"] = trpc_r.get("modelName", metadata["model_name"])
+                break
+
+    metadata["resources"] = existing
+
+
 def main():
     if load_dotenv:
         load_dotenv()
@@ -203,6 +315,7 @@ def main():
 
     # Extract metadata
     metadata = extract_metadata(image_data)
+    metadata = enrich_metadata(metadata, api)
 
     # Print summary
     print(f"\n--- Image {metadata['image_id']} ---")

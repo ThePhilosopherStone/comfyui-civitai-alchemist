@@ -33,7 +33,7 @@ import server
 
 import folder_paths
 
-from pipeline.fetch_metadata import parse_image_id, extract_metadata
+from pipeline.fetch_metadata import parse_image_id, extract_metadata, enrich_metadata
 from pipeline.resolve_models import resolve_resource
 from pipeline.generate_workflow import build_workflow
 from civitai_utils.civitai_api import CivitaiAPI
@@ -170,6 +170,7 @@ async def handle_fetch_metadata(request):
         )
 
     metadata = extract_metadata(image_data)
+    metadata = enrich_metadata(metadata, api)
     return web.json_response(metadata)
 
 

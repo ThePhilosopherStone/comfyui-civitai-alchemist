@@ -23,7 +23,7 @@ except ImportError:
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from pipeline.fetch_metadata import parse_image_id, extract_metadata
+from pipeline.fetch_metadata import parse_image_id, extract_metadata, enrich_metadata
 from pipeline.resolve_models import resolve_resource
 from pipeline.generate_workflow import build_workflow, submit_workflow
 from civitai_utils.civitai_api import CivitaiAPI
@@ -83,6 +83,7 @@ def main():
         sys.exit(1)
 
     metadata = extract_metadata(image_data)
+    metadata = enrich_metadata(metadata, api)
 
     metadata_path = output_dir / "metadata.json"
     with open(metadata_path, "w", encoding="utf-8") as f:
