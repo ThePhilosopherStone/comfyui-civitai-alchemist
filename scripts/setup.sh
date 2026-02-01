@@ -43,31 +43,8 @@ echo -e "${YELLOW}[4/10] Activating virtual environment...${NC}"
 source .venv/bin/activate
 echo -e "${GREEN}✓ Virtual environment activated${NC}"
 
-# 5. Install PyTorch with CUDA 12.8 and all dependencies
-echo -e "${YELLOW}[5/10] Installing PyTorch 2.7+ and dependencies (this may take a few minutes)...${NC}"
-echo -e "${BLUE}Using CUDA 12.8 index to install PyTorch...${NC}"
-UV_TORCH_BACKEND=cu128 uv pip install -e .
-echo -e "${GREEN}✓ PyTorch and core dependencies installed${NC}"
-
-# 6. Ask about Flash Attention installation
-echo -e "${YELLOW}[6/10] Flash Attention installation option...${NC}"
-echo -e "${BLUE}Flash Attention can provide additional acceleration, but may have compatibility issues on RTX 5090${NC}"
-echo -e "${BLUE}SageAttention is already installed and more stable. Recommended to test first before installing Flash Attention${NC}"
-read -p "Install Flash Attention? (y/N): " install_flash
-if [[ $install_flash =~ ^[Yy]$ ]]; then
-    echo -e "${BLUE}Attempting to install Flash Attention...${NC}"
-    if uv pip install flash-attn --no-build-isolation 2>/dev/null; then
-        echo -e "${GREEN}✓ Flash Attention installed successfully${NC}"
-    else
-        echo -e "${YELLOW}! Flash Attention installation failed (this is normal)${NC}"
-        echo -e "${YELLOW}  Will use SageAttention as acceleration method${NC}"
-    fi
-else
-    echo -e "${GREEN}✓ Skipping Flash Attention, will use SageAttention${NC}"
-fi
-
-# 7. Clone ComfyUI repository
-echo -e "${YELLOW}[7/10] Downloading ComfyUI repository...${NC}"
+# 5. Clone ComfyUI repository
+echo -e "${YELLOW}[5/10] Downloading ComfyUI repository...${NC}"
 COMFYUI_DIR="../ComfyUI"
 if [ ! -d "$COMFYUI_DIR" ]; then
     cd ..
@@ -78,8 +55,8 @@ else
     echo -e "${GREEN}✓ ComfyUI already exists${NC}"
 fi
 
-# 8. Create symlink: ComfyUI uses our virtual environment
-echo -e "${YELLOW}[8/11] Setting up ComfyUI virtual environment link...${NC}"
+# 6. Create symlink: ComfyUI uses our virtual environment
+echo -e "${YELLOW}[6/10] Setting up ComfyUI virtual environment link...${NC}"
 if [ -L "$COMFYUI_DIR/.venv" ]; then
     rm "$COMFYUI_DIR/.venv"
 fi
@@ -90,23 +67,29 @@ fi
 ln -s "$(pwd)/.venv" "$COMFYUI_DIR/.venv"
 echo -e "${GREEN}✓ Virtual environment link created${NC}"
 
-# 9. Install ComfyUI dependencies
-echo -e "${YELLOW}[9/11] Installing ComfyUI dependencies...${NC}"
+# 7. Install ComfyUI dependencies with PyTorch CUDA 13.0
+echo -e "${YELLOW}[7/10] Installing ComfyUI dependencies and PyTorch with CUDA 13.0...${NC}"
+echo -e "${BLUE}Using CUDA 13.0 index to install PyTorch...${NC}"
 if [ -f "$COMFYUI_DIR/requirements.txt" ]; then
-    uv pip install -r "$COMFYUI_DIR/requirements.txt"
-    echo -e "${GREEN}✓ ComfyUI dependencies installed${NC}"
+    UV_TORCH_BACKEND=cu130 uv pip install -r "$COMFYUI_DIR/requirements.txt"
+    echo -e "${GREEN}✓ ComfyUI dependencies and PyTorch (cu130) installed${NC}"
 else
     echo -e "${YELLOW}! ComfyUI requirements.txt not found, skipping${NC}"
 fi
 
-# 10. Create custom_nodes directory and link
-echo -e "${YELLOW}[10/11] Setting up custom node link...${NC}"
+# 8. Install project dependencies
+echo -e "${YELLOW}[8/10] Installing project dependencies...${NC}"
+uv pip install -e .
+echo -e "${GREEN}✓ Project dependencies installed${NC}"
+
+# 9. Create custom_nodes directory and link
+echo -e "${YELLOW}[9/10] Setting up custom node link...${NC}"
 mkdir -p "$COMFYUI_DIR/custom_nodes"
 bash scripts/link.sh
 echo -e "${GREEN}✓ Custom node link created${NC}"
 
-# 11. Verify installation
-echo -e "${YELLOW}[11/11] Verifying installation...${NC}"
+# 10. Verify installation
+echo -e "${YELLOW}[10/10] Verifying installation...${NC}"
 bash scripts/check_env.sh
 
 echo ""

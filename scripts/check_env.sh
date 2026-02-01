@@ -53,23 +53,6 @@ else
     EXIT_CODE=1
 fi
 
-# Check SageAttention
-if python -c "import sageattention" 2>/dev/null; then
-    SAGE_VERSION=$(python -c "import sageattention; print(sageattention.__version__ if hasattr(sageattention, '__version__') else 'installed')" 2>/dev/null || echo "installed")
-    echo -e "${GREEN}✓ SageAttention: $SAGE_VERSION${NC}"
-else
-    echo -e "${RED}✗ SageAttention not installed${NC}"
-    EXIT_CODE=1
-fi
-
-# Check Flash Attention (optional)
-if python -c "import flash_attn" 2>/dev/null; then
-    FLASH_VERSION=$(python -c "import flash_attn; print(flash_attn.__version__)" 2>/dev/null || echo "installed")
-    echo -e "${GREEN}✓ Flash Attention: $FLASH_VERSION${NC}"
-else
-    echo -e "${YELLOW}  Flash Attention not installed (optional, will use SageAttention)${NC}"
-fi
-
 # Check Triton
 if python -c "import triton" 2>/dev/null; then
     TRITON_VERSION=$(python -c "import triton; print(triton.__version__)")
