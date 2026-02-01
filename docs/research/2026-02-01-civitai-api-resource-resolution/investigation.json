@@ -1,0 +1,1876 @@
+[
+  {
+    "image_id": 118787371,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2130256
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 2230391
+        },
+        {
+          "type": "upscaler",
+          "modelVersionId": 164821
+        }
+      ],
+      "model_name": "urn:air:sdxl:checkpoint:civitai:1882087@2130256",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118787371,
+          "modelVersionId": 164821,
+          "strength": null,
+          "modelId": 147759,
+          "modelName": "Remacri",
+          "modelType": "Upscaler",
+          "versionId": 164821,
+          "versionName": "Original",
+          "baseModel": "Other"
+        },
+        {
+          "imageId": 118787371,
+          "modelVersionId": 2130256,
+          "strength": null,
+          "modelId": 1882087,
+          "modelName": "Vixon’s NSFW Milk Factory",
+          "modelType": "Checkpoint",
+          "versionId": 2130256,
+          "versionName": "illust",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118787371,
+          "modelVersionId": 2230391,
+          "strength": 1,
+          "modelId": 1970518,
+          "modelName": "Fox Dives Headfirst Into Snow - Meme",
+          "modelType": "LORA",
+          "versionId": 2230391,
+          "versionName": "illust",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118810911,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118810911,
+          "modelVersionId": 691639,
+          "strength": null,
+          "modelId": 618692,
+          "modelName": "FLUX",
+          "modelType": "Checkpoint",
+          "versionId": 691639,
+          "versionName": "Dev",
+          "baseModel": "Flux.1 D"
+        },
+        {
+          "imageId": 118810911,
+          "modelVersionId": 747534,
+          "strength": 0.5,
+          "modelId": 128568,
+          "modelName": "Cyberpunk Anime Style",
+          "modelType": "LORA",
+          "versionId": 747534,
+          "versionName": "Flux.1 D v1",
+          "baseModel": "Flux.1 D"
+        },
+        {
+          "imageId": 118810911,
+          "modelVersionId": 778925,
+          "strength": 0.3,
+          "modelId": 696050,
+          "modelName": "Daubrez Painterly Style",
+          "modelType": "LORA",
+          "versionId": 778925,
+          "versionName": "Henry Daubrez FLUX v1.0",
+          "baseModel": "Flux.1 D"
+        },
+        {
+          "imageId": 118810911,
+          "modelVersionId": 1050932,
+          "strength": 0.35,
+          "modelId": 938811,
+          "modelName": "Neurocore Anime Shadow Circuit by ChronoKnight - [FLUX, IL, ZIT]",
+          "modelType": "LORA",
+          "versionId": 1050932,
+          "versionName": "FLUX",
+          "baseModel": "Flux.1 D"
+        },
+        {
+          "imageId": 118810911,
+          "modelVersionId": 1264088,
+          "strength": 0.6,
+          "modelId": 810000,
+          "modelName": "NEW FANTASY CORE - ILL-FLUX-PONY-SDXL- ZIT(detailer)",
+          "modelType": "LORA",
+          "versionId": 1264088,
+          "versionName": "V4 NFC-FLUX",
+          "baseModel": "Flux.1 D"
+        },
+        {
+          "imageId": 118810911,
+          "modelVersionId": 2425801,
+          "strength": 0.35,
+          "modelId": 1032948,
+          "modelName": "Dark Side of Light",
+          "modelType": "LORA",
+          "versionId": 2425801,
+          "versionName": "DSL Two - F1",
+          "baseModel": "Flux.1 D"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119006130,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119006130,
+          "modelVersionId": 2512167,
+          "strength": null,
+          "modelId": 1532032,
+          "modelName": "OpenAI's GPT-image-1",
+          "modelType": "Checkpoint",
+          "versionId": 2512167,
+          "versionName": "GPT Image 1.5",
+          "baseModel": "OpenAI"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118735250,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118735250,
+          "modelVersionId": 2436219,
+          "strength": null,
+          "modelId": 1903424,
+          "modelName": "Google's Nano Banana",
+          "modelType": "Checkpoint",
+          "versionId": 2436219,
+          "versionName": "Nano Banana Pro",
+          "baseModel": "Nano Banana"
+        },
+        {
+          "imageId": 118735250,
+          "modelVersionId": 2470991,
+          "strength": null,
+          "modelId": 1951069,
+          "modelName": "Seedream",
+          "modelType": "Checkpoint",
+          "versionId": 2470991,
+          "versionName": "v4.5",
+          "baseModel": "Seedream"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118859855,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118859855,
+          "modelVersionId": 2442439,
+          "strength": null,
+          "modelId": 2168935,
+          "modelName": "Z Image Turbo",
+          "modelType": "Checkpoint",
+          "versionId": 2442439,
+          "versionName": "Turbo",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 118859855,
+          "modelVersionId": 2454927,
+          "strength": null,
+          "modelId": 432586,
+          "modelName": "Cinematic Shot✨",
+          "modelType": "LORA",
+          "versionId": 2454927,
+          "versionName": "Z-Image-Turbo v1.0",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 118859855,
+          "modelVersionId": 2524277,
+          "strength": null,
+          "modelId": 580857,
+          "modelName": "Realistic Skin Texture style (Detailed Skin) XL + SD1.5 + F1D + Pony + Illu + Zit",
+          "modelType": "LORA",
+          "versionId": 2524277,
+          "versionName": "Skin Texture ZTurbo v2.1",
+          "baseModel": "ZImageTurbo"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119245793,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119245793,
+          "modelVersionId": 2512167,
+          "strength": null,
+          "modelId": 1532032,
+          "modelName": "OpenAI's GPT-image-1",
+          "modelType": "Checkpoint",
+          "versionId": 2512167,
+          "versionName": "GPT Image 1.5",
+          "baseModel": "OpenAI"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119146787,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119146787,
+          "modelVersionId": 2436219,
+          "strength": null,
+          "modelId": 1903424,
+          "modelName": "Google's Nano Banana",
+          "modelType": "Checkpoint",
+          "versionId": 2436219,
+          "versionName": "Nano Banana Pro",
+          "baseModel": "Nano Banana"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119083954,
+    "rest": {
+      "meta_resources": [
+        {
+          "name": "volleyball-bump-in-the-face-illustriousxl-lora-nochekaiser",
+          "type": "lora",
+          "weight": 1
+        }
+      ],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2167369
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 2040171
+        },
+        {
+          "type": "lora",
+          "weight": 0.4,
+          "modelVersionId": 2498503
+        },
+        {
+          "type": "lora",
+          "weight": 0.6,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "lora",
+          "weight": 0.4,
+          "modelVersionId": 2524593
+        },
+        {
+          "type": "lora",
+          "weight": 0.8,
+          "modelVersionId": 1882710
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [
+        {
+          "name": "volleyball-bump-in-the-face-illustriousxl-lora-nochekaiser",
+          "weight": 1.0
+        }
+      ],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119083954,
+          "modelVersionId": 1447126,
+          "strength": 0.6,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119083954,
+          "modelVersionId": 1882710,
+          "strength": 0.8,
+          "modelId": 534506,
+          "modelName": "Niji semi realism",
+          "modelType": "LORA",
+          "versionId": 1882710,
+          "versionName": "v3.5 - illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119083954,
+          "modelVersionId": 2040171,
+          "strength": 1,
+          "modelId": 1802803,
+          "modelName": "Volleyball Bump In The Face - Concept",
+          "modelType": "LORA",
+          "versionId": 2040171,
+          "versionName": "booru",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119083954,
+          "modelVersionId": 2167369,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2167369,
+          "versionName": "v15.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119083954,
+          "modelVersionId": 2498503,
+          "strength": 0.4,
+          "modelId": 915918,
+          "modelName": "MoriiMee Gothic Niji | LoRA Style",
+          "modelType": "LORA",
+          "versionId": 2498503,
+          "versionName": "V1 Illustrious Redux",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119083954,
+          "modelVersionId": 2524593,
+          "strength": 0.4,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118717360,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118717360,
+          "modelVersionId": 1833157,
+          "strength": null,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118764059,
+    "rest": {
+      "meta_resources": [
+        {
+          "hash": "96acec2bde",
+          "name": "0.7(lora2_00001_) + 0.3(Lo~fij)",
+          "type": "model"
+        }
+      ],
+      "meta_hashes": {
+        "model": "96acec2bde"
+      },
+      "civitai_resources": [],
+      "model_name": "0.7(lora2_00001_) + 0.3(Lo~fij)",
+      "model_hash": "96acec2bde",
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118764059,
+          "modelVersionId": 2629873,
+          "strength": null,
+          "modelId": 2003939,
+          "modelName": "Illustrij-GEN",
+          "modelType": "Checkpoint",
+          "versionId": 2629873,
+          "versionName": "2",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118962148,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2514310
+        },
+        {
+          "type": "lora",
+          "weight": 0.45,
+          "modelVersionId": 1447126
+        },
+        {
+          "weight": 1,
+          "modelVersionId": 1833157
+        },
+        {
+          "type": "lora",
+          "weight": 0.75,
+          "modelVersionId": 1888209
+        },
+        {
+          "type": "lora",
+          "weight": -0.85,
+          "modelVersionId": 1444863
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2524593
+        },
+        {
+          "type": "lora",
+          "weight": 0.3,
+          "modelVersionId": 1278054
+        },
+        {
+          "type": "upscaler",
+          "modelVersionId": 164821
+        }
+      ],
+      "model_name": "urn:air:sdxl:checkpoint:civitai:827184@2514310",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118962148,
+          "modelVersionId": 164821,
+          "strength": null,
+          "modelId": 147759,
+          "modelName": "Remacri",
+          "modelType": "Upscaler",
+          "versionId": 164821,
+          "versionName": "Original",
+          "baseModel": "Other"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 1278054,
+          "strength": 0.3,
+          "modelId": 768917,
+          "modelName": "[Style filter] Xu Er thick paint composition light texture enhancement",
+          "modelType": "LORA",
+          "versionId": 1278054,
+          "versionName": "Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 1444863,
+          "strength": -0.85,
+          "modelId": 1280702,
+          "modelName": "Lighting / darkness slider",
+          "modelType": "LORA",
+          "versionId": 1444863,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 1447126,
+          "strength": 0.45,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 1833157,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 1888209,
+          "strength": 0.75,
+          "modelId": 556479,
+          "modelName": "MGE Monster Girls",
+          "modelType": "LORA",
+          "versionId": 1888209,
+          "versionName": "V6.1 - Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 2514310,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2514310,
+          "versionName": "v16.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118962148,
+          "modelVersionId": 2524593,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118810961,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2615702
+        },
+        {
+          "type": "lora",
+          "weight": 0.45,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "embed",
+          "weight": 1,
+          "modelVersionId": 1833157
+        },
+        {
+          "type": "lora",
+          "weight": 0.75,
+          "modelVersionId": 1888209
+        },
+        {
+          "type": "lora",
+          "weight": -0.85,
+          "modelVersionId": 1444863
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2524593
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118810961,
+          "modelVersionId": 1444863,
+          "strength": -0.85,
+          "modelId": 1280702,
+          "modelName": "Lighting / darkness slider",
+          "modelType": "LORA",
+          "versionId": 1444863,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118810961,
+          "modelVersionId": 1447126,
+          "strength": 0.45,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118810961,
+          "modelVersionId": 1833157,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118810961,
+          "modelVersionId": 1888209,
+          "strength": 0.75,
+          "modelId": 556479,
+          "modelName": "MGE Monster Girls",
+          "modelType": "LORA",
+          "versionId": 1888209,
+          "versionName": "V6.1 - Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118810961,
+          "modelVersionId": 2524593,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118810961,
+          "modelVersionId": 2615702,
+          "strength": null,
+          "modelId": 140272,
+          "modelName": "Hassaku XL (Illustrious)",
+          "modelType": "Checkpoint",
+          "versionId": 2615702,
+          "versionName": "v3.4",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119240483,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119240483,
+          "modelVersionId": 2442439,
+          "strength": null,
+          "modelId": 2168935,
+          "modelName": "Z Image Turbo",
+          "modelType": "Checkpoint",
+          "versionId": 2442439,
+          "versionName": "Turbo",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 119240483,
+          "modelVersionId": 2544677,
+          "strength": null,
+          "modelId": 2260542,
+          "modelName": "Aetheric Rendering Style",
+          "modelType": "LORA",
+          "versionId": 2544677,
+          "versionName": "Aetheric Rendering Style",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 119240483,
+          "modelVersionId": 2460437,
+          "strength": null,
+          "modelId": 2185167,
+          "modelName": "Midjourney Luneva Cinematic Lora",
+          "modelType": "LORA",
+          "versionId": 2460437,
+          "versionName": "LORA: R128-5000step",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 119240483,
+          "modelVersionId": 2515203,
+          "strength": null,
+          "modelId": 2234266,
+          "modelName": "[ZIT] Detail Slider",
+          "modelType": "LORA",
+          "versionId": 2515203,
+          "versionName": "v1.0",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 119240483,
+          "modelVersionId": 2455794,
+          "strength": null,
+          "modelId": 1994924,
+          "modelName": "Z-Image/Chroma/Qwen-Anime",
+          "modelType": "LORA",
+          "versionId": 2455794,
+          "versionName": "Z-Image-Turbo-Anime-V1",
+          "baseModel": "ZImageTurbo"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118952863,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2514310
+        },
+        {
+          "type": "lora",
+          "weight": 0.45,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "embed",
+          "weight": 1,
+          "modelVersionId": 1833157
+        },
+        {
+          "type": "lora",
+          "weight": 0.75,
+          "modelVersionId": 1888209
+        },
+        {
+          "type": "lora",
+          "weight": -0.85,
+          "modelVersionId": 1444863
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2524593
+        },
+        {
+          "type": "lora",
+          "weight": 0.3,
+          "modelVersionId": 1278054
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118952863,
+          "modelVersionId": 1278054,
+          "strength": 0.3,
+          "modelId": 768917,
+          "modelName": "[Style filter] Xu Er thick paint composition light texture enhancement",
+          "modelType": "LORA",
+          "versionId": 1278054,
+          "versionName": "Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 1444863,
+          "strength": -0.85,
+          "modelId": 1280702,
+          "modelName": "Lighting / darkness slider",
+          "modelType": "LORA",
+          "versionId": 1444863,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 1447126,
+          "strength": 0.45,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 1833157,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 1888209,
+          "strength": 0.75,
+          "modelId": 556479,
+          "modelName": "MGE Monster Girls",
+          "modelType": "LORA",
+          "versionId": 1888209,
+          "versionName": "V6.1 - Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 2514310,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2514310,
+          "versionName": "v16.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118952863,
+          "modelVersionId": 2524593,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118947999,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2167369
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 2631122
+        },
+        {
+          "type": "lora",
+          "weight": 0.4,
+          "modelVersionId": 2498503
+        },
+        {
+          "type": "lora",
+          "weight": 0.6,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "lora",
+          "weight": 0.4,
+          "modelVersionId": 2524593
+        },
+        {
+          "type": "lora",
+          "weight": 0.8,
+          "modelVersionId": 1882710
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118947999,
+          "modelVersionId": 1447126,
+          "strength": 0.6,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118947999,
+          "modelVersionId": 1882710,
+          "strength": 0.8,
+          "modelId": 534506,
+          "modelName": "Niji semi realism",
+          "modelType": "LORA",
+          "versionId": 1882710,
+          "versionName": "v3.5 - illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118947999,
+          "modelVersionId": 2167369,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2167369,
+          "versionName": "v15.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118947999,
+          "modelVersionId": 2498503,
+          "strength": 0.4,
+          "modelId": 915918,
+          "modelName": "MoriiMee Gothic Niji | LoRA Style",
+          "modelType": "LORA",
+          "versionId": 2498503,
+          "versionName": "V1 Illustrious Redux",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118947999,
+          "modelVersionId": 2524593,
+          "strength": 0.4,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118947999,
+          "modelVersionId": 2631122,
+          "strength": 1,
+          "modelId": 2339131,
+          "modelName": "In Crane Game",
+          "modelType": "LORA",
+          "versionId": 2631122,
+          "versionName": "V1",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118712167,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2273895
+        },
+        {
+          "type": "lora",
+          "weight": 2.2,
+          "modelVersionId": 1242203
+        },
+        {
+          "type": "lora",
+          "weight": 0.8,
+          "modelVersionId": 2160260
+        },
+        {
+          "type": "lycoris",
+          "weight": 0.4,
+          "modelVersionId": 2349271
+        },
+        {
+          "type": "lora",
+          "weight": 0.3,
+          "modelVersionId": 1495543
+        },
+        {
+          "weight": 1,
+          "modelVersionId": 1860747
+        },
+        {
+          "weight": 1,
+          "modelVersionId": 1550840
+        },
+        {
+          "weight": 1,
+          "modelVersionId": 1833199
+        },
+        {
+          "type": "lora",
+          "weight": 0.4,
+          "modelVersionId": 2303894
+        },
+        {
+          "type": "upscaler",
+          "modelVersionId": 164821
+        }
+      ],
+      "model_name": "urn:air:sdxl:checkpoint:civitai:138630@2273895",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118712167,
+          "modelVersionId": 164821,
+          "strength": null,
+          "modelId": 147759,
+          "modelName": "Remacri",
+          "modelType": "Upscaler",
+          "versionId": 164821,
+          "versionName": "Original",
+          "baseModel": "Other"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 1242203,
+          "strength": 2.2,
+          "modelId": 1105685,
+          "modelName": "Dramatic Lighting Slider",
+          "modelType": "LORA",
+          "versionId": 1242203,
+          "versionName": "v1.0",
+          "baseModel": "Pony"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 1495543,
+          "strength": 0.3,
+          "modelId": 1324670,
+          "modelName": "Sinozick | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1495543,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 1550840,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1550840,
+          "versionName": "lazyhand v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 1833199,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833199,
+          "versionName": "lazyloli",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 1860747,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1860747,
+          "versionName": "lazyneg v3",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 2160260,
+          "strength": 0.8,
+          "modelId": 1908594,
+          "modelName": "2dReal/Photo Background",
+          "modelType": "LORA",
+          "versionId": 2160260,
+          "versionName": "V1",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 2273895,
+          "strength": null,
+          "modelId": 138630,
+          "modelName": "Hardcore Asian Cosplay Porn",
+          "modelType": "Checkpoint",
+          "versionId": 2273895,
+          "versionName": "IL v1.1",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 2303894,
+          "strength": 0.4,
+          "modelId": 1963101,
+          "modelName": "[BSS] - Styles for Equinox (Illustrious)",
+          "modelType": "LORA",
+          "versionId": 2303894,
+          "versionName": "ANIRL 🫀",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118712167,
+          "modelVersionId": 2349271,
+          "strength": 0.4,
+          "modelId": 2076229,
+          "modelName": "Rella - Illustriou/NoobAI",
+          "modelType": "LoCon",
+          "versionId": 2349271,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118662409,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2569166
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 1652667
+        },
+        {
+          "type": "upscaler",
+          "modelVersionId": 164821
+        }
+      ],
+      "model_name": "urn:air:sdxl:checkpoint:civitai:2099347@2569166",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118662409,
+          "modelVersionId": 164821,
+          "strength": null,
+          "modelId": 147759,
+          "modelName": "Remacri",
+          "modelType": "Upscaler",
+          "versionId": 164821,
+          "versionName": "Original",
+          "baseModel": "Other"
+        },
+        {
+          "imageId": 118662409,
+          "modelVersionId": 1652667,
+          "strength": 1,
+          "modelId": 1461427,
+          "modelName": "(IL Tool) Native High Resolution / Super Wide Shot / Better Highres Fix",
+          "modelType": "LORA",
+          "versionId": 1652667,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118662409,
+          "modelVersionId": 2569166,
+          "strength": null,
+          "modelId": 2099347,
+          "modelName": "(illustrious) New Mecha",
+          "modelType": "Checkpoint",
+          "versionId": 2569166,
+          "versionName": "V2",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119065683,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2514310
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2034730
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 1736373
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119065683,
+          "modelVersionId": 1736373,
+          "strength": 1,
+          "modelId": 1231943,
+          "modelName": "Detailer IL",
+          "modelType": "LORA",
+          "versionId": 1736373,
+          "versionName": "v2",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119065683,
+          "modelVersionId": 2034730,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2034730,
+          "versionName": "v8_Illusv2.0Stable",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119065683,
+          "modelVersionId": 2514310,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2514310,
+          "versionName": "v16.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119275267,
+    "rest": {
+      "meta_resources": [
+        {
+          "hash": "320320581236",
+          "name": "Style_haiti5-Pr1sm_fx-ZIT",
+          "type": "lora",
+          "weight": 0.7
+        },
+        {
+          "hash": "2407613050",
+          "name": "z_image_turbo_bf16",
+          "type": "model"
+        }
+      ],
+      "meta_hashes": {
+        "model": "2407613050",
+        "lora:Style_haiti5-Pr1sm_fx-ZIT": "320320581236"
+      },
+      "civitai_resources": [],
+      "model_name": "z_image_turbo_bf16",
+      "model_hash": "2407613050",
+      "vae": null,
+      "prompt_loras": [
+        {
+          "name": "Style_haiti5-Pr1sm_fx-ZIT",
+          "weight": 0.7
+        }
+      ],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119275267,
+          "modelVersionId": 2442439,
+          "strength": null,
+          "modelId": 2168935,
+          "modelName": "Z Image Turbo",
+          "modelType": "Checkpoint",
+          "versionId": 2442439,
+          "versionName": "Turbo",
+          "baseModel": "ZImageTurbo"
+        },
+        {
+          "imageId": 119275267,
+          "modelVersionId": 2633749,
+          "strength": null,
+          "modelId": 2341503,
+          "modelName": "Prismatic Glitchcore aka Prismcore",
+          "modelType": "LORA",
+          "versionId": 2633749,
+          "versionName": "PrismcoreV1",
+          "baseModel": "ZImageTurbo"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118705873,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2514310
+        }
+      ],
+      "model_name": "gpQúwaiIllustriousSDXL_v160",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118705873,
+          "modelVersionId": 2514310,
+          "strength": null,
+          "modelId": 827184,
+          "modelName": "WAI-illustrious-SDXL",
+          "modelType": "Checkpoint",
+          "versionId": 2514310,
+          "versionName": "v16.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118662408,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2569166
+        },
+        {
+          "type": "lora",
+          "weight": 1,
+          "modelVersionId": 1652667
+        },
+        {
+          "type": "upscaler",
+          "modelVersionId": 164821
+        }
+      ],
+      "model_name": "urn:air:sdxl:checkpoint:civitai:2099347@2569166",
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118662408,
+          "modelVersionId": 164821,
+          "strength": null,
+          "modelId": 147759,
+          "modelName": "Remacri",
+          "modelType": "Upscaler",
+          "versionId": 164821,
+          "versionName": "Original",
+          "baseModel": "Other"
+        },
+        {
+          "imageId": 118662408,
+          "modelVersionId": 1652667,
+          "strength": 1,
+          "modelId": 1461427,
+          "modelName": "(IL Tool) Native High Resolution / Super Wide Shot / Better Highres Fix",
+          "modelType": "LORA",
+          "versionId": 1652667,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 118662408,
+          "modelVersionId": 2569166,
+          "strength": null,
+          "modelId": 2099347,
+          "modelName": "(illustrious) New Mecha",
+          "modelType": "Checkpoint",
+          "versionId": 2569166,
+          "versionName": "V2",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119112936,
+    "rest": {
+      "meta_resources": [
+        {
+          "name": "Osu",
+          "type": "lora",
+          "weight": 1
+        }
+      ],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2578565
+        },
+        {
+          "type": "lora",
+          "weight": 0.45,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "embed",
+          "weight": 1,
+          "modelVersionId": 1833157
+        },
+        {
+          "type": "lora",
+          "weight": 0.7,
+          "modelVersionId": 2625588
+        },
+        {
+          "type": "lora",
+          "weight": -0.85,
+          "modelVersionId": 1444863
+        },
+        {
+          "type": "lora",
+          "weight": 0.75,
+          "modelVersionId": 1888209
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2524593
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [
+        {
+          "name": "Osu",
+          "weight": 1.0
+        }
+      ],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119112936,
+          "modelVersionId": 1444863,
+          "strength": -0.85,
+          "modelId": 1280702,
+          "modelName": "Lighting / darkness slider",
+          "modelType": "LORA",
+          "versionId": 1444863,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 1447126,
+          "strength": 0.45,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 1833157,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 1888209,
+          "strength": 0.75,
+          "modelId": 556479,
+          "modelName": "MGE Monster Girls",
+          "modelType": "LORA",
+          "versionId": 1888209,
+          "versionName": "V6.1 - Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 2524593,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 2578565,
+          "strength": null,
+          "modelId": 1277670,
+          "modelName": "✨ JANKU Trained + NoobAI + RouWei Illustrious XL ✨",
+          "modelType": "Checkpoint",
+          "versionId": 2578565,
+          "versionName": "v6.9 🆕",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119112936,
+          "modelVersionId": 2625588,
+          "strength": 0.7,
+          "modelId": 2334106,
+          "modelName": "Osu | by UTdT69",
+          "modelType": "LORA",
+          "versionId": 2625588,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118993188,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [],
+      "error": null
+    }
+  },
+  {
+    "image_id": 118991713,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 118991713,
+          "modelVersionId": 2436219,
+          "strength": null,
+          "modelId": 1903424,
+          "modelName": "Google's Nano Banana",
+          "modelType": "Checkpoint",
+          "versionId": 2436219,
+          "versionName": "Nano Banana Pro",
+          "baseModel": "Nano Banana"
+        }
+      ],
+      "error": null
+    }
+  },
+  {
+    "image_id": 119059829,
+    "rest": {
+      "meta_resources": [],
+      "meta_hashes": {},
+      "civitai_resources": [
+        {
+          "type": "checkpoint",
+          "modelVersionId": 2615702
+        },
+        {
+          "type": "lora",
+          "weight": 0.45,
+          "modelVersionId": 1447126
+        },
+        {
+          "type": "embed",
+          "weight": 1,
+          "modelVersionId": 1833157
+        },
+        {
+          "type": "lora",
+          "weight": -0.85,
+          "modelVersionId": 1444863
+        },
+        {
+          "type": "lora",
+          "weight": 0.5,
+          "modelVersionId": 2524593
+        },
+        {
+          "type": "lora",
+          "weight": 0.3,
+          "modelVersionId": 1278054
+        },
+        {
+          "type": "lora",
+          "weight": 0.75,
+          "modelVersionId": 1888209
+        }
+      ],
+      "model_name": null,
+      "model_hash": null,
+      "vae": null,
+      "prompt_loras": [],
+      "error": null
+    },
+    "trpc": {
+      "resources": [
+        {
+          "imageId": 119059829,
+          "modelVersionId": 1278054,
+          "strength": 0.3,
+          "modelId": 768917,
+          "modelName": "[Style filter] Xu Er thick paint composition light texture enhancement",
+          "modelType": "LORA",
+          "versionId": 1278054,
+          "versionName": "Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 1444863,
+          "strength": -0.85,
+          "modelId": 1280702,
+          "modelName": "Lighting / darkness slider",
+          "modelType": "LORA",
+          "versionId": 1444863,
+          "versionName": "v1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 1447126,
+          "strength": 0.45,
+          "modelId": 1204563,
+          "modelName": "ma1ma1helmes | Shiiro's Styles | Niji",
+          "modelType": "LORA",
+          "versionId": 1447126,
+          "versionName": "Style_B",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 1833157,
+          "strength": 1,
+          "modelId": 1302719,
+          "modelName": "✨ Lazy Embeddings for ALL illustrious NoobAI Pony SDXL models LazyPositive LazyNegative (Positive and Negative plus more!)",
+          "modelType": "TextualInversion",
+          "versionId": 1833157,
+          "versionName": "lazypos",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 1888209,
+          "strength": 0.75,
+          "modelId": 556479,
+          "modelName": "MGE Monster Girls",
+          "modelType": "LORA",
+          "versionId": 1888209,
+          "versionName": "V6.1 - Illustrious",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 2524593,
+          "strength": 0.5,
+          "modelId": 1400090,
+          "modelName": "People's Works +",
+          "modelType": "LORA",
+          "versionId": 2524593,
+          "versionName": "v9_Illusv1.0",
+          "baseModel": "Illustrious"
+        },
+        {
+          "imageId": 119059829,
+          "modelVersionId": 2615702,
+          "strength": null,
+          "modelId": 140272,
+          "modelName": "Hassaku XL (Illustrious)",
+          "modelType": "Checkpoint",
+          "versionId": 2615702,
+          "versionName": "v3.4",
+          "baseModel": "Illustrious"
+        }
+      ],
+      "error": null
+    }
+  }
+]

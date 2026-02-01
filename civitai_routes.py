@@ -304,7 +304,7 @@ async def _download_single(resource: dict, api_key: str, task_id: str,
         async with aiohttp.ClientSession() as session:
             async with session.get(auth_url, timeout=aiohttp.ClientTimeout(total=None, connect=60)) as resp:
                 if resp.status != 200:
-                    error_msg = f"HTTP {resp.status}"
+                    error_msg = await _download_error_message(resp)
                     _send_progress(task_id, filename, "failed", error=error_msg)
                     return False
 
@@ -406,6 +406,32 @@ def _cleanup_part(part_path: Path):
             part_path.unlink()
     except OSError:
         pass
+
+
+async def _download_error_message(resp: aiohttp.ClientResponse) -> str:
+    """Build a user-friendly error message from a failed download response."""
+    status = resp.status
+
+    if status == 401:
+        # Civitai returns JSON with a "message" field for auth errors.
+        # Common cause: model is in Early Access (paid download period).
+        try:
+            body = await resp.json()
+            api_msg = body.get("message", "")
+        except Exception:
+            api_msg = ""
+
+        if "logged in" in api_msg.lower() or "early access" in api_msg.lower():
+            return (
+                "This model requires Early Access purchase on Civitai. "
+                "API keys cannot bypass this restriction."
+            )
+        return f"HTTP 401 — Unauthorized ({api_msg or 'check your API key'})"
+
+    if status == 404:
+        return "HTTP 404 — Model file not found on Civitai"
+
+    return f"HTTP {status}"
 
 
 async def _run_single_download(resource: dict, api_key: str, task_id: str,

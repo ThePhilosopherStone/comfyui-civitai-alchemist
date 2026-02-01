@@ -81,68 +81,10 @@ def extract_metadata(image_data: dict) -> dict:
         width = image_data["width"]
         height = image_data["height"]
 
-    # Build a hash lookup from the hashes dict (e.g. "LORA:name" -> "hash")
-    hashes = meta.get("hashes", {})
-    lora_hash_map = {}
-    for key, value in hashes.items():
-        if key.startswith("LORA:"):
-            lora_name = key[len("LORA:"):]
-            lora_hash_map[lora_name] = value
-
-    # Normalize resources: Civitai uses "model" type for checkpoints
-    resources = []
-    for r in meta.get("resources", []):
-        resource_type = r.get("type", "unknown")
-        if resource_type == "model":
-            resource_type = "checkpoint"
-        resource_hash = r.get("hash")
-        # Fill in LoRA hash from hashes dict if not present in resource
-        if not resource_hash and resource_type == "lora":
-            resource_hash = lora_hash_map.get(r.get("name", ""))
-        resources.append({
-            "name": r.get("name", "unknown"),
-            "type": resource_type,
-            "weight": r.get("weight"),
-            "hash": resource_hash,
-        })
-
-    # Fallback: if no resources from meta.resources, try civitaiResources from raw_meta
-    if not resources:
-        civitai_resources = meta.get("civitaiResources", [])
-        # Deduplicate by model_version_id: Civitai sometimes includes the same
-        # resource twice — once without type and once with explicit type.
-        seen_version_ids = {}  # model_version_id -> index in resources list
-        for cr in civitai_resources:
-            cr_type = cr.get("type", "unknown")
-            if cr_type in ("checkpoint", "Checkpoint", "model"):
-                cr_type = "checkpoint"
-            elif cr_type in ("lora", "Lora", "LoCon"):
-                cr_type = "lora"
-            elif cr_type in ("upscaler", "Upscaler"):
-                cr_type = "upscaler"
-
-            version_id = cr.get("modelVersionId")
-            entry = {
-                "name": cr.get("modelName", "unknown"),
-                "type": cr_type,
-                "weight": cr.get("weight"),
-                "hash": None,
-                "model_version_id": version_id,
-            }
-
-            # If we've seen this version_id before, keep the more informative entry
-            if version_id and version_id in seen_version_ids:
-                existing_idx = seen_version_ids[version_id]
-                existing_entry = resources[existing_idx]
-                if existing_entry["type"] == "unknown" and cr_type != "unknown":
-                    resources[existing_idx] = entry
-                elif existing_entry["name"] in ("unknown", "") and entry["name"] not in ("unknown", ""):
-                    resources[existing_idx] = entry
-                continue
-
-            resources.append(entry)
-            if version_id:
-                seen_version_ids[version_id] = len(resources) - 1
+    # Resources are populated by enrich_metadata() from the tRPC endpoint.
+    # extract_metadata() no longer parses meta.resources or meta.civitaiResources
+    # because tRPC provides superior data (modelVersionId, modelName, modelType,
+    # modelId, baseModel). See docs/research/2026-02-01-civitai-api-resource-resolution/
 
     # Detect hires workflow and extract related fields
     workflow_type = meta.get("workflow")
@@ -176,7 +118,7 @@ def extract_metadata(image_data: dict) -> dict:
         "model_name": meta.get("Model", ""),
         "model_hash": meta.get("Model hash", ""),
         "clip_skip": meta.get("Clip skip") or meta.get("clipSkip"),
-        "resources": resources,
+        "resources": [],
         "workflow_type": workflow_type,
         "denoise": denoise,
         "upscalers": upscalers,
@@ -186,11 +128,17 @@ def extract_metadata(image_data: dict) -> dict:
 
 def enrich_metadata(metadata: dict, api) -> dict:
     """
-    Enrich metadata with server-side resolved resources from Civitai's tRPC endpoint.
+    Populate metadata resources from Civitai's tRPC endpoint (primary source).
 
-    Civitai's image.getGenerationData endpoint returns canonical resource data
-    (with modelVersionId) even when the uploader hid model info in the embedded
-    metadata (e.g. "unknown_model" / "unknown_hash").
+    Uses tRPC image.getGenerationData as the sole resource source. This endpoint
+    returns canonical resource data with modelVersionId, modelName, modelType,
+    modelId, and baseModel — even for hidden/obfuscated models.
+
+    Fallback chain when tRPC has no resources:
+      1. meta.civitaiResources (has modelVersionId + weight, lacks modelName)
+      2. meta.resources (has filename + hash + weight, lacks modelVersionId)
+
+    See docs/research/2026-02-01-civitai-api-resource-resolution/ for analysis.
 
     Args:
         metadata: Metadata dict from extract_metadata()
@@ -203,110 +151,185 @@ def enrich_metadata(metadata: dict, api) -> dict:
     if not image_id:
         return metadata
 
-    try:
-        gen_data = api.get_image_generation_data(image_id)
-    except Exception as e:
-        print(f"  tRPC enrichment failed: {e}")
-        return metadata
+    # Try tRPC as primary source
+    resources = _resources_from_trpc(metadata, api)
 
-    if not gen_data:
-        return metadata
+    # Fallback to civitaiResources if tRPC returned nothing
+    if not resources:
+        raw_meta = metadata.get("raw_meta", {})
+        resources = _resources_from_civitai_resources(raw_meta)
 
-    trpc_resources = gen_data.get("resources", [])
-    if trpc_resources:
-        _merge_trpc_resources(metadata, trpc_resources)
+    # Fallback to meta.resources if civitaiResources also empty
+    if not resources:
+        raw_meta = metadata.get("raw_meta", {})
+        resources = _resources_from_meta_resources(raw_meta)
+
+    metadata["resources"] = resources
+
+    # Fix metadata-level model_name if it was unknown/empty
+    if metadata.get("model_name", "").lower() in ("unknown_model", "unknown", ""):
+        for r in resources:
+            if r.get("type") == "checkpoint" and r.get("name"):
+                metadata["model_name"] = r["name"]
+                break
 
     return metadata
 
 
 # Civitai modelType -> normalized type used throughout the codebase
-_TRPC_TYPE_NORMALIZE = {
+_TYPE_NORMALIZE = {
     "Checkpoint": "checkpoint",
     "checkpoint": "checkpoint",
     "model": "checkpoint",
     "LORA": "lora",
     "Lora": "lora",
+    "lora": "lora",
     "LoCon": "lora",
+    "locon": "lora",
+    "lycoris": "lora",
     "TextualInversion": "embedding",
+    "textualinversion": "embedding",
+    "embed": "embedding",
     "Upscaler": "upscaler",
+    "upscaler": "upscaler",
     "VAE": "vae",
+    "vae": "vae",
 }
 
 
-def _merge_trpc_resources(metadata: dict, trpc_resources: list) -> None:
+def _normalize_type(raw_type: str) -> str:
+    """Normalize a Civitai model type string to our internal type names."""
+    return _TYPE_NORMALIZE.get(raw_type, raw_type.lower())
+
+
+def _resources_from_trpc(metadata: dict, api) -> list:
     """
-    Merge server-side resolved resources from tRPC into metadata.
+    Build resource list from tRPC image.getGenerationData endpoint.
 
-    For each tRPC resource:
-    - If a matching embedded resource exists (by type), enrich it with model_version_id
-    - If no match exists, append as a new resource
-    - Fix metadata-level model_name if the checkpoint was 'unknown_model'
-
-    Modifies metadata dict in place.
+    For LoRA resources with null strength, falls back to 1.0.
     """
-    existing = metadata.get("resources", [])
+    image_id = metadata.get("image_id")
+    try:
+        gen_data = api.get_image_generation_data(image_id)
+    except Exception as e:
+        print(f"  tRPC fetch failed: {e}")
+        return []
 
-    for trpc_r in trpc_resources:
-        trpc_type = _TRPC_TYPE_NORMALIZE.get(
-            trpc_r.get("modelType", ""),
-            trpc_r.get("modelType", "").lower(),
-        )
-        trpc_name = trpc_r.get("modelName", "")
-        trpc_version_id = trpc_r.get("modelVersionId")
+    if not gen_data:
+        return []
 
-        if not trpc_version_id:
+    trpc_resources = gen_data.get("resources", [])
+    if not trpc_resources:
+        return []
+
+    resources = []
+    for r in trpc_resources:
+        version_id = r.get("modelVersionId")
+        if not version_id:
             continue
 
-        # Try to match an existing embedded resource
-        matched = False
+        res_type = _normalize_type(r.get("modelType", ""))
+        strength = r.get("strength")
 
-        # Strategy 1: Match by model_version_id (most reliable)
-        for res in existing:
-            if res.get("model_version_id") and res["model_version_id"] == trpc_version_id:
-                if res.get("type") in ("unknown", ""):
-                    res["type"] = trpc_type
-                if res.get("name", "").lower() in ("unknown", "unknown_model", ""):
-                    res["name"] = trpc_name
-                matched = True
-                break
+        # LoRA with null strength defaults to 1.0
+        if strength is None and res_type == "lora":
+            strength = 1.0
 
-        # Strategy 2: Match by type + name (fallback for entries without version id)
-        if not matched:
-            for res in existing:
-                if res.get("type", "") != trpc_type:
-                    continue
+        resources.append({
+            "name": r.get("modelName", "unknown"),
+            "type": res_type,
+            "weight": strength,
+            "hash": None,
+            "model_version_id": version_id,
+        })
 
-                res_name = res.get("name", "")
-                is_unknown = res_name.lower() in ("unknown", "unknown_model", "")
-                names_match = (
-                    res_name.lower() in trpc_name.lower()
-                    or trpc_name.lower() in res_name.lower()
-                )
+    return resources
 
-                if is_unknown or names_match:
-                    res["model_version_id"] = trpc_version_id
-                    if is_unknown:
-                        res["name"] = trpc_name
-                    matched = True
-                    break
 
-        if not matched:
-            existing.append({
-                "name": trpc_name,
-                "type": trpc_type,
-                "weight": None,
-                "hash": None,
-                "model_version_id": trpc_version_id,
-            })
+def _resources_from_civitai_resources(raw_meta: dict) -> list:
+    """
+    Build resource list from REST meta.civitaiResources (fallback #1).
 
-    # Fix metadata-level model_name if it was unknown
-    if metadata.get("model_name", "").lower() in ("unknown_model", "unknown", ""):
-        for trpc_r in trpc_resources:
-            if _TRPC_TYPE_NORMALIZE.get(trpc_r.get("modelType", "")) == "checkpoint":
-                metadata["model_name"] = trpc_r.get("modelName", metadata["model_name"])
-                break
+    Has modelVersionId and weight but lacks modelName.
+    Deduplicates by modelVersionId.
+    """
+    civitai_resources = raw_meta.get("civitaiResources", [])
+    if not civitai_resources:
+        return []
 
-    metadata["resources"] = existing
+    resources = []
+    seen_version_ids = {}
+    for cr in civitai_resources:
+        version_id = cr.get("modelVersionId")
+        res_type = _normalize_type(cr.get("type", "unknown"))
+        weight = cr.get("weight")
+
+        # LoRA with null weight defaults to 1.0
+        if weight is None and res_type == "lora":
+            weight = 1.0
+
+        entry = {
+            "name": cr.get("modelName", "unknown"),
+            "type": res_type,
+            "weight": weight,
+            "hash": None,
+            "model_version_id": version_id,
+        }
+
+        # Deduplicate: keep the more informative entry for same version_id
+        if version_id and version_id in seen_version_ids:
+            existing_idx = seen_version_ids[version_id]
+            existing_entry = resources[existing_idx]
+            if existing_entry["type"] == "unknown" and res_type != "unknown":
+                resources[existing_idx] = entry
+            continue
+
+        resources.append(entry)
+        if version_id:
+            seen_version_ids[version_id] = len(resources) - 1
+
+    return resources
+
+
+def _resources_from_meta_resources(raw_meta: dict) -> list:
+    """
+    Build resource list from REST meta.resources (fallback #2).
+
+    Has filename and hash but lacks modelVersionId.
+    """
+    meta_resources = raw_meta.get("resources", [])
+    if not meta_resources:
+        return []
+
+    # Build a hash lookup from the hashes dict (e.g. "LORA:name" -> "hash")
+    hashes = raw_meta.get("hashes", {})
+    lora_hash_map = {}
+    for key, value in hashes.items():
+        if key.startswith("LORA:"):
+            lora_name = key[len("LORA:"):]
+            lora_hash_map[lora_name] = value
+
+    resources = []
+    for r in meta_resources:
+        res_type = _normalize_type(r.get("type", "unknown"))
+        resource_hash = r.get("hash")
+        # Fill in LoRA hash from hashes dict if not present
+        if not resource_hash and res_type == "lora":
+            resource_hash = lora_hash_map.get(r.get("name", ""))
+
+        weight = r.get("weight")
+        # LoRA with null weight defaults to 1.0
+        if weight is None and res_type == "lora":
+            weight = 1.0
+
+        resources.append({
+            "name": r.get("name", "unknown"),
+            "type": res_type,
+            "weight": weight,
+            "hash": resource_hash,
+        })
+
+    return resources
 
 
 def main():

@@ -30,10 +30,14 @@ def resolve_resource(resource: dict, api: CivitaiAPI, manager: ModelManager) -> 
     """
     Resolve a single resource to its download information.
 
-    Tries hash lookup first, then falls back to name search.
+    Resolution strategies (in order):
+      0. model_version_id lookup (primary — tRPC resources always have this)
+      1. Hash lookup (fallback for meta.resources)
+      2. Name search (last resort)
 
     Args:
-        resource: Resource dict from metadata (name, type, weight, hash)
+        resource: Resource dict from metadata (name, type, weight, hash,
+                  and usually model_version_id from tRPC)
         api: CivitaiAPI instance
         manager: ModelManager instance
 
@@ -58,7 +62,7 @@ def resolve_resource(resource: dict, api: CivitaiAPI, manager: ModelManager) -> 
     model_type = resource.get("type", "checkpoint")
     result["target_dir"] = ModelManager.TYPE_MAPPING.get(model_type, model_type)
 
-    # Strategy 0: Look up by model version ID (from civitaiResources)
+    # Strategy 0: Look up by model version ID (primary path for tRPC resources)
     version_id = resource.get("model_version_id")
     if version_id:
         print(f"  Looking up version ID: {version_id}...")
