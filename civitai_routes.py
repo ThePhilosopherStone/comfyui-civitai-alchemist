@@ -27,8 +27,10 @@ _EXT_ROOT = str(Path(__file__).resolve().parent)
 if _EXT_ROOT not in sys.path:
     sys.path.append(_EXT_ROOT)
 
-import aiohttp
+import threading
+
 from aiohttp import web
+import requests
 import server
 
 import folder_paths
@@ -273,10 +275,13 @@ def _send_progress(task_id: str, filename: str, status: str,
     })
 
 
-async def _download_single(resource: dict, api_key: str, task_id: str,
-                           cancel_event: asyncio.Event) -> bool:
+def _download_single_sync(resource: dict, api_key: str, task_id: str,
+                          cancel_event: threading.Event) -> bool:
     """
-    Download a single model file asynchronously.
+    Download a single model file synchronously using requests.
+
+    Designed to run inside asyncio.to_thread(). Sends progress updates
+    via WebSocket (thread-safe via PromptServer.send_sync).
 
     Writes to a .part temp file, verifies SHA256, then renames.
     Returns True on success, False on failure/cancel.
@@ -301,60 +306,62 @@ async def _download_single(resource: dict, api_key: str, task_id: str,
     auth_url = f"{download_url}{separator}token={api_key}"
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(auth_url, timeout=aiohttp.ClientTimeout(total=None, connect=60)) as resp:
-                if resp.status != 200:
-                    error_msg = await _download_error_message(resp)
-                    _send_progress(task_id, filename, "failed", error=error_msg)
-                    return False
+        resp = requests.get(auth_url, stream=True,
+                            timeout=(60, None), allow_redirects=True)
 
-                # Check Content-Disposition for actual filename
-                content_disp = resp.headers.get("Content-Disposition", "")
-                if "filename=" in content_disp:
-                    match = re.search(r'filename="?([^";\n]+)"?', content_disp)
-                    if match:
-                        actual_filename = match.group(1).strip()
-                        filename = actual_filename
-                        target_path = target_dir / filename
-                        part_path = target_dir / f"{filename}.part"
+        if resp.status_code != 200:
+            error_msg = _download_error_message_sync(resp)
+            _send_progress(task_id, filename, "failed", error=error_msg)
+            return False
 
-                total_bytes = int(resp.headers.get("Content-Length", 0))
-                downloaded_bytes = 0
-                last_progress_time = 0.0
-                sha256_hash = hashlib.sha256()
+        # Check Content-Disposition for actual filename
+        content_disp = resp.headers.get("Content-Disposition", "")
+        if "filename=" in content_disp:
+            match = re.search(r'filename="?([^";\n]+)"?', content_disp)
+            if match:
+                actual_filename = match.group(1).strip()
+                filename = actual_filename
+                target_path = target_dir / filename
+                part_path = target_dir / f"{filename}.part"
 
-                cancelled = False
-                with open(part_path, "wb") as f:
-                    async for chunk in resp.content.iter_chunked(DOWNLOAD_CHUNK_SIZE):
-                        if cancel_event.is_set():
-                            cancelled = True
-                            break
+        total_bytes = int(resp.headers.get("Content-Length", 0))
+        downloaded_bytes = 0
+        last_progress_time = 0.0
+        sha256_hash = hashlib.sha256()
 
-                        f.write(chunk)
-                        sha256_hash.update(chunk)
-                        downloaded_bytes += len(chunk)
+        cancelled = False
+        with open(part_path, "wb") as f:
+            for chunk in resp.iter_content(chunk_size=DOWNLOAD_CHUNK_SIZE):
+                if cancel_event.is_set():
+                    cancelled = True
+                    break
 
-                        # Throttle progress updates (inside with block)
-                        now = time.monotonic()
-                        if now - last_progress_time >= PROGRESS_INTERVAL:
-                            last_progress_time = now
-                            progress = int(downloaded_bytes * 100 / total_bytes) if total_bytes else 0
-                            _send_progress(task_id, filename, "downloading",
-                                           progress=progress,
-                                           downloaded_bytes=downloaded_bytes,
-                                           total_bytes=total_bytes)
+                if chunk:
+                    f.write(chunk)
+                    sha256_hash.update(chunk)
+                    downloaded_bytes += len(chunk)
 
-                # File handle is now closed; safe to delete on Windows
-                if cancelled:
-                    _cleanup_part(part_path)
-                    _send_progress(task_id, filename, "cancelled")
-                    return False
+                    # Throttle progress updates (inside with block)
+                    now = time.monotonic()
+                    if now - last_progress_time >= PROGRESS_INTERVAL:
+                        last_progress_time = now
+                        progress = int(downloaded_bytes * 100 / total_bytes) if total_bytes else 0
+                        _send_progress(task_id, filename, "downloading",
+                                       progress=progress,
+                                       downloaded_bytes=downloaded_bytes,
+                                       total_bytes=total_bytes)
 
-                # Final 100% progress
-                _send_progress(task_id, filename, "downloading",
-                               progress=100,
-                               downloaded_bytes=downloaded_bytes,
-                               total_bytes=total_bytes)
+        # File handle is now closed; safe to delete on Windows
+        if cancelled:
+            _cleanup_part(part_path)
+            _send_progress(task_id, filename, "cancelled")
+            return False
+
+        # Final 100% progress
+        _send_progress(task_id, filename, "downloading",
+                       progress=100,
+                       downloaded_bytes=downloaded_bytes,
+                       total_bytes=total_bytes)
 
         # SHA256 verification
         _send_progress(task_id, filename, "verifying",
@@ -381,14 +388,51 @@ async def _download_single(resource: dict, api_key: str, task_id: str,
                        total_bytes=total_bytes)
         return True
 
-    except asyncio.CancelledError:
-        _cleanup_part(part_path)
-        _send_progress(task_id, filename, "cancelled")
-        return False
     except Exception as e:
         _cleanup_part(part_path)
         _send_progress(task_id, filename, "failed", error=str(e))
         return False
+
+
+async def _download_single(resource: dict, api_key: str, task_id: str,
+                           cancel_event: asyncio.Event) -> bool:
+    """
+    Download a single model file.
+
+    Bridges the async interface to _download_single_sync() running in a
+    thread pool via asyncio.to_thread(), keeping the event loop free.
+    """
+    # Bridge asyncio.Event -> threading.Event for the sync worker
+    thread_cancel = threading.Event()
+
+    async def _monitor_cancel():
+        await cancel_event.wait()
+        thread_cancel.set()
+
+    monitor_task = asyncio.create_task(_monitor_cancel())
+    try:
+        return await asyncio.to_thread(
+            _download_single_sync, resource, api_key, task_id, thread_cancel
+        )
+    except asyncio.CancelledError:
+        thread_cancel.set()
+        _cleanup_part_for_resource(resource)
+        return False
+    finally:
+        monitor_task.cancel()
+        try:
+            await monitor_task
+        except asyncio.CancelledError:
+            pass
+
+
+def _cleanup_part_for_resource(resource: dict):
+    """Best-effort cleanup of .part file for a resource."""
+    adapter = FolderPathsModelAdapter()
+    model_type = resource.get("type", "checkpoint")
+    filename = resource.get("filename", "model.safetensors")
+    target_dir = adapter.get_model_dir(model_type)
+    _cleanup_part(target_dir / f"{filename}.part")
 
 
 def _get_expected_hash(resource: dict) -> Optional[str]:
@@ -408,15 +452,15 @@ def _cleanup_part(part_path: Path):
         pass
 
 
-async def _download_error_message(resp: aiohttp.ClientResponse) -> str:
+def _download_error_message_sync(resp: requests.Response) -> str:
     """Build a user-friendly error message from a failed download response."""
-    status = resp.status
+    status = resp.status_code
 
     if status == 401:
         # Civitai returns JSON with a "message" field for auth errors.
         # Common cause: model is in Early Access (paid download period).
         try:
-            body = await resp.json()
+            body = resp.json()
             api_msg = body.get("message", "")
         except Exception:
             api_msg = ""
